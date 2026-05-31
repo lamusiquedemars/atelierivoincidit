@@ -466,20 +466,20 @@ class PublicSiteTest extends TestCase
             'published_at' => now()->subHour(),
         ]);
 
-        $this->get('/scripta')
+        $this->get('/articles')
             ->assertOk()
             ->assertSee('Bois et geste')
             ->assertSee('Une note d’atelier.');
 
-        $this->get('/scripta/bois-et-geste')
+        $this->get('/articles/bois-et-geste')
             ->assertOk()
             ->assertSee('Une matière vivante')
             ->assertSee('Le bois répond au geste.')
             ->assertSee('Le geste confirme.')
             ->assertSee('Cumaru')
-            ->assertSee('Retour à scripta');
+            ->assertSee('Retour aux articles');
 
         $this->get('/article.php?slug=bois-et-geste')
-            ->assertRedirect('/scripta/bois-et-geste');
+            ->assertRedirect('/articles/bois-et-geste');
     }
 }

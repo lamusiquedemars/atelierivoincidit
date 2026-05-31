@@ -29,7 +29,7 @@
 
             {{ \App\Support\ArticleBlocks::render($post->body_blocks) }}
 
-            <x-site.back-link :href="route('articles.index')" :label="'Retour à ' . strtolower($label)" />
+            <x-site.back-link :href="route('articles.index')" :label="strtolower($label) === 'articles' ? 'Retour aux articles' : 'Retour à ' . strtolower($label)" />
         </article>
     </x-site.section>
 @endsection
