@@ -8,7 +8,7 @@
         eyebrow="Essai"
         title="Essayer un archet"
         subtitle="Choisir avec l’instrument en main."
-        variant="page"
+        variant="essai"
     />
 
     <x-site.breadcrumb :items="[['label' => 'Essayer un archet']]" />

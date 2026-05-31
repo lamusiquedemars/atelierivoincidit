@@ -8,7 +8,7 @@
         eyebrow="Atelier"
         title="L’archetier"
         subtitle="Archets contemporains en bois brésiliens alternatifs, fabriqués à Lyon dans le respect de la tradition."
-        variant="page"
+        variant="archetier"
     />
 
     <x-site.breadcrumb :items="[['label' => 'L’archetier']]" />

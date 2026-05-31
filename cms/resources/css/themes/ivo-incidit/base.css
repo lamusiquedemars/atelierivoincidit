@@ -21,6 +21,10 @@
     --radius-md: 8px;
     --radius-lg: 10px;
     --hero-overlay: linear-gradient(180deg, rgb(26 26 26 / 72%), rgb(74 42 29 / 46%));
+    --font-heading: "Cormorant Garamond", Palatino, Georgia, serif;
+    --font-body: "Cormorant Garamond", Palatino, Georgia, serif;
+    --font-display: "Cinzel Decorative", Georgia, serif;
+    --font-smallcaps: "Cormorant SC", Georgia, serif;
 
     /* Aliases transitoires pour reprendre proprement le vocabulaire du current. */
     --cumaru: var(--color-brand);
@@ -37,6 +41,20 @@
 
 .theme-ivo-incidit figcaption {
     color: var(--color-muted);
+}
+
+.theme-ivo-incidit h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.theme-ivo-incidit h2,
+.theme-ivo-incidit h3,
+.theme-ivo-incidit .section__header h2 {
+    font-family: var(--font-smallcaps);
+    font-weight: 500;
+    letter-spacing: 0;
 }
 
 .theme-ivo-incidit .site-header {
@@ -64,6 +82,20 @@
     border-radius: 999px;
     background: #fff8ed;
     color: var(--color-brand);
+}
+
+.theme-ivo-incidit .site-brand__mark--image {
+    width: 78px;
+    height: 62px;
+    border-radius: 0;
+    background: transparent;
+}
+
+.theme-ivo-incidit .site-brand__mark--image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .theme-ivo-incidit .site-nav a {
@@ -109,10 +141,48 @@
         url("/assets/images/tetes-brutes-2.jpeg") center 24% / cover no-repeat;
 }
 
+.theme-ivo-incidit .hero--archetier,
+.theme-ivo-incidit .hero--essai,
+.theme-ivo-incidit .hero--contact {
+    color: #fff8ed;
+}
+
+.theme-ivo-incidit .hero--archetier {
+    background:
+        var(--hero-overlay),
+        url("/assets/images/officina-atlas-1519.jpg") center 36% / cover no-repeat;
+}
+
+.theme-ivo-incidit .hero--essai {
+    background:
+        var(--hero-overlay),
+        url("/assets/images/archets-colores.jpeg") center 48% / cover no-repeat;
+}
+
+.theme-ivo-incidit .hero--contact {
+    background:
+        var(--hero-overlay),
+        url("/assets/images/contact-archets.jpeg") center 50% / cover no-repeat;
+}
+
+.theme-ivo-incidit :where(.hero--archetier, .hero--essai, .hero--contact) .hero__inner {
+    padding-block: var(--space-3xl);
+}
+
 .theme-ivo-incidit .hero--page h1,
+.theme-ivo-incidit .hero--archetier h1,
+.theme-ivo-incidit .hero--essai h1,
+.theme-ivo-incidit .hero--contact h1,
 .theme-ivo-incidit .hero--page .hero__subtitle,
+.theme-ivo-incidit .hero--archetier .hero__subtitle,
+.theme-ivo-incidit .hero--essai .hero__subtitle,
+.theme-ivo-incidit .hero--contact .hero__subtitle,
 .theme-ivo-incidit .hero--page .eyebrow {
     color: #fff8ed;
+}
+
+.theme-ivo-incidit :where(.hero--archetier, .hero--essai, .hero--contact) .eyebrow {
+    color: rgb(255 248 237 / 84%);
 }
 
 .theme-ivo-incidit .hero--image::before {

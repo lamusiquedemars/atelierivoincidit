@@ -38,16 +38,32 @@
         <link rel="icon" href="{{ \App\Support\Seo::absoluteUrl($settings->favicon_path) }}">
     @endif
 
+    @if (config('maracuja.client_theme') === 'ivo-incidit')
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Cormorant+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    @endif
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+@php
+    $clientTheme = config('maracuja.client_theme');
+    $brandLogo = $settings->logo_path ?: ($clientTheme === 'ivo-incidit' ? '/assets/images/blason-ivo-incidit2.png' : null);
+@endphp
 <body @class([
     'site-shell',
     'theme-' . config('maracuja.theme', 'default'),
-    'theme-' . config('maracuja.client_theme') => filled(config('maracuja.client_theme')),
+    'theme-' . $clientTheme => filled($clientTheme),
 ])>
     <header class="site-header container" data-nav>
         <a class="site-brand" href="{{ route('home') }}">
-            <span class="site-brand__mark">M</span>
+            @if ($brandLogo)
+                <span class="site-brand__mark site-brand__mark--image" aria-hidden="true">
+                    <img src="{{ $brandLogo }}" alt="">
+                </span>
+            @else
+                <span class="site-brand__mark">M</span>
+            @endif
             <span>
                 <strong>{{ $settings->site_name }}</strong>
                 @if ($settings->baseline)

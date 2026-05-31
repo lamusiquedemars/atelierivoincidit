@@ -12,7 +12,7 @@
         :eyebrow="$isAtelier ? 'Contact' : 'Maracuja CMS'"
         :title="$isAtelier ? 'Essayer un archet' : 'Contact'"
         :subtitle="$isAtelier ? 'Contactez-moi pour un essai, un conseil, ou choisir un archet adapté à votre jeu.' : 'Un formulaire simple, stocké en admin et envoyé par email.'"
-        variant="page"
+        :variant="$isAtelier ? 'contact' : 'page'"
     />
 
     @if ($isAtelier)

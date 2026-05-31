@@ -33,6 +33,7 @@ class AtelierInitialSeeder extends Seeder
             'baseline' => 'Archets contemporains, savoir-faire ancien.',
             'default_seo_title' => 'Atelier Ivo Incidit - Archetier',
             'default_seo_description' => 'Atelier d’archetier dédié aux archets contemporains, aux bois anciens et aux instruments à cordes.',
+            'logo_path' => '/assets/images/blason-ivo-incidit2.png',
             'contact_email' => 'contact@atelierivoincidit.fr',
             'social_links' => [],
         ]);
