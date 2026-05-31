@@ -4,6 +4,7 @@ return [
     'product_name' => env('MARACUJA_PRODUCT_NAME', 'Maracuja CMS'),
 
     'theme' => env('MARACUJA_THEME', 'default'),
+    'client_theme' => env('MARACUJA_CLIENT_THEME', env('MARACUJA_THEME') === 'atelier' ? 'ivo-incidit' : null),
 
     'offer' => env('MARACUJA_OFFER', 'signature'),
 

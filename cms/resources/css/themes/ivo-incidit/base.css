@@ -6,37 +6,220 @@
  * Ajoute uniquement les variables et customizations spécifiques à Ivo Incidit.
  */
 
-:root.theme-ivo-incidit {
-  /* Couleurs manquantes du current (héritage) */
-  --copper: #b97e52;
-  --raspberry: #a4433b;
-  
-  /* Aliases backward-compatible avec les noms du current (optionnel, à retirer après migration) */
-  --cumaru: var(--color-brand);
-  --cumaru-dark: var(--color-brand-strong);
-  --blond: var(--color-brand-soft);
-  --blond-light: var(--color-surface-muted);
-  --black: var(--color-text);
-  --background-admin: var(--color-bg);
+.theme-ivo-incidit {
+    --copper: #b97e52;
+    --raspberry: #a4433b;
+
+    --color-bg: #eeeae4;
+    --color-surface: #fef7ea;
+    --color-surface-muted: #e8d8b7;
+    --color-brand: #6c3e2a;
+    --color-brand-strong: #4a2a1d;
+    --color-brand-soft: #d9c4a3;
+    --color-link: var(--raspberry);
+    --color-line: #d8c4ad;
+    --radius-md: 8px;
+    --radius-lg: 10px;
+    --hero-overlay: linear-gradient(180deg, rgb(26 26 26 / 72%), rgb(74 42 29 / 46%));
+
+    /* Aliases transitoires pour reprendre proprement le vocabulaire du current. */
+    --cumaru: var(--color-brand);
+    --cumaru-dark: var(--color-brand-strong);
+    --blond: var(--color-brand-soft);
+    --blond-light: var(--color-surface-muted);
+    --black: var(--color-text);
+    --background-admin: var(--color-bg);
 }
 
-a {
-  color: var(--raspberry);
+.theme-ivo-incidit a {
+    color: var(--color-link);
 }
 
-nav a {
-  color: var(--black);
+.theme-ivo-incidit figcaption {
+    color: var(--color-muted);
 }
 
-figcaption {
-  color: #666;
+.theme-ivo-incidit .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: min(var(--container-wide), calc(100% - (var(--container-gutter) * 2)));
+    margin-inline: auto;
+    padding-block: var(--space-sm);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    background: rgb(105 41 35 / 88%);
+    box-shadow: 0 12px 28px rgb(26 26 26 / 10%);
+    backdrop-filter: blur(8px);
 }
 
-/**
- * Imports des fichiers de customization ciblés
- * Dé-commenter ou ajouter selon les besoins
- */
+.theme-ivo-incidit .site-brand,
+.theme-ivo-incidit .site-brand small,
+.theme-ivo-incidit .site-nav,
+.theme-ivo-incidit .site-nav a {
+    color: #fff8ed;
+}
 
-/* @import "./button.css"; */
-/* @import "./header.css"; */
-/* @import "./contact.css"; */
+.theme-ivo-incidit .site-brand__mark {
+    overflow: hidden;
+    border-radius: 999px;
+    background: #fff8ed;
+    color: var(--color-brand);
+}
+
+.theme-ivo-incidit .site-nav a {
+    border-bottom: 1px solid var(--copper);
+    font-family: var(--font-heading);
+    font-size: 1.08rem;
+    font-weight: 700;
+}
+
+.theme-ivo-incidit .site-nav a:hover {
+    color: #ffffff;
+    border-bottom-color: #fff8ed;
+}
+
+.theme-ivo-incidit .nav-toggle {
+    color: #fff8ed;
+    border-color: rgb(255 248 237 / 46%);
+}
+
+.theme-ivo-incidit .hero--home {
+    min-height: 70vh;
+    color: #fff8ed;
+    background:
+        var(--hero-overlay),
+        url("/assets/images/tetes-brutes-2.jpeg") center 32% / cover no-repeat;
+}
+
+.theme-ivo-incidit .hero--home .hero__inner {
+    min-height: 70vh;
+    align-content: center;
+}
+
+.theme-ivo-incidit .hero--home h1,
+.theme-ivo-incidit .hero--home .hero__subtitle,
+.theme-ivo-incidit .hero--home .eyebrow {
+    color: #fff8ed;
+}
+
+.theme-ivo-incidit .hero--page {
+    color: #fff8ed;
+    background:
+        var(--hero-overlay),
+        url("/assets/images/tetes-brutes-2.jpeg") center 24% / cover no-repeat;
+}
+
+.theme-ivo-incidit .hero--page h1,
+.theme-ivo-incidit .hero--page .hero__subtitle,
+.theme-ivo-incidit .hero--page .eyebrow {
+    color: #fff8ed;
+}
+
+.theme-ivo-incidit .hero--image::before {
+    background: var(--hero-overlay);
+}
+
+.theme-ivo-incidit .btn,
+.theme-ivo-incidit button {
+    border-color: transparent;
+}
+
+.theme-ivo-incidit .btn--primary {
+    background: var(--raspberry);
+    color: #fff8ed;
+}
+
+.theme-ivo-incidit .btn--primary:hover {
+    background: var(--color-brand);
+}
+
+.theme-ivo-incidit .btn--secondary {
+    border-color: color-mix(in srgb, var(--color-brand), var(--color-line) 44%);
+    color: var(--color-brand-strong);
+}
+
+.theme-ivo-incidit .btn--secondary:hover {
+    background: var(--color-brand-soft);
+}
+
+.theme-ivo-incidit .card,
+.theme-ivo-incidit .feature-card,
+.theme-ivo-incidit .cta,
+.theme-ivo-incidit .quote {
+    background: color-mix(in srgb, var(--color-surface), #ffffff 34%);
+}
+
+.theme-ivo-incidit .card--featured {
+    overflow: hidden;
+    border-color: rgb(108 62 42 / 18%);
+    box-shadow: 0 10px 28px rgb(26 26 26 / 6%);
+}
+
+.theme-ivo-incidit .card__media img,
+.theme-ivo-incidit .showcase__media img,
+.theme-ivo-incidit .media-gallery__item img {
+    filter: saturate(0.92) contrast(1.03);
+}
+
+.theme-ivo-incidit .table th {
+    background: #f5eee6;
+    color: var(--color-brand);
+}
+
+.theme-ivo-incidit .price-old {
+    color: var(--color-muted);
+    text-decoration: line-through;
+    opacity: 0.68;
+}
+
+.theme-ivo-incidit .badge {
+    border: 1px solid color-mix(in srgb, var(--color-brand), var(--color-line) 45%);
+    background: transparent;
+    color: var(--color-brand-strong);
+}
+
+.theme-ivo-incidit .contact-layout {
+    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1fr);
+    align-items: start;
+}
+
+.theme-ivo-incidit .contact-form {
+    padding: var(--space-lg);
+    border: 1px solid color-mix(in srgb, var(--color-brand), var(--color-line) 54%);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-surface), #ffffff 38%);
+    box-shadow: var(--shadow-sm);
+}
+
+.theme-ivo-incidit .site-footer {
+    color: var(--color-brand);
+}
+
+.theme-ivo-incidit .site-footer a {
+    color: var(--color-brand);
+}
+
+@media (max-width: 760px) {
+    .theme-ivo-incidit .site-header {
+        width: 100%;
+        border-radius: 0;
+        padding-inline: var(--container-gutter);
+    }
+
+    .theme-ivo-incidit .site-nav {
+        gap: var(--space-sm);
+    }
+
+    .theme-ivo-incidit .site-nav a {
+        width: fit-content;
+    }
+
+    .theme-ivo-incidit .hero--home,
+    .theme-ivo-incidit .hero--home .hero__inner {
+        min-height: 58vh;
+    }
+
+    .theme-ivo-incidit .contact-layout {
+        grid-template-columns: 1fr;
+    }
+}

@@ -40,7 +40,11 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="site-shell theme-{{ config('maracuja.theme', 'default') }}">
+<body @class([
+    'site-shell',
+    'theme-' . config('maracuja.theme', 'default'),
+    'theme-' . config('maracuja.client_theme') => filled(config('maracuja.client_theme')),
+])>
     <header class="site-header container" data-nav>
         <a class="site-brand" href="{{ route('home') }}">
             <span class="site-brand__mark">M</span>

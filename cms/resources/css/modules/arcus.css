@@ -1,0 +1,88 @@
+.arcus-card {
+    gap: var(--space-md);
+    overflow: hidden;
+    border-color: color-mix(in srgb, var(--color-brand), var(--color-line) 46%);
+    background: color-mix(in srgb, var(--color-surface), #ffffff 42%);
+    box-shadow: var(--shadow-sm);
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.arcus-card:hover {
+    border-color: color-mix(in srgb, var(--color-brand), var(--color-line) 18%);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-3px);
+}
+
+.arcus-card__media {
+    min-height: 0;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-muted);
+}
+
+.arcus-card__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.arcus-card:hover .arcus-card__image {
+    transform: scale(1.025);
+}
+
+.arcus-card h3 {
+    color: var(--color-brand-strong);
+    font-size: 1.55rem;
+    font-weight: 500;
+}
+
+.arcus-card .price {
+    margin-block: var(--space-xs) 0;
+}
+
+.arcus-card .card-footer {
+    margin-top: auto;
+}
+
+.hero--arcus {
+    min-height: 38vh;
+}
+
+.hero--arcus.hero--image,
+.hero--arcus:not(.hero--image) {
+    color: #fff8ed;
+    background:
+        var(--hero-overlay),
+        url("/assets/images/arcus-tetes.jpeg") center 34% / cover no-repeat;
+}
+
+.hero--arcus .hero__inner {
+    min-height: 38vh;
+    align-content: center;
+}
+
+.hero--arcus .eyebrow,
+.hero--arcus .hero__subtitle {
+    color: rgb(255 248 237 / 84%);
+}
+
+.hero--arcus h1 {
+    color: #fff8ed;
+}
+
+@media (max-width: 760px) {
+    .hero--arcus,
+    .hero--arcus .hero__inner {
+        min-height: 32vh;
+    }
+
+    .arcus-card__image {
+        aspect-ratio: 1 / 1;
+    }
+}
