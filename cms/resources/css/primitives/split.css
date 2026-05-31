@@ -1,0 +1,20 @@
+.split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-2xl);
+    align-items: center;
+}
+
+.split--reverse > :first-child {
+    order: 2;
+}
+
+@media (max-width: 800px) {
+    .split {
+        grid-template-columns: 1fr;
+    }
+
+    .split--reverse > :first-child {
+        order: 0;
+    }
+}

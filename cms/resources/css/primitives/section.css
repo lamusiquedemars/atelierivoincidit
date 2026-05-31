@@ -1,0 +1,66 @@
+.section {
+    padding-block: var(--space-3xl);
+}
+
+.section--compact {
+    padding-block: var(--space-2xl);
+}
+
+.section--spacious {
+    padding-block: var(--space-4xl);
+}
+
+.section--flush {
+    padding-block: 0;
+}
+
+.section--muted {
+    background: var(--color-surface-muted);
+}
+
+.section--surface {
+    background: var(--color-surface);
+}
+
+.section--brand {
+    background: var(--color-brand);
+    color: #ffffff;
+}
+
+.section--brand :where(.section__intro, .lead, .text-muted) {
+    color: rgb(255 255 255 / 78%);
+}
+
+.section--image {
+    position: relative;
+    overflow: hidden;
+    background-position: center;
+    background-size: cover;
+    color: #ffffff;
+}
+
+.section--image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--hero-overlay);
+}
+
+.section--image > * {
+    position: relative;
+}
+
+.section--gradient {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-muted) 100%);
+}
+
+.section__header {
+    display: grid;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+}
+
+.section__header--center {
+    justify-items: center;
+    text-align: center;
+}

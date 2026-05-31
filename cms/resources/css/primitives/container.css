@@ -1,0 +1,16 @@
+.container {
+    width: min(var(--container), calc(100% - (var(--container-gutter) * 2)));
+    margin-inline: auto;
+}
+
+.container--narrow {
+    width: min(var(--container-narrow), calc(100% - (var(--container-gutter) * 2)));
+}
+
+.container--readable {
+    width: min(var(--container-readable), calc(100% - (var(--container-gutter) * 2)));
+}
+
+.container--wide {
+    width: min(var(--container-wide), calc(100% - (var(--container-gutter) * 2)));
+}

@@ -1,0 +1,18 @@
+.article-content {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+.article-block {
+    margin-block: var(--space-lg);
+}
+
+.article-note {
+    padding: var(--space-lg);
+    border-left: 4px solid var(--color-brand);
+    background: color-mix(in srgb, var(--color-surface), var(--color-brand-soft) 24%);
+}
+
+.article-block--table {
+    overflow-x: auto;
+}

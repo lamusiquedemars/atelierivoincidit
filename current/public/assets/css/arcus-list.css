@@ -1,0 +1,114 @@
+  /* === Hero spécifique fiche / article === */
+
+  /* === Arcus Controls === */
+  .arcus-controls {
+    max-width: 960px;
+    margin: 1rem auto;
+    padding: 0 1rem;
+  }
+  
+  .arcus-controls form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .arcus-controls select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  /* === Arcus Grid === */
+  .arcus-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  /* === Arcus list === */
+  .arcus-list {
+    gap: 1.5rem;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  /* === Arcus Card === */
+  .arcus-card {
+    background-color: #fff;
+    border: 10px solid whitesmoke;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    overflow: hidden;
+    transition: transform 0.2s;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .arcus-card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .arcus-card figure {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 0.5rem;
+  }
+  
+  .arcus-card .thumb {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    min-height: 200px;
+  }
+  
+  .arcus-card .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .arcus-card .no-thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: var(--blond);
+    color: var(--cumaru-dark);
+    font-style: italic;
+  }
+  
+  .arcus-card figcaption {
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .arcus-card p {
+    padding: 0 1rem 1rem;
+    margin: 0;
+    color: #5f5a52;
+  }
+  .arcus-card a {
+    text-decoration: none;
+  }
+
+  .col h2{
+    display: initial;
+  }
+
+  .bloc-section .col img {
+  height: 200px;
+  width: 350px;
+  }
+
+@media (max-width: 800px) {
+        .arcus-card .thumb {
+      aspect-ratio: 1 / 1;
+    }
+}

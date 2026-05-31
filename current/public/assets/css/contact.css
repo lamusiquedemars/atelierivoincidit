@@ -1,0 +1,56 @@
+/* Contact info */
+.contact-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.contact-text {
+  flex: 1;
+}
+
+.contact-photo img {
+  width: 160px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* Note italique */
+.contact-note {
+  margin-top: 1rem;
+  font-style: italic;
+  color: #555;
+}
+
+/* Table expédition */
+.table-expedition {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table-expedition th,
+.table-expedition td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+}
+
+/* Sections internes */
+.acompte, .expedition, .conditions {
+  margin-top: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+  .contact-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}

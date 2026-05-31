@@ -1,0 +1,63 @@
+/* === Hero spécifique fiche / article === */
+.page-hero {
+  height: 40vh; /* moins haut */
+}
+
+.page-hero::before {
+  background-position: center 20%; /* décaler l'image vers le haut */
+  background-size: cover;           /* garder le cover pour remplir */
+}
+.article-content {
+    margin: 0 auto;
+    font-size: 18px;
+    color: var(--black);
+  }
+  
+  .article-content h1 {
+    font-size: 28px;
+    color: var(--cumaru);
+  }
+  
+  .article-content figure {
+    margin: 24px 0;
+  }
+  
+  .article-content img {
+    max-width: 100%;
+    max-height: 550px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 6px;
+  }
+  .article-content.poetic {
+    font-style: italic;
+    background-color: #fdfaf4;
+  }
+  
+  .article-content.with-border figure img {
+    border: 2px solid var(--cumaru);
+  }
+
+  /*table des critères*/
+  .table-critere table{
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    font-size: 0.95em;
+    background-color: #fffdf9;
+    border: 1px solid #b97e52;
+  }
+  
+  .table-critere th,
+  .table-critere td {
+    border: 1px solid #b97e52;
+    padding: 0.6em 1em;
+    text-align: left;
+  }
+  
+  .table-critere thead {
+    background-color: #f3e6cf;
+    font-weight: bold;
+    color: #6c3e2a;
+  }
+  

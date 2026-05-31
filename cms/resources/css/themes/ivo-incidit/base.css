@@ -1,0 +1,42 @@
+/**
+ * Thème Ivo Incidit - Base
+ * 
+ * Point d'entrée central pour le thème spécifique Ivo Incidit.
+ * Hérite des variables de base d'atelier.css (couleurs primaires, typographie, espacements).
+ * Ajoute uniquement les variables et customizations spécifiques à Ivo Incidit.
+ */
+
+:root.theme-ivo-incidit {
+  /* Couleurs manquantes du current (héritage) */
+  --copper: #b97e52;
+  --raspberry: #a4433b;
+  
+  /* Aliases backward-compatible avec les noms du current (optionnel, à retirer après migration) */
+  --cumaru: var(--color-brand);
+  --cumaru-dark: var(--color-brand-strong);
+  --blond: var(--color-brand-soft);
+  --blond-light: var(--color-surface-muted);
+  --black: var(--color-text);
+  --background-admin: var(--color-bg);
+}
+
+a {
+  color: var(--raspberry);
+}
+
+nav a {
+  color: var(--black);
+}
+
+figcaption {
+  color: #666;
+}
+
+/**
+ * Imports des fichiers de customization ciblés
+ * Dé-commenter ou ajouter selon les besoins
+ */
+
+/* @import "./button.css"; */
+/* @import "./header.css"; */
+/* @import "./contact.css"; */

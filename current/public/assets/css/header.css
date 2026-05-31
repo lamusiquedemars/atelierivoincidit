@@ -1,0 +1,167 @@
+/* === HEADER === */
+.site-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: #692923df;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+/* === Header bar: logo + nav inline === */
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 8px 16px;
+}
+/* Logo */
+.blason {
+  max-width: 160px;
+  height: auto;
+  clip-path: ellipse(45% 50% at 50% 50%);
+  transition: max-width 0.3s ease;
+}
+
+.site-header.shrink .blason {
+  max-width: 110px;
+}
+
+/* === Navigation desktop === */
+.nav-menu ul {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-menu a {
+  font-family: "Cormorant SC";
+  font-weight: bold;
+  font-size: 20px;
+  color: white;
+  text-decoration: none;
+  padding: 4px 0;
+  border-bottom: 2px solid var(--copper);
+  transition: color 0.3s ease;
+}
+
+.nav-menu a:hover {
+  color: whitesmoke;
+}
+
+/* Sous-menu desktop */
+.nav-menu .parent {
+  position: relative;
+}
+
+.nav-menu .submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #692923df;
+  border-radius: 4px;
+  padding: 8px 12px;
+  min-width: 160px;
+  flex-direction: column;
+}
+
+.nav-menu .submenu li a {
+  font-weight: normal;
+  font-size: 18px;
+  border-bottom: none;
+  color: #f2e9df;
+}
+
+/* Affichage sous-menu au survol desktop */
+.nav-menu .parent:hover .submenu {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Burger (desktop hidden) */
+.burger {
+  display: none;
+  width: 36px;
+  height: 36px;
+  color: antiquewhite;
+  font-weight: bold;
+  background-color: var(--raspberry);
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* === Responsive mobile === */
+@media (max-width: 700px) {
+  .blason {
+    max-width: 95px;
+  }
+  .site-header.shrink .blason {
+    max-width: 85px;
+  }
+
+  .burger {
+    display: flex;
+    margin-right: 1rem;
+  }
+
+  .nav-menu {
+    display: none; /* caché par défaut */
+    flex-direction: column;
+    position: fixed;
+    top: 65px;
+    right: 6px;
+    width: 180px;
+    background-color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    z-index: 1500;
+  }
+
+  .nav-menu.active {
+    display: flex; /* toggle via JS */
+  }
+
+  .nav-menu ul {
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-menu li {
+    width: 100%;
+  }
+
+  .nav-menu a {
+    display: block;
+    font-size: 19px;
+    padding: 10px 4px;
+    text-align: right;
+    color: black;
+    border-bottom: 1px solid #ddd;
+  }
+
+  /* Sous-menu mobile toujours visible et indenté */
+  .nav-menu .submenu {
+    display: block;
+    position: static;
+    background-color: transparent;
+    padding-left: 20px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .nav-menu .submenu li a {
+    font-size: 17px;
+    color: #444;
+    font-weight: normal;
+    padding: 4px 0;
+    border-bottom: none;
+  }
+}

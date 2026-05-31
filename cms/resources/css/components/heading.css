@@ -1,0 +1,72 @@
+.heading {
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+}
+
+.heading--plain {
+    width: auto;
+}
+
+.heading--center {
+    width: auto;
+    margin-inline: auto;
+    text-align: center;
+}
+
+.heading--accent,
+.heading--underline,
+.heading--decorated {
+    padding-bottom: 0.35em;
+}
+
+.heading--accent::after,
+.heading--underline::after,
+.heading--decorated::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.heading--accent::after {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-brand) 40%, transparent);
+}
+
+.heading--accent::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--color-brand);
+}
+
+.heading--underline::after {
+    width: 64px;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--color-brand);
+}
+
+.heading--decorated::after {
+    width: min(70%, 220px);
+    height: 1px;
+    background: var(--color-brand-soft);
+}
+
+.heading--decorated::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 28px;
+    height: 2px;
+    background: var(--color-brand);
+}

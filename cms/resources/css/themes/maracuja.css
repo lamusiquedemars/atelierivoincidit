@@ -1,0 +1,21 @@
+.theme-maracuja {
+    --theme-name: 'maracuja';
+    --color-bg: #fff8f4;
+    --color-surface: #ffffff;
+    --color-surface-muted: #f8e9e1;
+    --color-text: #211713;
+    --color-muted: #755f58;
+    --color-line: #ead1c6;
+    --color-brand: #d96b4a;
+    --color-brand-strong: #9f452d;
+    --color-brand-soft: #f4d8cf;
+    --hero-overlay: linear-gradient(180deg, rgb(75 30 18 / 55%), rgb(30 16 11 / 34%));
+}
+
+.theme-maracuja .site-brand__mark {
+    background: var(--color-brand);
+}
+
+.theme-maracuja .hero {
+    background: linear-gradient(180deg, #ffffff 0%, var(--color-surface-muted) 100%);
+}

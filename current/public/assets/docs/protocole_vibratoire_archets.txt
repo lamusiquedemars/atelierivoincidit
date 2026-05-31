@@ -1,0 +1,33 @@
+
+Protocole de mesure vibratoire (ESP32 + ADXL345)
+===============================================
+
+Matériel :
+- ESP32 (microcontrôleur)
+- ADXL345 (accéléromètre 3 axes)
+- CoolTerm pour la récupération série
+- Archet placé entre deux mousses (hausse en bas, pointe en haut)
+- Capteur collé sur le flanc de la baguette, environ au tiers supérieur
+- Frappe verticale légère pour initier une vibration libre
+
+Capture (dans le code ESP32) :
+- Fréquence d’échantillonnage : 2000 Hz
+- Nombre de points : 1024 (durée ≈ 512 ms)
+- Détection automatique d’une frappe -> déclenchement de l'enregistrement
+- Signal enregistré : axe Z (vibration verticale)
+- Fin du programme après affichage -> copie des données manuelle via CoolTerm
+
+Analyse (Python) :
+1. Centrage du signal (suppression de l’offset DC)
+2. FFT brute -> fréquence dominante globale
+3. Filtrage passe-haut à 150 Hz pour supprimer les modes globaux
+4. FFT du signal filtré -> fréquence de flexion principale
+5. Transformée de Hilbert -> extraction de l'enveloppe d'amortissement
+6. Détection des pics de l’enveloppe
+7. Calcul du logarithmic decrement (δ) :
+   δ = (1/n) * ln(A0 / An)
+
+Pourquoi ce protocole :
+- La fréquence filtrée reflète le comportement vibratoire de la baguette seule
+- Le δ fournit une mesure objective du sustain
+- Permet de classifier les archets de manière artisanale mais cohérente

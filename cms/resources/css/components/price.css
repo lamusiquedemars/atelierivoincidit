@@ -1,0 +1,19 @@
+.price {
+    display: inline-flex;
+    gap: var(--space-xs);
+    align-items: baseline;
+    font-weight: 800;
+}
+
+.price--new {
+    color: var(--color-brand-strong);
+}
+
+.price--old {
+    color: var(--color-muted);
+    text-decoration: line-through;
+}
+
+.price--muted {
+    color: var(--color-muted);
+}

@@ -1,0 +1,89 @@
+
+PROTOCOLE DE MESURE VIBRATOIRE D’UN ARCHET – VERSION DÉTAILLÉE ET FORMELLE
+
+But :
+Mesurer les propriétés vibratoires d’un archet (fréquence de flexion principale et amortissement logarithmique δ) dans des conditions artisanales mais reproductibles.
+
+Matériel :
+- Capteur : ADXL345 (accéléromètre numérique 3 axes)
+- Microcontrôleur : ESP32 (lecture à 2000 Hz via I2C)
+- Logiciel d’enregistrement : CoolTerm, Audacity ou équivalent
+- Dispositif de frappe : baguette de xylophone en bois (extrémité sphérique)
+- Support : mousse dense sous mortaise et sous la tête (pas de contrainte centrale)
+- Taux d’échantillonnage : fs = 2000 Hz
+- Durée de capture : 5 secondes, avec signal de début ("Commencer") et fin ("Terminé")
+
+Positionnement :
+- Capteur collé sur le flanc de la baguette (à ~10 cm de la tête)
+- Frappe perpendiculaire, à ~12–15 cm de la tête
+
+----------------------------
+ÉTAPES D’ANALYSE DU SIGNAL
+----------------------------
+
+1. Prétraitement
+-----------------
+a) Extraction :
+   - Ne prendre que les valeurs entre “Commencer” et “Terminé”
+   - Éliminer les lignes non numériques
+
+b) Centrage :
+   signal_centré = signal - moyenne(signal)
+
+c) Filtrage :
+   Passe-haut de Butterworth, 5e ordre, fc = 150 Hz
+
+   Formule :
+   H(s) = 1 / (1 + (fc/s)^2.5) → numérique : scipy.signal.butter + filtfilt
+
+2. Détection de la vibration utile
+----------------------------------
+a) Calcul de l’enveloppe analytique :
+   envelope(t) = |Hilbert(signal_filtré)|
+
+b) Localisation du pic :
+   t0 = argmax(envelope)
+
+c) Fenêtrage :
+   extraire 150 échantillons à partir de t0 :
+   window = envelope[t0 : t0 + 150]
+   window_signal = signal_filtré[t0 : t0 + 150]
+
+3. Calcul de la fréquence
+-------------------------
+a) Transformée de Fourier :
+   FFT(window_signal) → module → pic le plus fort
+
+b) Fréquence correspondante :
+   freq_peak = freq[argmax(|FFT(window)|)]
+
+4. Calcul de l’amortissement logarithmique δ
+--------------------------------------------
+a) Modèle :
+   envelope(t) ≈ A * exp(-δ * t)
+
+b) Régression logarithmique :
+   log_env = log(window)
+   lin_reg = polyfit(x=range(N), y=log_env) → slope
+
+   δ = -slope
+
+Remarques :
+- Le δ ainsi obtenu est sans unité.
+- Il est proportionnel à la pente de décroissance de l’enveloppe.
+- On considère δ < 0.02 comme “long sustain”, δ > 0.05 comme “amorti”.
+
+-----------------------------
+RÉSULTATS À EXTRAIRE POUR CHAQUE MESURE
+-----------------------------
+- Fréquence de résonance principale (Hz)
+- Amortissement logarithmique δ (sans unité)
+- Optionnel : tracer l’enveloppe + fenêtre + fit exponentiel
+
+-----------------------------
+RÉSULTAT FINAL PAR ARCHEt
+-----------------------------
+- Moyenne de 2 à 4 essais fiables
+- Écart type possible
+- Exclusion des valeurs aberrantes (δ < 0 ou > 0.1, f < 200 Hz sauf justification)
+

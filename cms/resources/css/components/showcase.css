@@ -1,0 +1,109 @@
+.showcase {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+.showcase--grid .showcase__items {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-lg);
+}
+
+.showcase--carousel .showcase__items {
+    overflow: hidden;
+}
+
+.showcase--carousel .showcase__item {
+    flex: 0 0 min(360px, 85vw);
+}
+
+.showcase--carousel .showcase__media img {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.showcase--featured {
+    display: grid;
+}
+
+.showcase--featured .showcase__items {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: var(--space-lg);
+}
+
+.showcase--featured .showcase__item:first-child {
+    grid-row: span 2;
+}
+
+.showcase--featured .showcase__item:first-child .showcase__media img {
+    aspect-ratio: 4 / 5;
+}
+
+.showcase--featured .showcase__media img,
+.showcase--grid .showcase__media img {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.showcase__media {
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-muted);
+}
+
+.showcase__media a {
+    display: block;
+}
+
+.showcase__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.showcase__content {
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.showcase__items {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+.showcase__item {
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.showcase__meta {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+    .showcase--grid .showcase__items,
+    .showcase--featured .showcase__items {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .showcase--featured .showcase__item:first-child {
+        grid-row: auto;
+    }
+
+    .showcase--featured .showcase__item:first-child .showcase__media img {
+        aspect-ratio: 4 / 3;
+    }
+}
+
+@media (max-width: 700px) {
+    .showcase--grid .showcase__items,
+    .showcase--featured .showcase__items {
+        grid-template-columns: 1fr;
+    }
+
+    .showcase--carousel .showcase__item {
+        flex-basis: 82vw;
+    }
+}

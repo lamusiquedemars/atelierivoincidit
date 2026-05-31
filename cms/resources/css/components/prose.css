@@ -1,0 +1,14 @@
+.prose,
+.prose-section {
+    max-width: var(--container-narrow);
+}
+
+.prose > * + *,
+.prose-section > * + * {
+    margin-top: var(--space-md);
+}
+
+.content-block {
+    padding-block: var(--space-lg);
+    border-top: 1px solid var(--color-line);
+}

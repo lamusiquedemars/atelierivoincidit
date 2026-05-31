@@ -1,0 +1,7 @@
+.env
+config.local.php
+config.prod.php
+data/*.sql
+data/*.xml
+capture.txt
+storage/private/

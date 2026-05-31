@@ -1,0 +1,25 @@
+.carousel {
+    display: grid;
+    gap: var(--space-md);
+}
+
+.carousel__viewport {
+    overflow: hidden;
+}
+
+.carousel__track {
+    display: flex;
+    gap: var(--space-lg);
+    touch-action: pan-y pinch-zoom;
+}
+
+.carousel__slide {
+    min-width: 0;
+    flex: 0 0 min(100%, 360px);
+}
+
+.carousel__controls {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: flex-end;
+}

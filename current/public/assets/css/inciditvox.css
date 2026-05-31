@@ -1,0 +1,42 @@
+/* Conteneur des résultats */
+#results-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+  
+  /* Conteneur du résumé et du top 10 côte à côte */
+  .result-columns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 2em;
+    flex-wrap: wrap;
+  }
+  
+  /* Colonne gauche : résumé */
+  #summary {
+    flex: 1 1 300px;
+    background-color: #fdf9f4;
+    padding: 1em;
+    border: 1px solid #e0d2c0;
+    border-radius: 8px;
+  }
+  
+  /* Colonne droite : top 10 */
+  #peaks-table {
+    flex: 1 1 300px;
+    background-color: #fdf9f4;
+    padding: 1em;
+    border: 1px solid #e0d2c0;
+    border-radius: 8px;
+  }
+  
+  /* Graphe sur toute la largeur */
+  #fft-canvas {
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  

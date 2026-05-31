@@ -1,0 +1,515 @@
+/* =========================
+1. PALETTE
+========================= */
+
+:root {
+  --cumaru: #6c3e2a;
+  --cumaru-dark: #4a2a1d;
+  --blond: #d9c4a3;
+  --blond-light: #e8d8b7;
+  --black: #1a1a1a;
+  --copper: #b97e52;
+  --raspberry: #a4433b;
+  --background-admin: #eeeae4;
+}
+
+/* =========================
+2. THÈME GLOBAL
+========================= */
+
+body {
+  font-family: "Cormorant Garamond", Palatino, serif;
+  background-color: var(--background-admin);
+  color: var(--black);
+}
+a {
+  color: var(--raspberry);
+}
+nav a {
+  color: var(--black);
+}
+figcaption {
+  color: #666;
+}
+
+/* =========================
+3. TYPOGRAPHIE
+========================= */
+
+h1 {
+  font-family: "Cinzel Decorative", serif;
+  font-size: 26px;
+  margin-bottom: 20px;
+  background-color: #fef7ea;
+  padding: 16px 24px;
+  border-left: 6px solid var(--cumaru);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+h2 {
+  font-family: "Cormorant SC", serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--cumaru);
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--cumaru);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+h2 i {
+  font-size: 18px;
+  color: var(--cumaru);
+}
+
+table th,
+table td {
+  border-bottom: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f5eee6;
+  color: var(--cumaru);
+}
+/* =========================
+4. BOUTONS
+========================= */
+
+button,
+.btn {
+  background-color: var(--raspberry);
+  color: var(--background-admin);
+}
+button:hover,
+.btn:hover {
+  background-color: var(--cumaru);
+}
+
+/* =========================
+5. HERO
+========================= */
+
+.page-hero {
+  color: #fef7ea;
+  background-color: #1a1a1a;
+}
+
+.page-hero::before {
+  background-image: url("/assets/images/tetes-brutes-2.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 30%;
+  filter: brightness(0.45);
+}
+
+.page-hero h1,
+.page-hero p {
+  position: relative;
+  z-index: 1;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+}
+
+.page-hero h1 {
+  font-size: 3rem;
+  margin: 0 1rem;
+}
+
+.page-hero p {
+  font-size: 1.8rem;
+  margin-top: 1rem;
+  font-style: italic;
+  color: #f0e5d8;
+}
+
+.hero__content .price-new,
+.hero__content .price-old,
+.hero__content .price-std {
+  color: #f0e5d8;
+}
+
+.hero__content .price-old {
+  font-size: 1.3rem;
+}
+
+.hero-essai::before {
+  background-image: url("/assets/images/archets-colores.jpeg");
+}
+
+.hero-archetier::before {
+  background-image: url("/assets/images/officina-atlas-1519.jpg");
+}
+
+.hero-arcus::before {
+  background-image: url("/assets/images/arcus-tetes.jpeg");
+}
+.hero-ars-antiqua::before {
+  background-image: url("/assets/images/archets-antiqua.jpeg");
+  background-position: center;
+  background-size: 75% auto;
+}
+.hero-ars-classica::before {
+  background-image: url("/assets/images/archets-classica.jpeg");
+  background-position: center 60%;
+  background-size: 75% auto;
+}
+.hero-ars-nova::before {
+  background-image: url("/assets/images/archets-nova.jpeg");
+  background-position: center;
+  background-size: 75% auto;
+}
+
+.hero-contact::before {
+  background-image: url("/assets/images/contact-archets.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 800px) {
+  .page-hero h1 {
+    font-size: 2rem;
+  }
+
+  .page-hero p {
+    font-size: 1.4rem;
+  }
+
+  .hero-ars-antiqua::before,
+  .hero-ars-classica::before,
+  .hero-ars-nova::before,
+  .hero-contact::before {
+    background-size: 100% auto;
+  }
+}
+/* =========================
+6. BLOCS SPÉCIAUX
+========================= */
+
+.promo-lancement {
+  font-family: "Cormorant SC", serif;
+  font-size: 20px;
+  background: #f4f2ee;
+  padding: 1rem 1.2rem;
+  border-left: 4px solid #ccc;
+  margin-bottom: 1.5rem;
+  border-radius: 6px;
+}
+
+.home-essay {
+  background-image:
+    linear-gradient(rgba(67, 67, 67, 0.68), rgba(10, 10, 10, 0.68)),
+    url("/assets/images/archets-prima.jpeg");
+
+  background-position: center;
+  background-size:
+    auto,
+    75% auto;
+  background-repeat: no-repeat;
+
+  color: #fef7ea;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.home-essay h2 {
+  color: #fef7ea;
+  border-bottom-color: rgba(254, 247, 234, 0.4);
+}
+
+.home-testimonials {
+  text-align: center;
+  padding: var(--space-l) 0;
+}
+
+.home-final .container {
+  max-width: 760px;
+}
+
+.home-final .cta {
+  justify-content: center;
+}
+
+/* =========================
+ARCUS GRID
+========================= */
+
+.arcus-grid {
+  gap: var(--space-l);
+  align-items: stretch;
+}
+
+.arcus-grid .arcus-card {
+  min-width: 0;
+}
+
+/* =========================
+HOME — ARCUS CARDS
+========================= */
+.home-arcus .grid {
+  gap: 0.5rem;
+}
+
+.home-arcus .card {
+  position: relative;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  overflow: hidden;
+}
+
+.home-arcus .card > a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 420px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: #fff;
+}
+
+.home-arcus .card > a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.5) 45%,
+    rgba(0, 0, 0, 0.25) 100%
+  );
+  z-index: 1;
+}
+
+.home-arcus .card-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  border-radius: 0;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.home-arcus .card h3,
+.home-arcus .card p {
+  position: relative;
+  z-index: 2;
+}
+
+.home-arcus .card h3 {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 1.05;
+  font-weight: 500;
+  color: #fff;
+}
+
+.home-arcus .card p {
+  margin: 0;
+  max-width: 26ch;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.home-arcus .card a:hover h3 {
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+/* FEATURE CARDS */
+
+.feature-card {
+  background: #fefaf2;
+  border-color: rgba(108, 62, 42, 0.18);
+  box-shadow: 0 10px 28px rgba(26, 26, 26, 0.06);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(185, 126, 82, 0.45);
+  box-shadow: 0 16px 36px rgba(26, 26, 26, 0.1);
+}
+
+.feature-card__image {
+  filter: saturate(0.92) contrast(1.03);
+  transition: transform 0.35s ease;
+}
+
+.feature-card:hover .feature-card__image {
+  transform: scale(1.03);
+}
+
+.feature-card__title {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 500;
+  color: var(--cumaru-dark);
+}
+
+.feature-card__text {
+  color: #4f4a45;
+  font-size: 1rem;
+}
+
+.feature-card__cta {
+  color: var(--raspberry);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.feature-card__cta::after {
+  content: " →";
+}
+
+@media (max-width: 768px) {
+  .home-arcus .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-arcus .card > a {
+    min-height: 320px;
+  }
+}
+
+/* ARCUS CARD */
+
+.arcus-card {
+  overflow: hidden;
+  gap: var(--space-m);
+}
+
+.arcus-card__media {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.arcus-card__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+}
+
+.arcus-card__placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background:
+    linear-gradient(rgba(26, 26, 26, 0.08), rgba(26, 26, 26, 0.08)),
+    var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.arcus-card__content {
+  display: block;
+}
+
+.arcus-card__title {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 500;
+  color: var(--cumaru-dark);
+}
+
+.arcus-card__meta {
+  margin: 0 0 0.5rem;
+  color: var(--color-muted);
+}
+
+.arcus-card__text {
+  margin: 0 0 0.75rem;
+}
+
+.arcus-card__details .price {
+  margin: 0;
+}
+
+.arcus-card__footer {
+  margin-top: auto;
+}
+/* =========================
+7. BREADCRUMBS
+========================= */
+
+.breadcrumbs {
+  color: #555;
+}
+
+.breadcrumbs a {
+  color: var(--accent-color, #7a3e1d);
+}
+
+/* =========================
+8. PRIX & BADGES
+========================= */
+
+.price-old {
+  text-decoration: line-through;
+  opacity: 0.6;
+  color: #7a7a7a;
+}
+
+.price-new {
+  color: #222;
+}
+
+.price-std {
+  color: #222;
+}
+
+.badge.sold,
+.badge.unavailable {
+  background: none;
+  color: #555;
+  font-weight: 600;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-left: 10px;
+  font-size: 0.9em;
+  letter-spacing: 0.5px;
+}
+
+.badge.sold {
+  border-color: #c00;
+  color: #c00;
+}
+
+.badge.unavailable {
+  border-color: #999;
+  color: #999;
+}
+
+/* =========================
+9. SHOWCASE
+========================= */
+
+.showcase__meta {
+  opacity: 0.7;
+}
+
+/* =========================
+10. FOOTER
+========================= */
+
+.site-footer {
+  color: var(--cumaru);
+}
+
+.site-footer a {
+  color: var(--cumaru);
+}

@@ -1,0 +1,428 @@
+/* ==========================================================
+   Admin — Ivo Incidit
+   Feuille dédiée à l'interface d'administration.
+   ========================================================== */
+
+
+/* ----------------------------------------------------------
+   Variables locales avec fallback.
+   Si les variables existent déjà dans theme.css, elles prennent le relais.
+   ---------------------------------------------------------- */
+
+:root {
+  --admin-bg: var(--background-admin, #f6f3ee);
+  --admin-surface: #ffffff;
+  --admin-text: var(--black, #1f1f1f);
+  --admin-muted: #6f6a63;
+  --admin-border: #ded4c8;
+  --admin-accent: var(--cumaru, #7a3f24);
+  --admin-accent-soft: var(--copper, #b8734c);
+  --admin-danger: #9b2c2c;
+  --admin-radius: 14px;
+  --admin-shadow: 0 12px 32px rgba(0, 0, 0, .06);
+}
+
+
+/* ----------------------------------------------------------
+   Base
+   ---------------------------------------------------------- */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--admin-bg);
+  color: var(--admin-text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--admin-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  padding: .12rem .35rem;
+  border-radius: 5px;
+  background: #f1ece6;
+  font-size: .92em;
+}
+
+
+/* ----------------------------------------------------------
+   Layout admin connecté
+   ---------------------------------------------------------- */
+
+.admin-body {
+  padding: 0;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  background: var(--admin-surface);
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-header__brand a {
+  color: var(--admin-text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.admin-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: .95rem;
+}
+
+.admin-nav a {
+  color: var(--admin-muted);
+}
+
+.admin-nav a:hover {
+  color: var(--admin-accent);
+}
+
+.admin-main {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  box-shadow: var(--admin-shadow);
+}
+
+.admin-main h1,
+.admin-container h1 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--admin-border);
+  color: var(--admin-accent);
+  font-size: clamp(1.6rem, 2vw, 2.1rem);
+}
+
+
+/* ----------------------------------------------------------
+   Ancien conteneur admin
+   Gardé pour compatibilité avec les anciennes pages.
+   ---------------------------------------------------------- */
+
+.admin-container {
+  width: min(900px, calc(100% - 2rem));
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  box-shadow: var(--admin-shadow);
+}
+
+
+/* ----------------------------------------------------------
+   Login
+   ---------------------------------------------------------- */
+
+.admin-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.admin-login-card {
+  width: min(100%, 390px);
+  padding: 2rem;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  box-shadow: var(--admin-shadow);
+}
+
+.admin-login-card h1 {
+  margin: 0 0 1.5rem;
+  color: var(--admin-accent);
+  font-size: 1.45rem;
+}
+
+.admin-login-card form {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-login-card button {
+  width: 100%;
+}
+
+
+/* ----------------------------------------------------------
+   Dashboard
+   ---------------------------------------------------------- */
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.admin-card {
+  padding: 1.2rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: #fffdfb;
+}
+
+.admin-card h2 {
+  margin: 0 0 .5rem;
+  color: var(--admin-accent);
+  font-size: 1.1rem;
+}
+
+.admin-card p {
+  margin: 0 0 1rem;
+  color: var(--admin-muted);
+}
+
+
+/* ----------------------------------------------------------
+   Formulaires
+   ---------------------------------------------------------- */
+
+form {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-field,
+.form-row {
+  display: grid;
+  gap: .35rem;
+}
+
+.form-row {
+  align-items: start;
+}
+
+label {
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--admin-text);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="email"],
+input[type="file"],
+textarea,
+select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: .65rem .75rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--admin-text);
+  font: inherit;
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid rgba(184, 115, 76, .22);
+  border-color: var(--admin-accent-soft);
+}
+
+fieldset {
+  padding: 1rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+}
+
+legend {
+  padding: 0 .4rem;
+  color: var(--admin-accent);
+  font-weight: 700;
+}
+
+
+/* Formulaires larges : deux colonnes propres */
+@media (min-width: 768px) {
+  .admin-form-grid,
+  .admin-container form:not(.optimize):not(.admin-login-card form) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  fieldset,
+  .form-full,
+  button {
+    grid-column: 1 / -1;
+  }
+
+  #article {
+    grid-template-columns: 1fr 4fr;
+  }
+}
+
+
+/* ----------------------------------------------------------
+   Boutons
+   ---------------------------------------------------------- */
+
+button,
+.button,
+.admin-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  width: fit-content;
+  padding: .7rem 1rem;
+  border: 0;
+  border-radius: 8px;
+  background: var(--admin-text);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover,
+.button:hover,
+.admin-button:hover {
+  background: #3a332d;
+  text-decoration: none;
+}
+
+.admin-button--danger {
+  background: var(--admin-danger);
+}
+
+
+/* ----------------------------------------------------------
+   Tables
+   ---------------------------------------------------------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: #fff;
+  font-size: .95rem;
+}
+
+th,
+td {
+  padding: .65rem .75rem;
+  border: 1px solid var(--admin-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f3eee8;
+  color: var(--admin-accent);
+  font-weight: 700;
+}
+
+td.number,
+th.number {
+  text-align: right;
+}
+
+
+/* ----------------------------------------------------------
+   Outil optimisation images
+   ---------------------------------------------------------- */
+
+form.optimize {
+  display: block;
+  margin-top: 1.5rem;
+}
+
+form.optimize button {
+  background: var(--admin-accent);
+}
+
+form.optimize button:hover {
+  background: #62311b;
+}
+
+
+/* ----------------------------------------------------------
+   Messages
+   ---------------------------------------------------------- */
+
+.admin-message {
+  padding: .8rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  background: #fff8ed;
+}
+
+.admin-message--error {
+  border-color: #e3b4b4;
+  background: #fff1f1;
+  color: var(--admin-danger);
+}
+
+
+/* ----------------------------------------------------------
+   Responsive
+   ---------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .admin-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-main,
+  .admin-container {
+    width: calc(100% - 1rem);
+    margin: .5rem auto;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .admin-header {
+    padding: 1rem;
+  }
+
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-nav {
+    gap: .65rem;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}

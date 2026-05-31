@@ -1,0 +1,22 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: var(--space-sm);
+    border-bottom: 1px solid var(--color-line);
+    text-align: left;
+}
+
+.table--featured {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.table--simple th,
+.table--simple td {
+    padding-inline: 0;
+}

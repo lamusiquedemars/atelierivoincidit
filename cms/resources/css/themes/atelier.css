@@ -1,0 +1,36 @@
+.theme-atelier {
+    --theme-name: 'atelier';
+    --font-heading: 'Cormorant Garamond', Palatino, Georgia, serif;
+    --font-body: 'Cormorant Garamond', Palatino, Georgia, serif;
+    --color-bg: #eeeae4;
+    --color-surface: #fef7ea;
+    --color-surface-muted: #e8d8b7;
+    --color-text: #1a1a1a;
+    --color-muted: #6d625c;
+    --color-line: #d8c4ad;
+    --color-brand: #6c3e2a;
+    --color-brand-strong: #4a2a1d;
+    --color-brand-soft: #d9c4a3;
+    --hero-overlay: linear-gradient(180deg, rgb(26 26 26 / 64%), rgb(74 42 29 / 42%));
+}
+
+.theme-atelier .site-brand__mark {
+    background: var(--color-brand);
+}
+
+.theme-atelier h1,
+.theme-atelier h2,
+.theme-atelier h3,
+.theme-atelier .heading {
+    font-weight: 500;
+}
+
+.theme-atelier .hero {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-muted) 100%);
+}
+
+.theme-atelier .card,
+.theme-atelier .cta,
+.theme-atelier .quote {
+    background: color-mix(in srgb, var(--color-surface), #ffffff 35%);
+}

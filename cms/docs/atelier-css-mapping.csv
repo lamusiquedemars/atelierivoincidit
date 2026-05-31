@@ -1,0 +1,43 @@
+Fichier,Couche,Attributs modifiables depuis ivo-incidit.css,Recommandation
+resources/css/foundations/tokens.css,Foundation,Aucun,Interdit - conserver les tokens partagés
+resources/css/foundations/base.css,Foundation,Aucun,Interdit - ne pas remonter la couche du thème
+resources/css/foundations/reset.css,Foundation,Aucun,Interdit - reset commun
+resources/css/foundations/typography.css,Foundation,Variables typographiques (taille, line-height, famille via thèmes),Préférer variables de thème
+resources/css/app.css,Application,Variables d’application; wrappers de page,Autorisé avec parcimonie
+resources/css/primitives/container.css,Primitive,max-width; gap; padding via variables,Préférer variables - pas de réécriture structurelle
+resources/css/primitives/grid.css,Primitive,gap; alignement; colonnes via variables,Préférer variables
+resources/css/primitives/stack.css,Primitive,gap; espacement vertical via variables,Préférer variables
+resources/css/primitives/split.css,Primitive,ratio; gap via variables,Préférer variables
+resources/css/primitives/section.css,Primitive,padding/espacement de section,Préférer variables
+resources/css/primitives/cluster.css,Primitive,gap; alignement via variables,Préférer variables
+resources/css/components/back-to-top.css,Composant,couleur; position; icône,Autorisé
+resources/css/components/badge.css,Composant,couleurs; rayon; typographie,Autorisé
+resources/css/components/breadcrumb.css,Composant,couleur; espacement; typographie,Autorisé
+resources/css/components/button.css,Composant,couleur; fond; bordure; rayon; padding; typographie,Autorisé via variables
+resources/css/components/card.css,Composant,fond; ombre; rayon; padding,Autorisé
+resources/css/components/carousel.css,Composant,couleur des contrôles; arrière-plan; légende,Autorisé
+resources/css/components/cta.css,Composant,couleurs; typographie; bordure; espacement,Autorisé
+resources/css/components/disclosure.css,Composant,couleur summary; icône; marge,Autorisé
+resources/css/components/feature-card.css,Composant,accents; typographie; fond,Autorisé
+resources/css/components/footer.css,Composant,couleurs; espacement; alignement; liens,Autorisé
+resources/css/components/form.css,Composant,bordure; focus; couleur champ; rayon; bouton,Préférer variables - éviter de casser la grille de formulaire
+resources/css/components/gallery.css,Composant,overlay; légende; espacement; couleur,Autorisé
+resources/css/components/header.css,Composant,branding; hauteur; bouton CTA; espacement nav,Autorisé
+resources/css/components/heading.css,Composant,taille/espacement des titres; décorations,Autorisé via variables
+resources/css/components/hero.css,Composant,background-image; overlay; espacement; texte,Autorisé
+resources/css/components/media.css,Composant,légende; ratio; bordure; fond,Autorisé
+resources/css/components/notice.css,Composant,couleurs; icônes; bordure; espacement,Autorisé
+resources/css/components/price.css,Composant,accents prix; badges; typographie,Autorisé
+resources/css/components/prose.css,Composant,liens; citations; listes; marges via variables,Préférer variables
+resources/css/components/quote.css,Composant,bordure; couleur de citation; espacement,Autorisé
+resources/css/components/reveal.css,Composant,couleur de titre; icône; marge,Autorisé
+resources/css/components/showcase.css,Composant,image; alignement; accent; espacement,Autorisé
+resources/css/components/table.css,Composant,bordure; fond de ligne; hover; texte,Autorisé
+resources/css/modules/articles.css,Module,titres; teasers; séparateurs; espacement; couleur de fond,Autorisé
+resources/css/modules/contact.css,Module,blocs contact; boutons; labels; espacement,Autorisé
+resources/css/modules/gallery.css,Module,overlay; légende; espacement; structure visuelle,Autorisé
+resources/css/modules/news.css,Module,accents news; cartes; titres; séparateurs,Autorisé
+resources/css/themes/atelier.css,Thème template,Aucun direct,Interdit pour Ivo Incidit
+resources/css/themes/default.css,Thème template,Aucun direct,Interdit
+resources/css/themes/maracuja.css,Thème template,Aucun direct,Interdit
+resources/css/themes/ivo-incidit.css,Thème client,couleurs de marque; hiérarchie typographique; espacements; overrides ciblés de composants,Autorisé - point d’entrée client

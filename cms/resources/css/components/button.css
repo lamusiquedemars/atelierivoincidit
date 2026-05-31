@@ -1,0 +1,72 @@
+.btn,
+.button,
+button.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    width: fit-content;
+    padding: 0 var(--space-lg);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-weight: 800;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn--small {
+    min-height: 36px;
+    padding-inline: var(--space-md);
+    font-size: 0.9rem;
+}
+
+.btn--large {
+    min-height: 52px;
+    padding-inline: var(--space-xl);
+}
+
+.btn--primary,
+.button {
+    background: var(--color-brand);
+    color: #ffffff;
+}
+
+.btn--primary:hover,
+.button:hover {
+    background: var(--color-brand-strong);
+}
+
+.btn--secondary {
+    border-color: var(--color-line);
+    background: var(--color-surface);
+    color: var(--color-text);
+}
+
+.btn--ghost {
+    border-color: transparent;
+    background: transparent;
+    color: var(--color-brand-strong);
+}
+
+.btn--ghost:hover {
+    background: var(--color-brand-soft);
+}
+
+.btn--link {
+    min-height: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-brand-strong);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.btn--danger {
+    background: var(--color-danger);
+    color: #ffffff;
+}
+
+.btn--danger:hover {
+    background: color-mix(in srgb, var(--color-danger), #000000 18%);
+}

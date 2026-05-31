@@ -1,0 +1,28 @@
+.quote {
+    display: grid;
+    gap: var(--space-md);
+    padding: var(--space-xl);
+    border-left: 4px solid var(--color-brand);
+    background: var(--color-surface);
+}
+
+.quote__text {
+    color: var(--color-text);
+    font-size: clamp(1.35rem, 3vw, 2rem);
+    line-height: 1.22;
+}
+
+.quote__meta {
+    color: var(--color-muted);
+    font-weight: 700;
+}
+
+.quote-carousel {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+.quote-carousel__track {
+    display: grid;
+    gap: var(--space-lg);
+}

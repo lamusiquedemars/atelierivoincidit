@@ -1,0 +1,136 @@
+/* === Hero spécifique fiche / article === */
+.page-hero {
+  height: 50vh; /* moins haut */
+}
+
+.page-hero::before {
+  background-position: center 20%; /* décaler l'image vers le haut */
+  background-size: cover;           /* garder le cover pour remplir */
+}/* === SCRIPTA PAGE === */
+
+.scripta-container {
+    margin: 0 auto;
+    padding: 24px 16px;
+    color: var(--black);
+  }
+  
+  /* Navigation par tags */
+  .scripta-tags {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  
+  .scripta-tags ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .scripta-tags a {
+    text-decoration: none;
+    padding: 4px 12px;
+    border: 1px solid var(--copper);
+    border-radius: 20px;
+    font-size: 14px;
+    color: var(--black);
+    transition: all 0.2s ease;
+  }
+  
+  .scripta-tags a:hover {
+    background-color: var(--copper);
+    color: var(--background-admin);
+  }
+  
+  /* Grille des articles */
+  .scripta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  
+  /* Carte article */
+  .scripta-card {
+    background-color: var(--background-admin);
+    border: 1px solid var(--cumaru);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .scripta-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  }
+  
+  .scripta-card img {
+    height: 250px;
+    display: block;
+    object-fit: contain;
+  }
+  
+  .scripta-card h2 {
+    font-size: 20px;
+    margin: 16px;
+    color: var(--cumaru);
+  }
+  .scripta-card h2 a {
+    color: inherit;
+    font-size: inherit;
+    text-decoration: none;
+    font-weight: inherit;
+}
+
+.scripta-card h2 a:hover {
+    text-decoration: underline;
+}
+
+  
+  .scripta-card .date {
+    font-size: 14px;
+    color: #777;
+    margin: 0 16px;
+  }
+  
+  .scripta-card .resume {
+    font-size: 16px;
+    margin: 12px 16px;
+    flex-grow: 1;
+  }
+  
+  .scripta-card .read-more {
+    align-self: flex-start;
+    margin: 12px 16px 16px;
+    font-weight: bold;
+    color: var(--copper);
+    text-decoration: none;
+  }
+  
+  .scripta-card .read-more:hover {
+    text-decoration: underline;
+  }
+  
+  /* Pagination */
+  .scripta-pagination {
+    margin-top: 32px;
+    text-align: center;
+  }
+  
+  .scripta-pagination .pagination-button {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: var(--copper);
+    color: var(--background-admin);
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .scripta-pagination .pagination-button:hover {
+    background-color: var(--cumaru);
+  }
