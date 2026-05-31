@@ -50,6 +50,7 @@
     $clientTheme = config('maracuja.client_theme');
     $isIvoIncidit = $clientTheme === 'ivo-incidit';
     $brandLogo = $settings->logo_path ?: ($clientTheme === 'ivo-incidit' ? '/assets/images/blason-ivo-incidit2.png' : null);
+    $ivoSocialLinks = $settings->social_links ?: ['Instagram : @ivo_incidit' => 'https://instagram.com/ivo_incidit'];
 @endphp
 <body @class([
     'site-shell',
@@ -137,14 +138,31 @@
         @yield('content')
     </main>
 
-    <footer class="site-footer container">
-        <p>&copy; {{ now()->year }} {{ $settings->site_name }}</p>
-        @if ($settings->contact_email)
-            <a href="mailto:{{ $settings->contact_email }}">{{ $settings->contact_email }}</a>
-        @endif
-        @if (config('maracuja.theme') === 'atelier')
-            <a href="{{ route('atelier.legal') }}">Mentions légales</a>
-            <a href="{{ route('atelier.terms') }}">CGV</a>
+    <footer @class(['site-footer', 'container' => ! $isIvoIncidit, 'site-footer--ivo' => $isIvoIncidit])>
+        @if ($isIvoIncidit)
+            <p>&copy; Ivo Incidit - Atelier d’Archèterie</p>
+            <p>
+                <a href="{{ route('atelier.legal') }}">Mentions légales</a>
+                <span aria-hidden="true">•</span>
+                <a href="{{ route('atelier.terms') }}">CGV</a>
+                <span aria-hidden="true">•</span>
+                <a href="{{ route('contact') }}">Contact</a>
+                @if (! empty($ivoSocialLinks))
+                    @foreach ($ivoSocialLinks as $label => $url)
+                        <span aria-hidden="true">•</span>
+                        <a href="{{ $url }}" target="_blank" rel="noopener">{{ $label }}</a>
+                    @endforeach
+                @endif
+            </p>
+        @else
+            <p>&copy; {{ now()->year }} {{ $settings->site_name }}</p>
+            @if ($settings->contact_email)
+                <a href="mailto:{{ $settings->contact_email }}">{{ $settings->contact_email }}</a>
+            @endif
+            @if (config('maracuja.theme') === 'atelier')
+                <a href="{{ route('atelier.legal') }}">Mentions légales</a>
+                <a href="{{ route('atelier.terms') }}">CGV</a>
+            @endif
         @endif
     </footer>
 

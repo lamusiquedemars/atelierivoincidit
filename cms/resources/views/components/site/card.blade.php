@@ -20,7 +20,7 @@
         <h3>{{ $title }}</h3>
         <p class="card__body">{{ $slot }}</p>
         @if (! empty($url))
-            <a class="card__link" href="{{ $url }}">Lire</a>
+            <a class="card__link" href="{{ $url }}" aria-label="Lire {{ $title }}">Lire</a>
         @endif
     </div>
 </article>
