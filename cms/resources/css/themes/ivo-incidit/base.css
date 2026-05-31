@@ -60,14 +60,18 @@
 .theme-ivo-incidit .site-header {
     position: sticky;
     top: 0;
-    z-index: 50;
-    width: min(var(--container-wide), calc(100% - (var(--container-gutter) * 2)));
+    z-index: 1000;
+    width: 100%;
     margin-inline: auto;
-    padding-block: var(--space-sm);
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    padding: 8px 16px;
+    border-radius: 0;
     background: rgb(105 41 35 / 88%);
-    box-shadow: 0 12px 28px rgb(26 26 26 / 10%);
+    box-shadow: none;
     backdrop-filter: blur(8px);
+}
+
+.theme-ivo-incidit .site-header--ivo {
+    justify-content: space-between;
 }
 
 .theme-ivo-incidit .site-brand,
@@ -85,8 +89,8 @@
 }
 
 .theme-ivo-incidit .site-brand__mark--image {
-    width: 78px;
-    height: 62px;
+    width: 160px;
+    height: auto;
     border-radius: 0;
     background: transparent;
 }
@@ -96,13 +100,39 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+    clip-path: ellipse(45% 50% at 50% 50%);
+}
+
+.theme-ivo-incidit .site-brand > span:last-child {
+    display: none;
+}
+
+.theme-ivo-incidit .site-nav {
+    display: block;
+    font-size: 1rem;
+}
+
+.theme-ivo-incidit .site-nav ul {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.theme-ivo-incidit .site-nav li {
+    position: relative;
 }
 
 .theme-ivo-incidit .site-nav a {
-    border-bottom: 1px solid var(--copper);
-    font-family: var(--font-heading);
-    font-size: 1.08rem;
+    display: block;
+    padding: 4px 0;
+    border-bottom: 2px solid var(--copper);
+    font-family: var(--font-smallcaps);
+    font-size: 1.25rem;
     font-weight: 700;
+    text-decoration: none;
 }
 
 .theme-ivo-incidit .site-nav a:hover {
@@ -110,9 +140,43 @@
     border-bottom-color: #fff8ed;
 }
 
+.theme-ivo-incidit .site-nav .site-nav__submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    min-width: 170px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background: rgb(105 41 35 / 96%);
+}
+
+.theme-ivo-incidit .site-nav__parent:hover .site-nav__submenu,
+.theme-ivo-incidit .site-nav__parent:focus-within .site-nav__submenu {
+    display: flex;
+}
+
+.theme-ivo-incidit .site-nav__submenu a {
+    border-bottom: 0;
+    color: #f2e9df;
+    font-size: 1.125rem;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
 .theme-ivo-incidit .nav-toggle {
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    padding: 0;
+    border-radius: var(--radius-md);
+    background: var(--raspberry);
     color: #fff8ed;
     border-color: rgb(255 248 237 / 46%);
+    font-weight: 700;
 }
 
 .theme-ivo-incidit .hero--home {
@@ -271,17 +335,57 @@
 
 @media (max-width: 760px) {
     .theme-ivo-incidit .site-header {
-        width: 100%;
-        border-radius: 0;
-        padding-inline: var(--container-gutter);
+        align-items: center;
+        flex-direction: row;
+        padding: 8px 16px;
+    }
+
+    .theme-ivo-incidit .site-brand__mark--image {
+        width: 95px;
     }
 
     .theme-ivo-incidit .site-nav {
-        gap: var(--space-sm);
+        position: fixed;
+        top: 65px;
+        right: 6px;
+        z-index: 1500;
+        width: 190px;
+        padding: 8px 12px;
+        border-radius: 5px;
+        background: #ffffff;
+        box-shadow: 0 10px 24px rgb(26 26 26 / 16%);
+    }
+
+    .theme-ivo-incidit .site-nav ul {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
     }
 
     .theme-ivo-incidit .site-nav a {
-        width: fit-content;
+        padding: 10px 4px;
+        border-bottom: 1px solid #dddddd;
+        color: var(--color-text);
+        font-size: 1.1875rem;
+        text-align: right;
+    }
+
+    .theme-ivo-incidit .site-nav .site-nav__submenu {
+        position: static;
+        display: block;
+        min-width: 0;
+        padding: 0 0 6px 20px;
+        border-bottom: 1px solid #eeeeee;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .theme-ivo-incidit .site-nav__submenu a {
+        padding: 4px 0;
+        border-bottom: 0;
+        color: #444444;
+        font-size: 1.0625rem;
     }
 
     .theme-ivo-incidit .hero--home,

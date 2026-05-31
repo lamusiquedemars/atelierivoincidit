@@ -48,6 +48,7 @@
 </head>
 @php
     $clientTheme = config('maracuja.client_theme');
+    $isIvoIncidit = $clientTheme === 'ivo-incidit';
     $brandLogo = $settings->logo_path ?: ($clientTheme === 'ivo-incidit' ? '/assets/images/blason-ivo-incidit2.png' : null);
 @endphp
 <body @class([
@@ -55,7 +56,7 @@
     'theme-' . config('maracuja.theme', 'default'),
     'theme-' . $clientTheme => filled($clientTheme),
 ])>
-    <header class="site-header container" data-nav>
+    <header @class(['site-header', 'container' => ! $isIvoIncidit, 'site-header--ivo' => $isIvoIncidit]) data-nav>
         <a class="site-brand" href="{{ route('home') }}">
             @if ($brandLogo)
                 <span class="site-brand__mark site-brand__mark--image" aria-hidden="true">
@@ -73,36 +74,62 @@
         </a>
 
         <button class="btn btn--secondary nav-toggle" data-nav-toggle type="button">
-            Menu
+            {{ $isIvoIncidit ? '☰' : 'Menu' }}
         </button>
 
         <nav class="site-nav" data-nav-menu aria-label="Navigation principale">
-            <a href="{{ route('home') }}">Accueil</a>
-            @if (config('maracuja.theme') === 'atelier')
-                <a href="{{ route('atelier.officina') }}">L’archetier</a>
+            @if ($isIvoIncidit)
+                <ul>
+                    @if (\App\Support\Modules::enabled('arcus'))
+                        <li class="site-nav__parent">
+                            <a href="{{ route('arcus.index') }}">Archets</a>
+                            <ul class="site-nav__submenu">
+                                <li><a href="{{ route('arcus.range', 'ars-antiqua') }}">Ars Antiqua</a></li>
+                                <li><a href="{{ route('arcus.range', 'ars-classica') }}">Ars Classica</a></li>
+                                <li><a href="{{ route('arcus.range', 'ars-nova') }}">Ars Nova</a></li>
+                            </ul>
+                        </li>
+                    @endif
+                    <li><a href="{{ route('atelier.probatio') }}">Essai</a></li>
+                    <li><a href="{{ route('atelier.officina') }}">Archetier</a></li>
+                    @if (\App\Support\Modules::enabled('articles'))
+                        <li><a href="{{ route('articles.index') }}">{{ config('maracuja.articles.public_label', 'Articles') }}</a></li>
+                    @endif
+                    @if (\App\Support\Modules::enabled('news'))
+                        <li><a href="{{ route('news.index') }}">Actualités</a></li>
+                    @endif
+                    @if (\App\Support\Modules::enabled('contact'))
+                        <li><a href="{{ route('contact') }}">Contact</a></li>
+                    @endif
+                </ul>
+            @else
+                <a href="{{ route('home') }}">Accueil</a>
+                @if (config('maracuja.theme') === 'atelier')
+                    <a href="{{ route('atelier.officina') }}">L’archetier</a>
+                @endif
+                @if (\App\Support\Modules::enabled('arcus'))
+                    <a href="{{ route('arcus.index') }}">Archets</a>
+                @endif
+                @if (config('maracuja.theme') === 'atelier')
+                    <a href="{{ route('atelier.probatio') }}">Essayer</a>
+                @endif
+                @if (\App\Support\Modules::enabled('articles'))
+                    <a href="{{ route('articles.index') }}">{{ config('maracuja.articles.public_label', 'Articles') }}</a>
+                @endif
+                @if (\App\Support\Modules::enabled('news'))
+                    <a href="{{ route('news.index') }}">Actualités</a>
+                @endif
+                @if (\App\Support\Modules::enabled('pages'))
+                    @unless (config('maracuja.theme') === 'atelier')
+                        <a href="{{ route('pages.show', 'services') }}">Services</a>
+                        <a href="{{ route('pages.show', 'methode') }}">Méthode</a>
+                    @endunless
+                @endif
+                @if (\App\Support\Modules::enabled('contact'))
+                    <a href="{{ route('contact') }}">Contact</a>
+                @endif
+                <a href="/admin">Admin</a>
             @endif
-            @if (\App\Support\Modules::enabled('arcus'))
-                <a href="{{ route('arcus.index') }}">Archets</a>
-            @endif
-            @if (config('maracuja.theme') === 'atelier')
-                <a href="{{ route('atelier.probatio') }}">Essayer</a>
-            @endif
-            @if (\App\Support\Modules::enabled('articles'))
-                <a href="{{ route('articles.index') }}">{{ config('maracuja.articles.public_label', 'Articles') }}</a>
-            @endif
-            @if (\App\Support\Modules::enabled('news'))
-                <a href="{{ route('news.index') }}">Actualités</a>
-            @endif
-            @if (\App\Support\Modules::enabled('pages'))
-                @unless (config('maracuja.theme') === 'atelier')
-                    <a href="{{ route('pages.show', 'services') }}">Services</a>
-                    <a href="{{ route('pages.show', 'methode') }}">Méthode</a>
-                @endunless
-            @endif
-            @if (\App\Support\Modules::enabled('contact'))
-                <a href="{{ route('contact') }}">Contact</a>
-            @endif
-            <a href="/admin">Admin</a>
         </nav>
     </header>
 
