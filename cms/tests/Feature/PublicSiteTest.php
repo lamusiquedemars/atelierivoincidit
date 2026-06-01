@@ -27,6 +27,11 @@ class PublicSiteTest extends TestCase
         $this->withoutVite();
     }
 
+    private function enableNewsModule(): void
+    {
+        config(['maracuja.modules.news' => true]);
+    }
+
     public function test_home_page_renders_the_public_pitch(): void
     {
         SiteSetting::current();
@@ -172,6 +177,8 @@ class PublicSiteTest extends TestCase
 
     public function test_home_news_listing_hides_expired_posts(): void
     {
+        $this->enableNewsModule();
+
         SiteSetting::current();
 
         Page::query()->create([
@@ -341,6 +348,8 @@ class PublicSiteTest extends TestCase
 
     public function test_expired_news_post_detail_returns_not_found(): void
     {
+        $this->enableNewsModule();
+
         SiteSetting::current();
 
         NewsPost::query()->create([
@@ -359,6 +368,8 @@ class PublicSiteTest extends TestCase
 
     public function test_news_listing_orders_pinned_posts_first(): void
     {
+        $this->enableNewsModule();
+
         SiteSetting::current();
 
         NewsPost::query()->create([
@@ -390,6 +401,8 @@ class PublicSiteTest extends TestCase
 
     public function test_news_without_detail_page_has_no_public_detail(): void
     {
+        $this->enableNewsModule();
+
         SiteSetting::current();
 
         NewsPost::query()->create([
@@ -414,6 +427,8 @@ class PublicSiteTest extends TestCase
 
     public function test_news_detail_shows_breadcrumb_and_back_link(): void
     {
+        $this->enableNewsModule();
+
         SiteSetting::current();
 
         NewsPost::query()->create([

@@ -9,7 +9,13 @@
             'type' => $seoType ?? null,
             'canonical' => $canonical ?? null,
         ]);
+
+        $clientTheme = config('maracuja.client_theme');
+        $isIvoIncidit = $clientTheme === 'ivo-incidit';
+        $brandLogo = $settings->logo_path ?: ($isIvoIncidit ? '/assets/images/blason-ivo-incidit2.png' : null);
+        $ivoSocialLinks = $settings->social_links ?: ['Instagram : @ivo_incidit' => 'https://instagram.com/ivo_incidit'];
     @endphp
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $seo['title'] }}</title>
@@ -38,7 +44,7 @@
         <link rel="icon" href="{{ \App\Support\Seo::absoluteUrl($settings->favicon_path) }}">
     @endif
 
-    @if (config('maracuja.client_theme') === 'ivo-incidit')
+    @if ($isIvoIncidit)
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Cormorant+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -46,124 +52,103 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-@php
-    $clientTheme = config('maracuja.client_theme');
-    $isIvoIncidit = $clientTheme === 'ivo-incidit';
-    $brandLogo = $settings->logo_path ?: ($clientTheme === 'ivo-incidit' ? '/assets/images/blason-ivo-incidit2.png' : null);
-    $ivoSocialLinks = $settings->social_links ?: ['Instagram : @ivo_incidit' => 'https://instagram.com/ivo_incidit'];
-@endphp
 <body @class([
     'site-shell',
     'theme-' . config('maracuja.theme', 'default'),
     'theme-' . $clientTheme => filled($clientTheme),
 ])>
-    <header @class(['site-header', 'container' => ! $isIvoIncidit, 'site-header--ivo' => $isIvoIncidit]) data-nav>
-        <a class="site-brand" href="{{ route('home') }}">
-            @if ($brandLogo)
-                <span class="site-brand__mark site-brand__mark--image" aria-hidden="true">
-                    <img src="{{ $brandLogo }}" alt="">
-                </span>
-            @else
-                <span class="site-brand__mark">M</span>
-            @endif
-            <span>
-                <strong>{{ $settings->site_name }}</strong>
-                @if ($settings->baseline)
-                    <small>{{ $settings->baseline }}</small>
+    <header class="site-header" data-nav>
+        <div @class(['container', 'site-header__inner', 'site-header--ivo' => $isIvoIncidit])>
+            <a class="site-brand" href="{{ route('home') }}">
+                @if ($brandLogo)
+                    <span class="site-brand__mark site-brand__mark--image" aria-hidden="true">
+                        <img src="{{ $brandLogo }}" alt="">
+                    </span>
+                @else
+                    <span class="site-brand__mark">M</span>
                 @endif
-            </span>
-        </a>
-
-        <button class="btn btn--secondary nav-toggle" data-nav-toggle type="button">
-            {{ $isIvoIncidit ? '☰' : 'Menu' }}
-        </button>
-
-        <nav class="site-nav" data-nav-menu aria-label="Navigation principale">
-            @if ($isIvoIncidit)
-                <ul>
-                    @if (\App\Support\Modules::enabled('arcus'))
-                        <li class="site-nav__parent">
-                            <a href="{{ route('arcus.index') }}">Archets</a>
-                            <ul class="site-nav__submenu">
-                                <li><a href="{{ route('arcus.range', 'ars-antiqua') }}">Ars Antiqua</a></li>
-                                <li><a href="{{ route('arcus.range', 'ars-classica') }}">Ars Classica</a></li>
-                                <li><a href="{{ route('arcus.range', 'ars-nova') }}">Ars Nova</a></li>
-                            </ul>
-                        </li>
+                <span>
+                    <strong>{{ $settings->site_name }}</strong>
+                    @if ($settings->baseline)
+                        <small>{{ $settings->baseline }}</small>
                     @endif
-                    <li><a href="{{ route('atelier.probatio') }}">Essai</a></li>
-                    <li><a href="{{ route('atelier.officina') }}">Archetier</a></li>
+                </span>
+            </a>
+
+            <button class="btn btn--secondary nav-toggle" data-nav-toggle type="button">
+                {{ $isIvoIncidit ? '☰' : 'Menu' }}
+            </button>
+
+            <nav class="site-nav" data-nav-menu aria-label="Navigation principale">
+                @if ($isIvoIncidit)
+                    <ul>
+                        @if (\App\Support\Modules::enabled('arcus'))
+                            <li class="site-nav__parent">
+                                <a href="{{ route('arcus.index') }}">Archets</a>
+                                <ul class="site-nav__submenu">
+                                    <li><a href="{{ route('arcus.range', 'ars-antiqua') }}">Ars Antiqua</a></li>
+                                    <li><a href="{{ route('arcus.range', 'ars-classica') }}">Ars Classica</a></li>
+                                    <li><a href="{{ route('arcus.range', 'ars-nova') }}">Ars Nova</a></li>
+                                </ul>
+                            </li>
+                        @endif
+                        <li><a href="{{ route('atelier.probatio') }}">Essai</a></li>
+                        <li><a href="{{ route('atelier.officina') }}">Archetier</a></li>
+                        @if (\App\Support\Modules::enabled('news'))
+                            <li><a href="{{ route('news.index') }}">Actualités</a></li>
+                        @endif
+                        @if (\App\Support\Modules::enabled('contact'))
+                            <li><a href="{{ route('contact') }}">Contact</a></li>
+                        @endif
+                    </ul>
+                @else
+                    <a href="{{ route('home') }}">Accueil</a>
+                    @if (config('maracuja.theme') === 'atelier')
+                        <a href="{{ route('atelier.officina') }}">L’archetier</a>
+                    @endif
+                    @if (\App\Support\Modules::enabled('arcus'))
+                        <a href="{{ route('arcus.index') }}">Archets</a>
+                    @endif
+                    @if (config('maracuja.theme') === 'atelier')
+                        <a href="{{ route('atelier.probatio') }}">Essayer</a>
+                    @endif
                     @if (\App\Support\Modules::enabled('articles'))
-                        <li><a href="{{ route('articles.index') }}">{{ config('maracuja.articles.public_label', 'Articles') }}</a></li>
+                        <a href="{{ route('articles.index') }}">{{ config('maracuja.articles.public_label', 'Articles') }}</a>
                     @endif
                     @if (\App\Support\Modules::enabled('news'))
-                        <li><a href="{{ route('news.index') }}">Actualités</a></li>
+                        <a href="{{ route('news.index') }}">Actualités</a>
+                    @endif
+                    @if (\App\Support\Modules::enabled('pages'))
+                        @unless (config('maracuja.theme') === 'atelier')
+                            <a href="{{ route('pages.show', 'services') }}">Services</a>
+                            <a href="{{ route('pages.show', 'methode') }}">Méthode</a>
+                        @endunless
                     @endif
                     @if (\App\Support\Modules::enabled('contact'))
-                        <li><a href="{{ route('contact') }}">Contact</a></li>
+                        <a href="{{ route('contact') }}">Contact</a>
                     @endif
-                </ul>
-            @else
-                <a href="{{ route('home') }}">Accueil</a>
-                @if (config('maracuja.theme') === 'atelier')
-                    <a href="{{ route('atelier.officina') }}">L’archetier</a>
+                    <a href="/admin">Admin</a>
                 @endif
-                @if (\App\Support\Modules::enabled('arcus'))
-                    <a href="{{ route('arcus.index') }}">Archets</a>
-                @endif
-                @if (config('maracuja.theme') === 'atelier')
-                    <a href="{{ route('atelier.probatio') }}">Essayer</a>
-                @endif
-                @if (\App\Support\Modules::enabled('articles'))
-                    <a href="{{ route('articles.index') }}">{{ config('maracuja.articles.public_label', 'Articles') }}</a>
-                @endif
-                @if (\App\Support\Modules::enabled('news'))
-                    <a href="{{ route('news.index') }}">Actualités</a>
-                @endif
-                @if (\App\Support\Modules::enabled('pages'))
-                    @unless (config('maracuja.theme') === 'atelier')
-                        <a href="{{ route('pages.show', 'services') }}">Services</a>
-                        <a href="{{ route('pages.show', 'methode') }}">Méthode</a>
-                    @endunless
-                @endif
-                @if (\App\Support\Modules::enabled('contact'))
-                    <a href="{{ route('contact') }}">Contact</a>
-                @endif
-                <a href="/admin">Admin</a>
-            @endif
-        </nav>
+            </nav>
+        </div>
     </header>
 
     <main>
         @yield('content')
     </main>
 
-    <footer @class(['site-footer', 'container' => ! $isIvoIncidit, 'site-footer--ivo' => $isIvoIncidit])>
-        @if ($isIvoIncidit)
-            <p>&copy; Ivo Incidit - Atelier d’Archèterie</p>
-            <p>
-                <a href="{{ route('atelier.legal') }}">Mentions légales</a>
+    <footer class="site-footer container">
+        <p>&copy; {{ now()->year }} {{ $settings->site_name }}</p>
+
+        <nav class="site-footer__links">
+            <a href="{{ route('atelier.legal') }}">Mentions légales</a>
+            <a href="{{ route('atelier.terms') }}">CGV</a>
+            <a href="{{ route('contact') }}">Contact</a>
+            @foreach ($ivoSocialLinks as $label => $url)
                 <span aria-hidden="true">•</span>
-                <a href="{{ route('atelier.terms') }}">CGV</a>
-                <span aria-hidden="true">•</span>
-                <a href="{{ route('contact') }}">Contact</a>
-                @if (! empty($ivoSocialLinks))
-                    @foreach ($ivoSocialLinks as $label => $url)
-                        <span aria-hidden="true">•</span>
-                        <a href="{{ $url }}" target="_blank" rel="noopener">{{ $label }}</a>
-                    @endforeach
-                @endif
-            </p>
-        @else
-            <p>&copy; {{ now()->year }} {{ $settings->site_name }}</p>
-            @if ($settings->contact_email)
-                <a href="mailto:{{ $settings->contact_email }}">{{ $settings->contact_email }}</a>
-            @endif
-            @if (config('maracuja.theme') === 'atelier')
-                <a href="{{ route('atelier.legal') }}">Mentions légales</a>
-                <a href="{{ route('atelier.terms') }}">CGV</a>
-            @endif
-        @endif
+                <a href="{{ $url }}" target="_blank" rel="noopener">{{ $label }}</a>
+            @endforeach
+        </nav>
     </footer>
 
     <button class="btn btn--primary back-to-top" type="button" data-back-to-top hidden aria-label="Retour en haut">

@@ -20,7 +20,11 @@
     --color-line: #d8c4ad;
     --radius-md: 8px;
     --radius-lg: 10px;
-    --hero-overlay: linear-gradient(180deg, rgb(26 26 26 / 72%), rgb(74 42 29 / 46%));
+    --hero-overlay: linear-gradient(
+        180deg,
+        rgb(26 26 26 / 72%),
+        rgb(74 42 29 / 46%)
+    );
     --font-heading: "Cormorant Garamond", Palatino, Georgia, serif;
     --font-body: "Cormorant Garamond", Palatino, Georgia, serif;
     --font-display: "Cinzel Decorative", Georgia, serif;
@@ -63,15 +67,19 @@
     z-index: 1000;
     width: 100%;
     margin-inline: auto;
-    padding: 8px 16px;
-    border-radius: 0;
+    padding: 0;
     background: rgb(105 41 35 / 88%);
     box-shadow: none;
     backdrop-filter: blur(8px);
 }
 
+.theme-ivo-incidit .site-header__inner,
 .theme-ivo-incidit .site-header--ivo {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
+    gap: var(--space-lg);
+    padding-block: 8px;
 }
 
 .theme-ivo-incidit .site-brand,
@@ -221,7 +229,8 @@
 .theme-ivo-incidit .hero--archetier {
     background:
         var(--hero-overlay),
-        url("/assets/images/officina-atlas-1519.jpg") center 36% / cover no-repeat;
+        url("/assets/images/officina-atlas-1519.jpg") center 36% / cover
+            no-repeat;
 }
 
 .theme-ivo-incidit .hero--essai {
@@ -236,7 +245,9 @@
         url("/assets/images/contact-archets.jpeg") center 50% / cover no-repeat;
 }
 
-.theme-ivo-incidit :where(.hero--archetier, .hero--essai, .hero--contact) .hero__inner {
+.theme-ivo-incidit
+    :where(.hero--archetier, .hero--essai, .hero--contact)
+    .hero__inner {
     padding-block: var(--space-3xl);
 }
 
@@ -252,7 +263,9 @@
     color: #fff8ed;
 }
 
-.theme-ivo-incidit :where(.hero--archetier, .hero--essai, .hero--contact) .eyebrow {
+.theme-ivo-incidit
+    :where(.hero--archetier, .hero--essai, .hero--contact)
+    .eyebrow {
     color: rgb(255 248 237 / 84%);
 }
 
@@ -357,7 +370,8 @@
 .theme-ivo-incidit .badge {
     min-height: 0;
     padding: 2px 6px;
-    border: 1px solid color-mix(in srgb, var(--color-brand), var(--color-line) 45%);
+    border: 1px solid
+        color-mix(in srgb, var(--color-brand), var(--color-line) 45%);
     border-radius: 4px;
     background: transparent;
     color: #555555;
@@ -372,7 +386,8 @@
 
 .theme-ivo-incidit .contact-form {
     padding: var(--space-lg);
-    border: 1px solid color-mix(in srgb, var(--color-brand), var(--color-line) 54%);
+    border: 1px solid
+        color-mix(in srgb, var(--color-brand), var(--color-line) 54%);
     border-radius: var(--radius-md);
     background: color-mix(in srgb, var(--color-surface), #ffffff 38%);
     box-shadow: var(--shadow-sm);
@@ -382,26 +397,8 @@
     color: var(--color-brand);
 }
 
-.theme-ivo-incidit .site-footer--ivo {
-    display: block;
-    padding: 2rem 1rem;
-    border-top: 0;
-    text-align: center;
-    font-size: 0.9rem;
-}
-
-.theme-ivo-incidit .site-footer--ivo p {
-    margin: 0;
-}
-
-.theme-ivo-incidit .site-footer--ivo p + p {
-    margin-top: 0.45rem;
-}
-
 .theme-ivo-incidit .site-footer a {
-    margin-inline: 0.5rem;
     color: var(--color-brand);
-    text-decoration: none;
 }
 
 .theme-ivo-incidit .site-footer a:hover {
@@ -411,9 +408,13 @@
 
 @media (max-width: 760px) {
     .theme-ivo-incidit .site-header {
+        padding: 0;
+    }
+
+    .theme-ivo-incidit .site-header__inner {
         align-items: center;
         flex-direction: row;
-        padding: 8px 16px;
+        padding-block: 8px;
     }
 
     .theme-ivo-incidit .site-brand__mark--image {

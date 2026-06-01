@@ -8,9 +8,25 @@
     color: var(--color-muted);
 }
 
+.site-footer p {
+    margin: 0;
+}
+
+.site-footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    align-items: center;
+    justify-content: flex-end;
+}
+
 @media (max-width: 760px) {
     .site-footer {
         align-items: flex-start;
         flex-direction: column;
+    }
+
+    .site-footer__links {
+        justify-content: flex-start;
     }
 }

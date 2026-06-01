@@ -56,6 +56,8 @@ class SeoTest extends TestCase
 
     public function test_sitemap_lists_public_content(): void
     {
+        config(['maracuja.modules.news' => true]);
+
         SiteSetting::current();
 
         Page::query()->create([

@@ -24,6 +24,7 @@ class ModulesTest extends TestCase
     {
         config([
             'maracuja.offer' => 'signature',
+            'maracuja.modules.news' => true,
             'maracuja.modules.gallery' => false,
         ]);
 
@@ -33,7 +34,10 @@ class ModulesTest extends TestCase
 
     public function test_univers_offer_enables_business_ready_modules(): void
     {
-        config(['maracuja.offer' => 'univers']);
+        config([
+            'maracuja.offer' => 'univers',
+            'maracuja.modules.news' => true,
+        ]);
 
         $this->assertTrue(Modules::enabled('site_settings'));
         $this->assertTrue(Modules::enabled('content_slots'));
