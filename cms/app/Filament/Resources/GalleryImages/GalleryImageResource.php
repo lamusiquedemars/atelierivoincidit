@@ -19,6 +19,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Html;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
@@ -56,53 +57,70 @@ class GalleryImageResource extends Resource
     {
         return $schema
             ->components([
-                Html::make(fn (?GalleryImage $record): HtmlString => new HtmlString(
-                    $record?->image_path
-                        ? '<div style="display:grid;gap:.5rem"><img src="' . e($record->resolved_image_url) . '" alt="" style="max-width:360px;max-height:240px;object-fit:contain;border-radius:8px;background:#f3f4f6"><code style="font-size:.875rem">' . e($record->image_path) . '</code></div>'
-                        : '<div style="color:#6b7280">Aucune image enregistrée.</div>'
-                ))
-                    ->columnSpanFull(),
-                TextInput::make('title')
-                    ->label('Titre')
-                    ->required(),
-                Select::make('gallery_id')
-                    ->label('Galerie')
-                    ->options(fn () => Gallery::query()->orderBy('position')->pluck('title', 'id'))
-                    ->searchable()
-                    ->preload()
-                    ->required(),
-                Textarea::make('caption')
-                    ->label('Légende')
-                    ->columnSpanFull(),
-                TextInput::make('alt_text')
-                    ->label('Texte alternatif')
-                    ->helperText('Décrire l’image si elle apporte une information. Laisser vide si le titre suffit.'),
-                TextInput::make('credit')
-                    ->label('Crédit photo'),
-                FileUpload::make('image_path')
-                    ->label('Image')
-                    ->directory('gallery')
-                    ->image()
-                    ->imagePreviewHeight('220')
-                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                    ->maxSize(5120)
-                    ->helperText('Pour les images historiques /assets/images, l’aperçu ci-dessus fait foi. Téléverser ici seulement pour remplacer l’image.')
-                    ->required(fn (?GalleryImage $record): bool => $record === null),
-                TextInput::make('image_path_display')
-                    ->label('Chemin enregistré')
-                    ->formatStateUsing(fn (?GalleryImage $record): ?string => $record?->image_path)
-                    ->helperText('Chemin utilisé par le front. Exemples : /assets/images/photo.jpeg ou gallery/photo.webp.')
-                    ->disabled()
-                    ->dehydrated(false)
-                    ->copyable(),
-                TextInput::make('position')
-                    ->label('Ordre')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                Toggle::make('is_published')
-                    ->label('Publié')
-                    ->required(),
+                Section::make('Photo')
+                    ->schema([
+                        Html::make(fn (?GalleryImage $record): HtmlString => new HtmlString(
+                            $record?->image_path
+                                ? '<div style="display:grid;gap:.5rem"><img src="' . e($record->resolved_image_url) . '" alt="" style="max-width:360px;max-height:240px;object-fit:contain;border-radius:8px;background:#f3f4f6"><span style="font-size:.875rem;color:#6b7280">Image actuellement enregistrée</span></div>'
+                                : '<div style="color:#6b7280">Aucune image enregistrée.</div>'
+                        ))
+                            ->columnSpanFull(),
+                        FileUpload::make('image_path')
+                            ->label('Image')
+                            ->directory('gallery')
+                            ->image()
+                            ->imagePreviewHeight('220')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120)
+                            ->helperText('Ajouter une image, ou en déposer une nouvelle pour remplacer l’image actuelle.')
+                            ->required(fn (?GalleryImage $record): bool => $record === null),
+                    ]),
+                Section::make('Texte')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('title')
+                            ->label('Titre')
+                            ->required(),
+                        Select::make('gallery_id')
+                            ->label('Galerie')
+                            ->options(fn () => Gallery::query()->orderBy('position')->pluck('title', 'id'))
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                        TextInput::make('credit')
+                            ->label('Crédit photo'),
+                        Textarea::make('caption')
+                            ->label('Légende')
+                            ->columnSpanFull(),
+                        TextInput::make('alt_text')
+                            ->label('Texte alternatif')
+                            ->helperText('Décrire l’image si elle apporte une information. Laisser vide si le titre suffit.')
+                            ->columnSpanFull(),
+                    ]),
+                Section::make('Affichage')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('position')
+                            ->label('Ordre d’affichage')
+                            ->helperText('Le glisser-déposer dans la liste reste le plus rapide.')
+                            ->required()
+                            ->numeric()
+                            ->default(0),
+                        Toggle::make('is_published')
+                            ->label('Publié')
+                            ->required(),
+                    ]),
+                Section::make('Technique')
+                    ->collapsed()
+                    ->schema([
+                        TextInput::make('image_path_display')
+                            ->label('Chemin enregistré')
+                            ->formatStateUsing(fn (?GalleryImage $record): ?string => $record?->image_path)
+                            ->helperText('Information technique utilisée par le front.')
+                            ->disabled()
+                            ->dehydrated(false)
+                            ->copyable(),
+                    ]),
             ]);
     }
 
@@ -129,7 +147,7 @@ class GalleryImageResource extends Resource
                     ->label('Chemin')
                     ->limit(38)
                     ->copyable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('alt_text')
                     ->label('Alt')
                     ->limit(32)
