@@ -7,6 +7,7 @@ use App\Mail\ContactSubmissionReceived;
 use App\Modules\Contact\Models\ContactSubmission;
 use App\Modules\ContentSlots\Models\ContentSlot;
 use App\Modules\Articles\Models\Article;
+use App\Modules\Gallery\Models\Gallery;
 use App\Modules\Gallery\Models\GalleryImage;
 use App\Modules\News\Models\NewsPost;
 use App\Modules\Notices\Models\SiteNotice;
@@ -116,9 +117,14 @@ class PublicSiteTest extends TestCase
             'is_published' => true,
             'published_at' => now(),
         ]);
+        $gallery = Gallery::query()->updateOrCreate(['slug' => 'home'], [
+            'title' => 'Galerie test',
+            'is_published' => true,
+        ]);
 
         GalleryImage::query()->create([
             'title' => 'Image demo',
+            'gallery_id' => $gallery->id,
             'caption' => 'Legende demo',
             'image_path' => '/demo/admin-simple.svg',
             'width' => 1200,
@@ -141,9 +147,15 @@ class PublicSiteTest extends TestCase
         ]);
 
         SiteSetting::current();
+        $gallery = Gallery::query()->create([
+            'title' => 'Galerie atelier',
+            'slug' => 'atelier-home',
+            'is_published' => true,
+        ]);
 
         GalleryImage::query()->create([
             'title' => 'Image atelier',
+            'gallery_id' => $gallery->id,
             'caption' => 'Legende atelier',
             'image_path' => '/assets/images/showcase-vb-2.jpeg',
             'position' => 1,
@@ -161,6 +173,47 @@ class PublicSiteTest extends TestCase
             ->assertDontSee('/assets/images/showcase-hausses.jpeg');
     }
 
+    public function test_atelier_home_uses_only_the_configured_gallery(): void
+    {
+        config([
+            'maracuja.theme' => 'atelier',
+            'maracuja.modules.gallery' => true,
+        ]);
+
+        SiteSetting::current();
+        $homeGallery = Gallery::query()->create([
+            'title' => 'Galerie atelier',
+            'slug' => 'atelier-home',
+            'is_published' => true,
+        ]);
+        $otherGallery = Gallery::query()->create([
+            'title' => 'Galerie privee',
+            'slug' => 'atelier-workshop',
+            'is_published' => true,
+        ]);
+
+        GalleryImage::query()->create([
+            'title' => 'Image home',
+            'gallery_id' => $homeGallery->id,
+            'image_path' => '/assets/images/showcase-v-1.jpeg',
+            'position' => 1,
+            'is_published' => true,
+        ]);
+
+        GalleryImage::query()->create([
+            'title' => 'Image autre galerie',
+            'gallery_id' => $otherGallery->id,
+            'image_path' => '/assets/images/showcase-v-4.jpeg',
+            'position' => 1,
+            'is_published' => true,
+        ]);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('/assets/images/showcase-v-1.jpeg')
+            ->assertDontSee('/assets/images/showcase-v-4.jpeg');
+    }
+
     public function test_atelier_home_hides_gallery_when_module_is_disabled(): void
     {
         config([
@@ -169,9 +222,15 @@ class PublicSiteTest extends TestCase
         ]);
 
         SiteSetting::current();
+        $gallery = Gallery::query()->create([
+            'title' => 'Galerie atelier',
+            'slug' => 'atelier-home',
+            'is_published' => true,
+        ]);
 
         GalleryImage::query()->create([
             'title' => 'Image cachee',
+            'gallery_id' => $gallery->id,
             'image_path' => '/assets/images/showcase-vb-2.jpeg',
             'position' => 1,
             'is_published' => true,

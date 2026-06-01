@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Modules\Gallery\Models\Gallery;
 use App\Modules\Gallery\Models\GalleryImage;
 use App\Modules\Pages\Models\Page;
 use App\Modules\SiteSettings\Models\SiteSetting;
@@ -110,11 +111,19 @@ class AtelierInitialSeeder extends Seeder
             ],
         ];
 
+        $homeGallery = Gallery::query()->updateOrCreate(['slug' => 'atelier-home'], [
+            'title' => 'Galerie d’atelier',
+            'intro' => 'Quelques archets réalisés récemment.',
+            'position' => 1,
+            'is_published' => true,
+        ]);
+
         foreach ($galleryImages as $position => $item) {
             $path = '/assets/images/' . $item['image'];
             $dimensions = @getimagesize(public_path(ltrim($path, '/')));
 
             GalleryImage::query()->updateOrCreate(['image_path' => $path], [
+                'gallery_id' => $homeGallery->id,
                 'title' => $item['title'],
                 'caption' => $item['caption'],
                 'alt_text' => $item['title'],

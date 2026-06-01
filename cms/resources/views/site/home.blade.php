@@ -174,7 +174,7 @@
     @endunless
 
     @if (! $isAtelier && $galleryImages->isNotEmpty())
-        <x-site.section :title="config('maracuja.gallery.title')" :intro="config('maracuja.gallery.intro')" heading-variant="decorated">
+        <x-site.section :title="$gallery?->title ?? config('maracuja.gallery.title')" :intro="$gallery?->intro ?? config('maracuja.gallery.intro')" heading-variant="decorated">
             <x-site.gallery
                 :images="$galleryImages"
                 :layout="config('maracuja.gallery.layout')"

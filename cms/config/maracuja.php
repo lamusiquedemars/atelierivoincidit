@@ -13,6 +13,7 @@ return [
     ],
 
     'gallery' => [
+        'slug' => env('MARACUJA_GALLERY_SLUG', 'home'),
         'layout' => env('MARACUJA_GALLERY_LAYOUT', 'grid'),
         'lightbox' => env('MARACUJA_GALLERY_LIGHTBOX', true),
         'title' => env('MARACUJA_GALLERY_TITLE', 'Galerie demo'),

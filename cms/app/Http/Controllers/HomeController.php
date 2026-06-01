@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Modules\Gallery\Models\Gallery;
 use App\Modules\Gallery\Models\GalleryImage;
 use App\Modules\News\Models\NewsPost;
 use App\Modules\Notices\Models\SiteNotice;
@@ -20,10 +21,15 @@ class HomeController extends Controller
         $homePage = Modules::enabled('pages')
             ? Page::query()->where('slug', 'accueil')->where('is_published', true)->first()
             : null;
-        $galleryImages = Modules::enabled('gallery')
-            ? GalleryImage::query()
+        $gallery = Modules::enabled('gallery')
+            ? Gallery::query()
+                ->where('slug', $isAtelier ? 'atelier-home' : config('maracuja.gallery.slug'))
                 ->where('is_published', true)
-                ->orderBy('position')
+                ->first()
+            : null;
+        $galleryImages = $gallery
+            ? $gallery->images()
+                ->where('is_published', true)
                 ->when(! $isAtelier, fn ($query) => $query->limit(6))
                 ->get()
             : collect();
@@ -37,6 +43,7 @@ class HomeController extends Controller
             'newsPosts' => Modules::enabled('news')
                 ? NewsPost::query()->forListing()->limit(3)->get()
                 : collect(),
+            'gallery' => $gallery,
             'galleryImages' => $galleryImages,
             'atelierQuotes' => $isAtelier ? AtelierHomeContent::quotes() : [],
         ]);

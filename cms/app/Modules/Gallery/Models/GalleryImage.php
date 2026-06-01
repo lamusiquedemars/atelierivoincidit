@@ -3,12 +3,14 @@
 namespace App\Modules\Gallery\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 
 class GalleryImage extends Model
 {
     protected $fillable = [
         'title',
+        'gallery_id',
         'caption',
         'credit',
         'image_path',
@@ -28,9 +30,21 @@ class GalleryImage extends Model
         ];
     }
 
+    public function gallery(): BelongsTo
+    {
+        return $this->belongsTo(Gallery::class);
+    }
+
     public function getAltAttribute(): string
     {
         return $this->alt_text ?: $this->title;
+    }
+
+    public function getResolvedImageUrlAttribute(): string
+    {
+        return str_starts_with($this->image_path, 'http') || str_starts_with($this->image_path, '/')
+            ? $this->image_path
+            : Storage::disk('public')->url($this->image_path);
     }
 
     protected static function booted(): void

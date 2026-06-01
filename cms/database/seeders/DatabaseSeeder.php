@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Modules\ContentSlots\Models\ContentSlot;
+use App\Modules\Gallery\Models\Gallery;
 use App\Modules\Gallery\Models\GalleryImage;
 use App\Modules\News\Models\NewsPost;
 use App\Modules\Notices\Models\SiteNotice;
@@ -198,7 +199,15 @@ class DatabaseSeeder extends Seeder
             'ends_at' => now()->addDays(15),
         ]);
 
+        $homeGallery = Gallery::query()->updateOrCreate(['slug' => 'home'], [
+            'title' => 'Galerie principale',
+            'intro' => 'Le Media System gere alt, legende, credit, dimensions et lightbox.',
+            'position' => 1,
+            'is_published' => true,
+        ]);
+
         GalleryImage::query()->updateOrCreate(['title' => 'Admin simple'], [
+            'gallery_id' => $homeGallery->id,
             'caption' => 'Un back-office limite aux modules actives.',
             'alt_text' => 'Interface d’administration simple limitée aux modules utiles.',
             'credit' => 'Maracuja CMS',
@@ -210,6 +219,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         GalleryImage::query()->updateOrCreate(['title' => 'Composants front'], [
+            'gallery_id' => $homeGallery->id,
             'caption' => 'Des sections, cartes, CTA, galeries et variantes reutilisables.',
             'alt_text' => 'Exemple abstrait de composants front organises.',
             'credit' => 'Maracuja CMS',
@@ -221,6 +231,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         GalleryImage::query()->updateOrCreate(['title' => 'Themes clients'], [
+            'gallery_id' => $homeGallery->id,
             'caption' => 'Une structure commune peut prendre plusieurs ambiances.',
             'alt_text' => 'Variantes de thèmes pour sites clients.',
             'credit' => 'Maracuja CMS',
