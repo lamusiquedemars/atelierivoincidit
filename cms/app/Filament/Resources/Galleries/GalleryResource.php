@@ -10,9 +10,7 @@ use App\Modules\Gallery\Models\Gallery;
 use App\Support\Modules;
 use BackedEnum;
 use UnitEnum;
-use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -56,11 +54,6 @@ class GalleryResource extends Resource
                 TextInput::make('title')
                     ->label('Nom')
                     ->required(),
-                TextInput::make('slug')
-                    ->label('Code')
-                    ->helperText('Identifiant technique utilise par les templates, par exemple home ou atelier-home.')
-                    ->required()
-                    ->unique(ignoreRecord: true),
                 Textarea::make('intro')
                     ->label('Introduction')
                     ->columnSpanFull(),
@@ -83,9 +76,6 @@ class GalleryResource extends Resource
                 TextColumn::make('title')
                     ->label('Nom')
                     ->searchable(),
-                TextColumn::make('slug')
-                    ->label('Code')
-                    ->searchable(),
                 TextColumn::make('images_count')
                     ->counts('images')
                     ->label('Photos')
@@ -102,13 +92,10 @@ class GalleryResource extends Resource
             ->reorderable('position')
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                DeleteAction::make()
+                    ->hidden(fn (Gallery $record): bool => $record->isSystemGallery()),
             ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->toolbarActions([]);
     }
 
     public static function getRelations(): array

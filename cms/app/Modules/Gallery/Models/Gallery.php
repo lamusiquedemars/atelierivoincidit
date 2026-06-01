@@ -29,12 +29,35 @@ class Gallery extends Model
         return $this->hasMany(GalleryImage::class)->orderBy('position');
     }
 
+    public function isSystemGallery(): bool
+    {
+        return in_array($this->slug, [
+            'home',
+            'atelier-home',
+            config('maracuja.gallery.slug'),
+        ], true);
+    }
+
     protected static function booted(): void
     {
         static::saving(function (self $gallery): void {
             if (! $gallery->slug) {
-                $gallery->slug = Str::slug($gallery->title);
+                $gallery->slug = static::uniqueSlugForTitle($gallery->title);
             }
         });
+    }
+
+    private static function uniqueSlugForTitle(string $title): string
+    {
+        $base = Str::slug($title) ?: 'galerie';
+        $slug = $base;
+        $suffix = 2;
+
+        while (static::query()->where('slug', $slug)->exists()) {
+            $slug = $base . '-' . $suffix;
+            $suffix++;
+        }
+
+        return $slug;
     }
 }
