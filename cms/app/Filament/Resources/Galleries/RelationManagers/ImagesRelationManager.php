@@ -41,6 +41,7 @@ class ImagesRelationManager extends RelationManager
                             ->columnSpanFull(),
                         FileUpload::make('image_path')
                             ->label('Image')
+                            ->disk('public')
                             ->directory('gallery')
                             ->image()
                             ->imagePreviewHeight('220')

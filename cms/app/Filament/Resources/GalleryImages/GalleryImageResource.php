@@ -67,6 +67,7 @@ class GalleryImageResource extends Resource
                             ->columnSpanFull(),
                         FileUpload::make('image_path')
                             ->label('Image')
+                            ->disk('public')
                             ->directory('gallery')
                             ->image()
                             ->imagePreviewHeight('220')
