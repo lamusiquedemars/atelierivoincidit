@@ -68,7 +68,7 @@ class GalleryImageResource extends Resource
                         FileUpload::make('image_path')
                             ->label('Image')
                             ->disk('public')
-                            ->directory('gallery')
+                            ->directory('galleries')
                             ->image()
                             ->imagePreviewHeight('220')
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])

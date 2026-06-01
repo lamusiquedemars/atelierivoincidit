@@ -65,6 +65,7 @@ class NewsPostResource extends Resource
                     ->columnSpanFull(),
                 FileUpload::make('image_path')
                     ->label('Image')
+                    ->disk('public')
                     ->directory('news')
                     ->image(),
                 Toggle::make('is_published')
@@ -102,7 +103,8 @@ class NewsPostResource extends Resource
                     ->searchable(),
                 TextColumn::make('slug')
                     ->searchable(),
-                ImageColumn::make('image_path'),
+                ImageColumn::make('image_path')
+                    ->disk('public'),
                 IconColumn::make('is_published')
                     ->label('Publié')
                     ->boolean(),

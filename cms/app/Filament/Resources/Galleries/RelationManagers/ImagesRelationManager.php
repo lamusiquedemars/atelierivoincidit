@@ -42,7 +42,7 @@ class ImagesRelationManager extends RelationManager
                         FileUpload::make('image_path')
                             ->label('Image')
                             ->disk('public')
-                            ->directory('gallery')
+                            ->directory(fn (): string => 'galleries/' . $this->getOwnerRecord()->slug)
                             ->image()
                             ->imagePreviewHeight('220')
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])

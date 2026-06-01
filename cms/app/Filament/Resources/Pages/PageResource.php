@@ -83,6 +83,7 @@ class PageResource extends Resource
                     ->columnSpanFull(),
                 FileUpload::make('hero_image_path')
                     ->label('Image hero')
+                    ->disk('public')
                     ->directory('pages')
                     ->image(),
                 TextInput::make('seo_title')
@@ -111,7 +112,8 @@ class PageResource extends Resource
                     ->searchable(),
                 TextColumn::make('hero_title')
                     ->searchable(),
-                ImageColumn::make('hero_image_path'),
+                ImageColumn::make('hero_image_path')
+                    ->disk('public'),
                 TextColumn::make('seo_title')
                     ->searchable(),
                 IconColumn::make('is_published')

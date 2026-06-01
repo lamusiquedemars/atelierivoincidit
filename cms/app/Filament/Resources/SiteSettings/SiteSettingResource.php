@@ -86,15 +86,18 @@ class SiteSettingResource extends Resource
                     ->columnSpanFull(),
                 FileUpload::make('logo_path')
                     ->label('Logo')
+                    ->disk('public')
                     ->directory('site')
                     ->image(),
                 FileUpload::make('favicon_path')
                     ->label('Favicon')
+                    ->disk('public')
                     ->directory('site')
                     ->image(),
                 FileUpload::make('default_og_image_path')
                     ->label('Image sociale par défaut')
                     ->helperText('Image utilisée par Open Graph si une page ou actualité n’en fournit pas.')
+                    ->disk('public')
                     ->directory('site')
                     ->image(),
                 KeyValue::make('social_links')

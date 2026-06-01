@@ -66,6 +66,7 @@ class ArticleResource extends Resource
                     ->helperText('Utilisé pour le listing et le SEO si aucune description SEO n’est renseignée.'),
                 FileUpload::make('image_path')
                     ->label('Image principale')
+                    ->disk('public')
                     ->directory('articles')
                     ->image(),
                 Repeater::make('body_blocks')
@@ -104,6 +105,7 @@ class ArticleResource extends Resource
                             ->columnSpanFull(),
                         FileUpload::make('image_path')
                             ->label('Image')
+                            ->disk('public')
                             ->directory('articles/blocks')
                             ->image()
                             ->visible(fn ($get): bool => $get('type') === 'image'),
@@ -152,6 +154,7 @@ class ArticleResource extends Resource
                 TextColumn::make('slug')
                     ->searchable(),
                 ImageColumn::make('image_path')
+                    ->disk('public')
                     ->label('Image'),
                 IconColumn::make('is_published')
                     ->label('Publié')
