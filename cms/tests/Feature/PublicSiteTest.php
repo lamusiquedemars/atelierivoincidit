@@ -103,7 +103,10 @@ class PublicSiteTest extends TestCase
 
     public function test_home_gallery_uses_configured_layout(): void
     {
-        config(['maracuja.gallery.layout' => 'featured']);
+        config([
+            'maracuja.theme' => 'default',
+            'maracuja.gallery.layout' => 'featured',
+        ]);
 
         SiteSetting::current();
 
@@ -124,17 +127,60 @@ class PublicSiteTest extends TestCase
             'is_published' => true,
         ]);
 
-        $response = $this->get('/')
+        $this->get('/')
             ->assertOk()
-            ->assertSee('showcase--featured');
+            ->assertSee('showcase--featured')
+            ->assertSee('/demo/admin-simple.svg');
+    }
 
-        if (config('maracuja.theme') === 'atelier') {
-            $response
-                ->assertSee('/assets/images/showcase-hausses.jpeg')
-                ->assertDontSee('/demo/admin-simple.svg');
-        } else {
-            $response->assertSee('/demo/admin-simple.svg');
-        }
+    public function test_atelier_home_gallery_uses_admin_images_and_lightbox(): void
+    {
+        config([
+            'maracuja.theme' => 'atelier',
+            'maracuja.modules.gallery' => true,
+        ]);
+
+        SiteSetting::current();
+
+        GalleryImage::query()->create([
+            'title' => 'Image atelier',
+            'caption' => 'Legende atelier',
+            'image_path' => '/assets/images/showcase-vb-2.jpeg',
+            'position' => 1,
+            'is_published' => true,
+        ]);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('Galerie d’atelier')
+            ->assertSee('showcase--featured')
+            ->assertSee('data-lightbox')
+            ->assertSee('data-pswp-width="3024"', false)
+            ->assertSee('data-pswp-height="2268"', false)
+            ->assertSee('/assets/images/showcase-vb-2.jpeg')
+            ->assertDontSee('/assets/images/showcase-hausses.jpeg');
+    }
+
+    public function test_atelier_home_hides_gallery_when_module_is_disabled(): void
+    {
+        config([
+            'maracuja.theme' => 'atelier',
+            'maracuja.modules.gallery' => false,
+        ]);
+
+        SiteSetting::current();
+
+        GalleryImage::query()->create([
+            'title' => 'Image cachee',
+            'image_path' => '/assets/images/showcase-vb-2.jpeg',
+            'position' => 1,
+            'is_published' => true,
+        ]);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertDontSee('Galerie d’atelier')
+            ->assertDontSee('/assets/images/showcase-vb-2.jpeg');
     }
 
     public function test_home_renders_active_notice_only(): void

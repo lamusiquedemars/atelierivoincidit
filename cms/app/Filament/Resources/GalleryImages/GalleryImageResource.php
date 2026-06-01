@@ -68,12 +68,6 @@ class GalleryImageResource extends Resource
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->maxSize(5120)
                     ->required(),
-                TextInput::make('width')
-                    ->label('Largeur px')
-                    ->numeric(),
-                TextInput::make('height')
-                    ->label('Hauteur px')
-                    ->numeric(),
                 TextInput::make('position')
                     ->label('Ordre')
                     ->required()
@@ -116,6 +110,7 @@ class GalleryImageResource extends Resource
             ->filters([
                 //
             ])
+            ->defaultSort('position')
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),

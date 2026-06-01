@@ -16,9 +16,17 @@ class HomeController extends Controller
     public function __invoke(): View
     {
         $settings = SiteSetting::current();
+        $isAtelier = config('maracuja.theme') === 'atelier';
         $homePage = Modules::enabled('pages')
             ? Page::query()->where('slug', 'accueil')->where('is_published', true)->first()
             : null;
+        $galleryImages = Modules::enabled('gallery')
+            ? GalleryImage::query()
+                ->where('is_published', true)
+                ->orderBy('position')
+                ->when(! $isAtelier, fn ($query) => $query->limit(6))
+                ->get()
+            : collect();
 
         return view('site.home', [
             'settings' => $settings,
@@ -29,11 +37,8 @@ class HomeController extends Controller
             'newsPosts' => Modules::enabled('news')
                 ? NewsPost::query()->forListing()->limit(3)->get()
                 : collect(),
-            'galleryImages' => Modules::enabled('gallery')
-                ? GalleryImage::query()->where('is_published', true)->orderBy('position')->limit(6)->get()
-                : collect(),
-            'atelierShowcase' => config('maracuja.theme') === 'atelier' ? AtelierHomeContent::showcase() : [],
-            'atelierQuotes' => config('maracuja.theme') === 'atelier' ? AtelierHomeContent::quotes() : [],
+            'galleryImages' => $galleryImages,
+            'atelierQuotes' => $isAtelier ? AtelierHomeContent::quotes() : [],
         ]);
     }
 }

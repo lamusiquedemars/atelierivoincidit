@@ -61,23 +61,15 @@
             </div>
         </x-site.section>
 
-        <x-site.section title="Galerie d’atelier" intro="Quelques archets réalisés récemment." heading-variant="decorated">
-            <x-site.showcase variant="featured">
-                <div class="showcase__items">
-                    @foreach ($atelierShowcase as $item)
-                        <article class="showcase__item" data-reveal>
-                            <div class="showcase__media">
-                                <img src="{{ $item['image'] }}" alt="{{ $item['alt'] }}">
-                            </div>
-                            <div class="showcase__content">
-                                <h3>{{ $item['title'] }}</h3>
-                                <p class="text-muted">{{ $item['text'] }}</p>
-                            </div>
-                        </article>
-                    @endforeach
-                </div>
-            </x-site.showcase>
-        </x-site.section>
+        @if ($galleryImages->isNotEmpty())
+            <x-site.section title="Galerie d’atelier" intro="Quelques archets réalisés récemment." heading-variant="decorated">
+                <x-site.gallery
+                    :images="$galleryImages"
+                    layout="featured"
+                    lightbox
+                />
+            </x-site.section>
+        @endif
 
         <x-site.section title="Mes trois approches de l’archet" heading-variant="accent">
             <x-site.grid columns="3">

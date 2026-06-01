@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Modules\Gallery\Models\GalleryImage;
 use App\Modules\Pages\Models\Page;
 use App\Modules\SiteSettings\Models\SiteSetting;
 use Illuminate\Database\Seeder;
@@ -55,5 +56,73 @@ class AtelierInitialSeeder extends Seeder
             'is_published' => true,
             'published_at' => now(),
         ]);
+
+        $galleryImages = [
+            [
+                'image' => 'showcase-hausses.jpeg',
+                'title' => 'Hausses d’archets',
+                'caption' => 'Hausses modernes et baroques.',
+            ],
+            [
+                'image' => 'showcase-c-1.jpeg',
+                'title' => 'Archets de violoncelle',
+                'caption' => 'Tête et hausse d’archet, en ipé et en cumaru.',
+            ],
+            [
+                'image' => 'showcase-v-1.jpeg',
+                'title' => 'Tête d’archet de violon',
+                'caption' => 'Archet de violon en amarante, plaque de tête en bois satiné.',
+            ],
+            [
+                'image' => 'showcase-v-2.jpeg',
+                'title' => 'Tête d’archet de violon',
+                'caption' => 'Archet de violon en satiné, plaque de tête en ébène.',
+            ],
+            [
+                'image' => 'showcase-cb-1.jpeg',
+                'title' => 'Archet baroque de violoncelle',
+                'caption' => 'Archet baroque de violoncelle en cumaru, hausse et bouton en amourette.',
+            ],
+            [
+                'image' => 'showcase-ve-1.jpeg',
+                'title' => 'Archet de violon pour enfant',
+                'caption' => 'Archet de violon pour enfant en cumaru blond, garniture en fil de lin coloré.',
+            ],
+            [
+                'image' => 'showcase-vb-1.jpeg',
+                'title' => 'Archet baroque de violon',
+                'caption' => 'Archet baroque de violon en cumaru, hausse et bouton en amourette.',
+            ],
+            [
+                'image' => 'showcase-vb-2.jpeg',
+                'title' => 'Tête d’archet baroque de violon',
+                'caption' => 'Archet baroque de violon en massaranbuda.',
+            ],
+            [
+                'image' => 'showcase-v-3.jpeg',
+                'title' => 'Archet de violon',
+                'caption' => 'Archet de violon en cumaru, poucette en cuir et garniture en acier inoxydable.',
+            ],
+            [
+                'image' => 'showcase-v-4.jpeg',
+                'title' => 'Têtes d’archet de violon',
+                'caption' => 'Archets de violon en cumaru et wamara, plaques de tête en ébène et en os.',
+            ],
+        ];
+
+        foreach ($galleryImages as $position => $item) {
+            $path = '/assets/images/' . $item['image'];
+            $dimensions = @getimagesize(public_path(ltrim($path, '/')));
+
+            GalleryImage::query()->updateOrCreate(['image_path' => $path], [
+                'title' => $item['title'],
+                'caption' => $item['caption'],
+                'alt_text' => $item['title'],
+                'width' => $dimensions[0] ?? 1600,
+                'height' => $dimensions[1] ?? 1000,
+                'position' => $position + 1,
+                'is_published' => true,
+            ]);
+        }
     }
 }

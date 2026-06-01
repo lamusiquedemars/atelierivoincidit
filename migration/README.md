@@ -35,6 +35,7 @@
 - Corriger les thumbnails d’archets dans l’admin : ils ne s’affichent pas dans la liste ni dans le modal.
 - Conserver comme option sérieuse la méthode actuelle des photos : créer un dossier `assets/images/archets/{code}` pour chaque archet est très rapide.
 - Étudier plus tard les alternatives d’upload, sans imposer une interface glisser-déposer si elle ralentit le travail réel.
+- Réorganiser le CSS Ivo Incidit après stabilisation : garder le principe `base.css` + thème, avec des commentaires de sections comme dans le site `current`, et découper si nécessaire les surcharges par composants.
 
 ## Prochaine étape
 

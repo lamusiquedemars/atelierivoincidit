@@ -30,6 +30,7 @@
     display: grid;
     grid-template-columns: 1.4fr 1fr 1fr;
     gap: var(--space-lg);
+    align-items: stretch;
 }
 
 .showcase--featured .showcase__item:first-child {
@@ -38,12 +39,15 @@
 
 .showcase--featured .showcase__item:first-child .showcase__media img {
     aspect-ratio: 4 / 5;
+    height: 100%;
 }
 
 .showcase--featured .showcase__media img,
 .showcase--grid .showcase__media img {
     aspect-ratio: 4 / 3;
+    height: 100%;
     object-fit: cover;
+    object-position: center;
 }
 
 .showcase__media {
@@ -54,6 +58,7 @@
 
 .showcase__media a {
     display: block;
+    height: 100%;
 }
 
 .showcase__media img {
@@ -74,7 +79,9 @@
 
 .showcase__item {
     display: grid;
+    grid-template-rows: auto 1fr;
     gap: var(--space-sm);
+    min-width: 0;
 }
 
 .showcase__meta {
