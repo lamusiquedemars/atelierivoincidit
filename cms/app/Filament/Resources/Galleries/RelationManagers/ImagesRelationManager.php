@@ -1,58 +1,32 @@
 <?php
 
-namespace App\Filament\Resources\GalleryImages;
+namespace App\Filament\Resources\Galleries\RelationManagers;
 
-use App\Filament\Resources\GalleryImages\Pages\ManageGalleryImages;
-use App\Modules\Gallery\Models\Gallery;
 use App\Modules\Gallery\Models\GalleryImage;
-use App\Support\Modules;
-use BackedEnum;
-use UnitEnum;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Html;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
 
-class GalleryImageResource extends Resource
+class ImagesRelationManager extends RelationManager
 {
-    protected static ?string $model = GalleryImage::class;
+    protected static string $relationship = 'images';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static ?string $title = 'Photos';
 
-    protected static ?string $navigationLabel = 'Photos';
-    protected static string|UnitEnum|null $navigationGroup = 'Galerie';
-
-    protected static ?string $modelLabel = 'image';
-
-    protected static ?string $pluralModelLabel = 'photos';
-
-    protected static ?int $navigationSort = 30;
-
-    public static function shouldRegisterNavigation(): bool
-    {
-        return false;
-    }
-
-    public static function canAccess(): bool
-    {
-        return Modules::enabled('gallery') && parent::canAccess();
-    }
-
-    public static function form(Schema $schema): Schema
+    public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
@@ -64,12 +38,6 @@ class GalleryImageResource extends Resource
                     ->columnSpanFull(),
                 TextInput::make('title')
                     ->label('Titre')
-                    ->required(),
-                Select::make('gallery_id')
-                    ->label('Galerie')
-                    ->options(fn () => Gallery::query()->orderBy('position')->pluck('title', 'id'))
-                    ->searchable()
-                    ->preload()
                     ->required(),
                 Textarea::make('caption')
                     ->label('Légende')
@@ -102,11 +70,12 @@ class GalleryImageResource extends Resource
                     ->default(0),
                 Toggle::make('is_published')
                     ->label('Publié')
-                    ->required(),
+                    ->required()
+                    ->default(true),
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
@@ -121,18 +90,14 @@ class GalleryImageResource extends Resource
                 TextColumn::make('title')
                     ->label('Titre')
                     ->searchable(),
-                TextColumn::make('gallery.title')
-                    ->label('Galerie')
-                    ->sortable()
-                    ->searchable(),
+                TextColumn::make('caption')
+                    ->label('Légende')
+                    ->limit(50)
+                    ->toggleable(),
                 TextColumn::make('image_path')
                     ->label('Chemin')
                     ->limit(38)
                     ->copyable()
-                    ->toggleable(),
-                TextColumn::make('alt_text')
-                    ->label('Alt')
-                    ->limit(32)
                     ->toggleable(),
                 TextColumn::make('position')
                     ->label('Ordre')
@@ -141,22 +106,13 @@ class GalleryImageResource extends Resource
                 IconColumn::make('is_published')
                     ->label('Publié')
                     ->boolean(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                SelectFilter::make('gallery_id')
-                    ->label('Galerie')
-                    ->relationship('gallery', 'title'),
             ])
             ->defaultSort('position')
             ->reorderable('position')
+            ->headerActions([
+                CreateAction::make()
+                    ->label('Ajouter une photo'),
+            ])
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
@@ -166,12 +122,5 @@ class GalleryImageResource extends Resource
                     DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => ManageGalleryImages::route('/'),
-        ];
     }
 }

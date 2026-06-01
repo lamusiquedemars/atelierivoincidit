@@ -4,9 +4,9 @@ namespace App\Filament\Resources\Galleries\Pages;
 
 use App\Filament\Resources\Galleries\GalleryResource;
 use Filament\Actions\CreateAction;
-use Filament\Resources\Pages\ManageRecords;
+use Filament\Resources\Pages\ListRecords;
 
-class ManageGalleries extends ManageRecords
+class ListGalleries extends ListRecords
 {
     protected static string $resource = GalleryResource::class;
 

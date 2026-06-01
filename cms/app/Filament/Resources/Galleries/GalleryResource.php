@@ -2,7 +2,10 @@
 
 namespace App\Filament\Resources\Galleries;
 
-use App\Filament\Resources\Galleries\Pages\ManageGalleries;
+use App\Filament\Resources\Galleries\Pages\CreateGallery;
+use App\Filament\Resources\Galleries\Pages\EditGallery;
+use App\Filament\Resources\Galleries\Pages\ListGalleries;
+use App\Filament\Resources\Galleries\RelationManagers\ImagesRelationManager;
 use App\Modules\Gallery\Models\Gallery;
 use App\Support\Modules;
 use BackedEnum;
@@ -108,10 +111,19 @@ class GalleryResource extends Resource
             ]);
     }
 
+    public static function getRelations(): array
+    {
+        return [
+            ImagesRelationManager::class,
+        ];
+    }
+
     public static function getPages(): array
     {
         return [
-            'index' => ManageGalleries::route('/'),
+            'index' => ListGalleries::route('/'),
+            'create' => CreateGallery::route('/create'),
+            'edit' => EditGallery::route('/{record}/edit'),
         ];
     }
 }
