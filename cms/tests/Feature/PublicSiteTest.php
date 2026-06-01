@@ -157,6 +157,7 @@ class PublicSiteTest extends TestCase
             'title' => 'Image atelier',
             'gallery_id' => $gallery->id,
             'caption' => 'Legende atelier',
+            'credit' => 'Atelier',
             'image_path' => '/assets/images/showcase-vb-2.jpeg',
             'position' => 1,
             'is_published' => true,
@@ -169,6 +170,7 @@ class PublicSiteTest extends TestCase
             ->assertSee('data-lightbox')
             ->assertSee('data-pswp-width="3024"', false)
             ->assertSee('data-pswp-height="2268"', false)
+            ->assertSee('data-pswp-caption="Legende atelier - Crédit : Atelier"', false)
             ->assertSee('/assets/images/showcase-vb-2.jpeg')
             ->assertDontSee('/assets/images/showcase-hausses.jpeg');
     }
