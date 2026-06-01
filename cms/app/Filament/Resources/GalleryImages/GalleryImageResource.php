@@ -18,13 +18,14 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Html;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
 
 class GalleryImageResource extends Resource
 {
@@ -55,6 +56,12 @@ class GalleryImageResource extends Resource
     {
         return $schema
             ->components([
+                Html::make(fn (?GalleryImage $record): HtmlString => new HtmlString(
+                    $record?->image_path
+                        ? '<div style="display:grid;gap:.5rem"><img src="' . e($record->resolved_image_url) . '" alt="" style="max-width:360px;max-height:240px;object-fit:contain;border-radius:8px;background:#f3f4f6"><code style="font-size:.875rem">' . e($record->image_path) . '</code></div>'
+                        : '<div style="color:#6b7280">Aucune image enregistrée.</div>'
+                ))
+                    ->columnSpanFull(),
                 TextInput::make('title')
                     ->label('Titre')
                     ->required(),
@@ -79,7 +86,15 @@ class GalleryImageResource extends Resource
                     ->imagePreviewHeight('220')
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->maxSize(5120)
-                    ->required(),
+                    ->helperText('Pour les images historiques /assets/images, l’aperçu ci-dessus fait foi. Téléverser ici seulement pour remplacer l’image.')
+                    ->required(fn (?GalleryImage $record): bool => $record === null),
+                TextInput::make('image_path_display')
+                    ->label('Chemin enregistré')
+                    ->formatStateUsing(fn (?GalleryImage $record): ?string => $record?->image_path)
+                    ->helperText('Chemin utilisé par le front. Exemples : /assets/images/photo.jpeg ou gallery/photo.webp.')
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->copyable(),
                 TextInput::make('position')
                     ->label('Ordre')
                     ->required()
@@ -95,18 +110,26 @@ class GalleryImageResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('resolved_image_url')
+                    ->label('Aperçu')
+                    ->formatStateUsing(fn (?string $state, GalleryImage $record): HtmlString => new HtmlString(
+                        $state
+                            ? '<img src="' . e($state) . '" alt="' . e($record->alt) . '" style="width:96px;height:72px;object-fit:cover;border-radius:6px;background:#f3f4f6">'
+                            : ''
+                    ))
+                    ->html(),
                 TextColumn::make('title')
                     ->label('Titre')
                     ->searchable(),
-                ImageColumn::make('resolved_image_url')
-                    ->label('Aperçu')
-                    ->checkFileExistence(false)
-                    ->imageHeight(72)
-                    ->imageWidth(96),
                 TextColumn::make('gallery.title')
                     ->label('Galerie')
                     ->sortable()
                     ->searchable(),
+                TextColumn::make('image_path')
+                    ->label('Chemin')
+                    ->limit(38)
+                    ->copyable()
+                    ->toggleable(),
                 TextColumn::make('alt_text')
                     ->label('Alt')
                     ->limit(32)
