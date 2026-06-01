@@ -36,6 +36,7 @@
 
             @foreach ($items as $image)
                 @php(['src' => $src, 'caption' => $caption] = $renderItem($image))
+                @php($lightboxCaption = collect([$caption, $image->credit ? 'Crédit : ' . $image->credit : null])->filter()->join(' - '))
 
                 <article @class(['showcase__item', 'carousel__slide' => $isCarousel])>
                     <div class="showcase__media">
@@ -44,6 +45,7 @@
                                 href="{{ $src }}"
                                 data-pswp-width="{{ $image->width ?? 1600 }}"
                                 data-pswp-height="{{ $image->height ?? 1000 }}"
+                                @if ($lightboxCaption) data-pswp-caption="{{ $lightboxCaption }}" @endif
                                 target="_blank"
                                 rel="noreferrer"
                             >

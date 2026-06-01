@@ -12,11 +12,28 @@ Le Media System encadre les images du starter : upload, metadonnees, accessibili
 ## Stockage V1
 
 ```txt
-storage/app/public/gallery
+storage/app/public/galleries/{gallery-slug}
 storage/app/public/news
 storage/app/public/pages
-storage/app/public/settings
+storage/app/public/articles
+storage/app/public/articles/blocks
+storage/app/public/site
 ```
+
+Les uploads administrables utilisent explicitement le disk Laravel `public`.
+Le chemin en base reste relatif au disk, par exemple
+`galleries/atelier-home/photo.jpeg`.
+
+Pour Atelier Ivo Incidit, les photos d'archets restent volontairement dans le
+dossier metier historique :
+
+```txt
+public/assets/images/archets/{code}
+```
+
+Ce flux est rapide pour l'atelier et ne doit pas etre melange avec les uploads
+CMS generiques. Une future relation media du module Archets pourra reprendre ce
+schema sans obliger a changer les dossiers existants.
 
 Une installation doit executer :
 
@@ -70,7 +87,7 @@ Image :
 
 ```blade
 <x-site.image
-    src="gallery/photo.webp"
+    src="galleries/atelier-home/photo.webp"
     alt="Detail d'un archet"
     width="1200"
     height="800"
@@ -81,7 +98,7 @@ Figure :
 
 ```blade
 <x-site.figure
-    src="gallery/photo.webp"
+    src="galleries/atelier-home/photo.webp"
     alt="Detail d'un archet"
     caption="Detail de finition"
     credit="Atelier Ivo Incidit"
@@ -142,9 +159,11 @@ Pour fonctionner au mieux, chaque image de lightbox doit avoir :
 ```txt
 data-pswp-width
 data-pswp-height
+data-pswp-caption
 ```
 
 Si les dimensions sont absentes, le composant utilise un fallback. En production, les dimensions doivent etre renseignees.
+La legende de zoom est construite par le composant galerie depuis `caption` et `credit`.
 
 ## Prochaines evolutions
 

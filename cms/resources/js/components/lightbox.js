@@ -16,6 +16,29 @@ export function initLightbox(root = document) {
             pswpModule: () => import('photoswipe'),
         });
 
+        lightbox.on('uiRegister', () => {
+            lightbox.pswp.ui.registerElement({
+                name: 'caption',
+                order: 9,
+                isButton: false,
+                appendTo: 'root',
+                html: '',
+                onInit: (element, pswp) => {
+                    const updateCaption = () => {
+                        const trigger = pswp.currSlide?.data?.element;
+                        const caption = trigger?.dataset?.pswpCaption || '';
+
+                        element.textContent = caption;
+                        element.hidden = caption === '';
+                    };
+
+                    pswp.on('change', updateCaption);
+                    pswp.on('afterInit', updateCaption);
+                    updateCaption();
+                },
+            });
+        });
+
         lightbox.init();
     });
 }

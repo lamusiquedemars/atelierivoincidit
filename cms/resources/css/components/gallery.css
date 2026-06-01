@@ -9,6 +9,27 @@ figcaption {
     color: var(--color-muted);
 }
 
+.pswp__caption {
+    position: absolute;
+    right: var(--space-md);
+    bottom: var(--space-md);
+    left: var(--space-md);
+    z-index: 10;
+    max-width: min(720px, calc(100% - var(--space-xl)));
+    margin: 0 auto;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    background: rgb(0 0 0 / 68%);
+    color: #fff;
+    font-size: var(--font-size-sm);
+    line-height: 1.45;
+    text-align: center;
+}
+
+.pswp__caption[hidden] {
+    display: none;
+}
+
 @media (max-width: 900px) {
     .gallery-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
