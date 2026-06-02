@@ -201,8 +201,8 @@ ivo-incidit
 Fichiers à regarder :
 
 ```text
-resources/css/themes/atelier.css
-resources/css/themes/ivo-incidit.css
+resources/css/thèmes/atelier.css
+resources/css/thèmes/ivo-incidit.css
 resources/css/components/
 resources/css/modules/
 resources/css/app.css
@@ -211,8 +211,8 @@ resources/css/app.css
 Règle :
 
 - si c’est général, modifier un composant ;
-- si c’est propre au template Atelier réutilisable, modifier `themes/atelier.css` ;
-- si c’est propre à Ivo Incidit, modifier uniquement le thème client, par exemple `themes/ivo-incidit.css` ;
+- si c’est propre au template Atelier réutilisable, modifier `thèmes/atelier.css` ;
+- si c’est propre à Ivo Incidit, modifier uniquement le thème client, par exemple `thèmes/ivo-incidit.css` ;
 - si c’est propre à un module, créer ou modifier `resources/css/modules/xxx.css`.
 
 La bonne cible industrielle :
@@ -245,7 +245,7 @@ Après modification CSS :
 npm run build
 ```
 
-### 5.2 Renommer `Scripta` en `Articles` sur le site
+### 5.2 Articles sur le site
 
 La config Atelier est dans :
 
@@ -253,14 +253,9 @@ La config Atelier est dans :
 .env
 ```
 
-Actuellement :
+Décision validée : le libellé public définitif est `Articles`.
 
-```env
-MARACUJA_ARTICLES_PUBLIC_LABEL=Scripta
-MARACUJA_ARTICLES_PUBLIC_PATH=scripta
-```
-
-Pour afficher `Articles` et utiliser `/articles` :
+La config Atelier doit rester :
 
 ```env
 MARACUJA_ARTICLES_PUBLIC_LABEL=Articles
@@ -460,18 +455,13 @@ Ensuite tu peux choisir page par page.
 
 - modal trop étroit ;
 - selects illisibles ;
-- thumbnails absents ;
-- workflow photo par dossier à formaliser.
+- thumbnails corrigés dans la liste admin ;
+- chemins publics affichés dans le détail admin ;
+- workflow photo par dossier conservé à court terme, convention à documenter.
 
 ### Navigation
 
-À décider :
-
-- garder `Actualités` ?
-- garder `Articles` ?
-- garder les deux ?
-
-Pour Atelier, `Articles` semble plus important que `Actualités`.
+Décision actuelle : garder `Articles` comme libellé public. `Actualités` reste un module générique désactivable selon le besoin Atelier.
 
 ### Home
 
@@ -534,15 +524,22 @@ Check global :
 /Applications/MAMP/bin/php/php8.4.1/bin/php artisan maracuja:doctor
 ```
 
-## 11. Ordre conseillé pendant les deux jours
+## 11. État de reprise
 
-1. Relire et corriger les textes des pages déjà migrées.
-2. Renommer `Scripta` en `Articles` si c’est décidé.
-3. Simplifier le formulaire contact.
-4. Corriger le composant hero pour permettre de supprimer l’eyebrow.
-5. Adapter la galerie home en version interactive codée.
-6. Faire une passe CSS Atelier.
-7. Noter tout ce qui semble incohérent pour reprise avec Codex.
+Fait :
+
+1. Libellé public des articles fixé sur `Articles`.
+2. Formulaire contact simplifié et demandes entrantes suivies côté CMS.
+3. Thumbnails et chemins des photos d’archets visibles dans l’admin.
+4. Arbitrages éditoriaux appliqués, ancien tableau de validation supprimé.
+
+Reste à faire :
+
+1. Relire les pages publiques migrées dans le navigateur.
+2. Vérifier si le composant hero doit encore gérer l’eyebrow page par page.
+3. Adapter ou confirmer la galerie home interactive.
+4. Faire une passe CSS Atelier après validation des pages.
+5. Noter les incohérences restantes pour reprise avec Codex.
 
 ## 12. Règle finale
 
@@ -552,7 +549,7 @@ Si c’est une donnée longue éditoriale : Articles.
 
 Si c’est une donnée métier archet : Arcus.
 
-Si c’est une image d’archet : dossier `current/public/assets/images/archets/{code}` pour l’instant.
+Si c’est une image d’archet : source historique dans `current/public/assets/images/archets/{code}`, affichage CMS dans `public/assets/images/archets/{code}` pour l’instant.
 
 Si c’est du design global : CSS component ou thème.
 

@@ -6,6 +6,7 @@ use App\Filament\Resources\SiteSettings\Pages\ManageSiteSettings;
 use App\Modules\SiteSettings\Models\SiteSetting;
 use App\Support\Modules;
 use BackedEnum;
+use UnitEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -29,9 +30,11 @@ class SiteSettingResource extends Resource
 
     protected static ?string $navigationLabel = 'Paramètres';
 
-    protected static ?string $modelLabel = 'parametres';
+    protected static UnitEnum|string|null $navigationGroup = 'Réglages';
 
-    protected static ?string $pluralModelLabel = 'parametres';
+    protected static ?string $modelLabel = 'paramètres';
+
+    protected static ?string $pluralModelLabel = 'paramètres';
 
     protected static ?int $navigationSort = 90;
 
@@ -102,7 +105,7 @@ class SiteSettingResource extends Resource
                     ->image(),
                 KeyValue::make('social_links')
                     ->label('Liens sociaux')
-                    ->keyLabel('Libelle')
+                    ->keyLabel('Libellé')
                     ->valueLabel('URL')
                     ->columnSpanFull(),
             ]);

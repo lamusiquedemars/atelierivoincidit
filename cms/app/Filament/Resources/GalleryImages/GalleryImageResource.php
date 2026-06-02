@@ -35,7 +35,7 @@ class GalleryImageResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $navigationLabel = 'Photos';
-    protected static string|UnitEnum|null $navigationGroup = 'Galerie';
+    protected static string|UnitEnum|null $navigationGroup = 'Médias';
 
     protected static ?string $modelLabel = 'image';
 

@@ -6,6 +6,7 @@ use App\Filament\Resources\NewsPosts\Pages\ManageNewsPosts;
 use App\Modules\News\Models\NewsPost;
 use App\Support\Modules;
 use BackedEnum;
+use UnitEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -31,6 +32,8 @@ class NewsPostResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $navigationLabel = 'Actualités';
+
+    protected static UnitEnum|string|null $navigationGroup = 'Contenus';
 
     protected static ?string $modelLabel = 'actualité';
 
@@ -73,11 +76,11 @@ class NewsPostResource extends Resource
                     ->required(),
                 Toggle::make('is_pinned')
                     ->label('Épingler')
-                    ->helperText('Remonte cette actualité dans les listings.'),
+                    ->helperText('Remonte cette actualité dans les listes.'),
                 Toggle::make('has_detail_page')
                     ->label('Page détail')
                     ->default(true)
-                    ->helperText('Désactiver pour une annonce courte visible seulement dans les listings.'),
+                    ->helperText('Désactiver pour une annonce courte visible seulement dans les listes.'),
                 DateTimePicker::make('published_at')
                     ->label('Début de publication'),
                 DateTimePicker::make('expires_at')

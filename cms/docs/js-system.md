@@ -22,7 +22,7 @@ resources/js/
 
 ## Regle
 
-Un module JS doit s'activer seulement si le HTML contient l'attribut attendu. Une page sans carousel ne charge pas de logique specifique cote template.
+Un module JS doit s'activer seulement si le HTML contient l'attribut attendu. Une page sans carousel ne charge pas de logique spécifique cote template.
 
 ## Navigation
 
@@ -52,7 +52,7 @@ Un module JS doit s'activer seulement si le HTML contient l'attribut attendu. Un
 
 ## Reveal au scroll
 
-Le JS observe l'element, le CSS anime.
+Le JS observe l'élément, le CSS anime.
 
 ```html
 <section data-reveal="fade-up" data-reveal-delay="150">
@@ -63,7 +63,7 @@ Le JS observe l'element, le CSS anime.
 Variantes :
 
 ```txt
-fade-up par defaut
+fade-up par défaut
 fade
 fade-left
 scale
@@ -84,7 +84,7 @@ Le starter utilise Embla Carousel.
         </div>
     </div>
     <div class="carousel__controls">
-        <button class="btn btn--secondary" data-carousel-prev type="button">Precedent</button>
+        <button class="btn btn--secondary" data-carousel-prev type="button">Précédent</button>
         <button class="btn btn--secondary" data-carousel-next type="button">Suivant</button>
     </div>
 </div>
@@ -118,4 +118,4 @@ Le starter utilise PhotoSwipe pour les galeries.
 </form>
 ```
 
-Au submit, le formulaire recoit `is-submitting` et le bouton `aria-busy="true"`.
+Au submit, le formulaire reçoit `is-submitting` et le bouton `aria-busy="true"`.

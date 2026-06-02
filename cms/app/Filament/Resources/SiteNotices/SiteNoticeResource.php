@@ -6,6 +6,7 @@ use App\Filament\Resources\SiteNotices\Pages\ManageSiteNotices;
 use App\Modules\Notices\Models\SiteNotice;
 use App\Support\Modules;
 use BackedEnum;
+use UnitEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -30,6 +31,8 @@ class SiteNoticeResource extends Resource
 
     protected static ?string $navigationLabel = 'Annonce courte';
 
+    protected static UnitEnum|string|null $navigationGroup = 'Contenus';
+
     protected static ?string $modelLabel = 'annonce courte';
 
     protected static ?string $pluralModelLabel = 'annonces courtes';
@@ -53,21 +56,21 @@ class SiteNoticeResource extends Resource
                 TextInput::make('title')
                     ->label('Titre court')
                     ->maxLength(120)
-                    ->helperText('Optionnel. Exemple: Horaires d ete.'),
+                    ->helperText('Optionnel. Exemple: Horaires d’été.'),
                 Textarea::make('message')
                     ->label('Message')
                     ->required()
                     ->maxLength(300)
                     ->rows(3)
                     ->columnSpanFull()
-                    ->helperText('Texte court uniquement. Ce module sert a annoncer une information, pas a redessiner la page.'),
+                    ->helperText('Texte court uniquement. Ce module sert à annoncer une information, pas à redessiner la page.'),
                 TextInput::make('link_label')
-                    ->label('Libelle du lien')
+                    ->label('Libellé du lien')
                     ->maxLength(80),
                 TextInput::make('link_url')
                     ->label('URL du lien')
                     ->maxLength(255)
-                    ->helperText('Optionnel. Utiliser une URL interne comme /contact ou une URL complete.'),
+                    ->helperText('Optionnel. Utiliser une URL interne comme /contact ou une URL complète.'),
                 Select::make('placement')
                     ->label('Emplacement')
                     ->options([
@@ -89,7 +92,7 @@ class SiteNoticeResource extends Resource
                     ->required(),
                 DateTimePicker::make('starts_at')
                     ->label('Début')
-                    ->helperText('Laisser vide pour afficher des publication.'),
+                    ->helperText('Laisser vide pour afficher dès publication.'),
                 DateTimePicker::make('ends_at')
                     ->label('Fin')
                     ->helperText('Laisser vide pour ne pas expirer automatiquement.'),

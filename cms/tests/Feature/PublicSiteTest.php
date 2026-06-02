@@ -62,7 +62,7 @@ class PublicSiteTest extends TestCase
             'template' => 'services',
             'hero_title' => 'Des sites vitrines administrables',
             'body_blocks' => [
-                'essence_price' => 'A partir de 1500',
+                'essence_price' => 'À partir de 1500',
             ],
             'is_published' => true,
             'published_at' => now(),
@@ -71,7 +71,7 @@ class PublicSiteTest extends TestCase
         $this->get('/services')
             ->assertOk()
             ->assertSee('Trois niveaux')
-            ->assertSee('A partir de 1500');
+            ->assertSee('À partir de 1500');
     }
 
     public function test_services_page_uses_content_slot_for_price(): void
@@ -92,14 +92,14 @@ class PublicSiteTest extends TestCase
             'label' => 'Prix Essence',
             'group' => 'Services',
             'type' => 'price',
-            'value' => 'A partir de 1800',
+            'value' => 'À partir de 1800',
             'is_locked' => true,
         ]);
 
         $this->get('/services')
             ->assertOk()
-            ->assertSee('A partir de 1800')
-            ->assertDontSee('A partir de 1500');
+            ->assertSee('À partir de 1800')
+            ->assertDontSee('À partir de 1500');
     }
 
     public function test_home_gallery_uses_configured_layout(): void
@@ -125,7 +125,7 @@ class PublicSiteTest extends TestCase
         GalleryImage::query()->create([
             'title' => 'Image demo',
             'gallery_id' => $gallery->id,
-            'caption' => 'Legende demo',
+            'caption' => 'Légende demo',
             'image_path' => '/demo/admin-simple.svg',
             'width' => 1200,
             'height' => 800,
@@ -156,7 +156,7 @@ class PublicSiteTest extends TestCase
         GalleryImage::query()->create([
             'title' => 'Image atelier',
             'gallery_id' => $gallery->id,
-            'caption' => 'Legende atelier',
+            'caption' => 'Légende atelier',
             'credit' => 'Atelier',
             'image_path' => '/assets/images/showcase-vb-2.jpeg',
             'position' => 1,
@@ -170,7 +170,7 @@ class PublicSiteTest extends TestCase
             ->assertSee('data-lightbox')
             ->assertSee('data-pswp-width="3024"', false)
             ->assertSee('data-pswp-height="2268"', false)
-            ->assertSee('data-pswp-caption="Legende atelier - Crédit : Atelier"', false)
+            ->assertSee('data-pswp-caption="Légende atelier - Crédit : Atelier"', false)
             ->assertSee('/assets/images/showcase-vb-2.jpeg')
             ->assertDontSee('/assets/images/showcase-hausses.jpeg');
     }
@@ -256,7 +256,7 @@ class PublicSiteTest extends TestCase
         ]);
 
         SiteNotice::query()->create([
-            'title' => 'Horaires d ete',
+            'title' => 'Horaires d’été',
             'message' => 'Ouverture exceptionnelle sur rendez-vous.',
             'placement' => 'home',
             'tone' => 'warning',
@@ -277,12 +277,12 @@ class PublicSiteTest extends TestCase
 
         $this->get('/')
             ->assertOk()
-            ->assertSee('Horaires d ete')
+            ->assertSee('Horaires d’été')
             ->assertSee('Ouverture exceptionnelle')
             ->assertDontSee('Ancienne annonce');
     }
 
-    public function test_home_news_listing_hides_expired_posts(): void
+    public function test_home_news_list_hides_expired_posts(): void
     {
         $this->enableNewsModule();
 
@@ -305,7 +305,7 @@ class PublicSiteTest extends TestCase
         ]);
 
         NewsPost::query()->create([
-            'title' => 'Actualite expiree',
+            'title' => 'Actualite expirée',
             'slug' => 'actualite-expiree',
             'excerpt' => 'Invisible maintenant.',
             'is_published' => true,
@@ -316,7 +316,7 @@ class PublicSiteTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('Actualite active')
-            ->assertDontSee('Actualite expiree');
+            ->assertDontSee('Actualite expirée');
     }
 
     public function test_published_page_is_available_by_slug(): void
@@ -324,7 +324,7 @@ class PublicSiteTest extends TestCase
         SiteSetting::current();
 
         Page::query()->create([
-            'title' => 'Methode',
+            'title' => 'Méthode',
             'slug' => 'methode',
             'hero_title' => 'Une structure avant les options',
             'body_blocks' => ['section' => 'Admin simple'],
@@ -460,7 +460,7 @@ class PublicSiteTest extends TestCase
         SiteSetting::current();
 
         NewsPost::query()->create([
-            'title' => 'Actualite expiree',
+            'title' => 'Actualite expirée',
             'slug' => 'actualite-expiree',
             'excerpt' => 'Invisible maintenant.',
             'content' => '<p>Archive non visible.</p>',
@@ -473,7 +473,7 @@ class PublicSiteTest extends TestCase
         $this->get('/actualites/actualite-expiree')->assertNotFound();
     }
 
-    public function test_news_listing_orders_pinned_posts_first(): void
+    public function test_news_list_orders_pinned_posts_first(): void
     {
         $this->enableNewsModule();
 
@@ -515,8 +515,8 @@ class PublicSiteTest extends TestCase
         NewsPost::query()->create([
             'title' => 'Annonce simple',
             'slug' => 'annonce-simple',
-            'excerpt' => 'Visible dans le listing uniquement.',
-            'content' => '<p>Ne doit pas etre visible en page detail.</p>',
+            'excerpt' => 'Visible dans la liste uniquement.',
+            'content' => '<p>Ne doit pas être visible en page detail.</p>',
             'is_published' => true,
             'is_pinned' => false,
             'has_detail_page' => false,
@@ -542,7 +542,7 @@ class PublicSiteTest extends TestCase
             'title' => 'Actualite active',
             'slug' => 'actualite-active',
             'excerpt' => 'Visible maintenant.',
-            'content' => '<p>Detail de l actualite.</p>',
+            'content' => '<p>Détail de l actualité.</p>',
             'is_published' => true,
             'has_detail_page' => true,
             'published_at' => now()->subHour(),

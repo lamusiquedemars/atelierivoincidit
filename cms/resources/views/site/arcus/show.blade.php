@@ -14,10 +14,12 @@
 
 @section('content')
     <x-site.hero
-        eyebrow="Arcus"
+        class="hero--arcus-heads"
+        eyebrow="Archets"
         :title="$bowTitle"
         :subtitle="$bowSubtitle"
         variant="arcus"
+        image="/assets/images/arcus-tetes.jpeg"
     />
 
     <x-site.breadcrumb :items="[
@@ -115,11 +117,11 @@
 
     <x-site.section variant="muted">
         <x-site.cta
+            class="cta--arcus-trial"
             title="Essayer cet archet"
             text="Les mesures orientent, mais le choix se confirme surtout avec l’instrument, dans le geste et dans l’écoute."
             :href="route('contact')"
             label="Demander à essayer cet archet"
-            variant="brand"
             inline
         />
     </x-site.section>

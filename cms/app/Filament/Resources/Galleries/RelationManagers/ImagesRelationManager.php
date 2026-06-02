@@ -129,7 +129,7 @@ class ImagesRelationManager extends RelationManager
             ->defaultSort('position')
             ->reorderable('position')
             ->headerActions([
-                CreateAction::make()
+                CreateAction::make()->label('Ajouter une photo')
                     ->label('Ajouter une photo'),
             ])
             ->recordActions([

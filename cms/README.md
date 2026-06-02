@@ -75,6 +75,8 @@ MARACUJA_GALLERY_LAYOUT=carousel
 - `docs/installation.md`: fresh install and delivery checklist.
 - `docs/offer-profiles.md`: Essence, Signature and Univers profiles.
 - `docs/content-admin.md`: what clients can safely edit.
+- `docs/contact-flow.md`: contact form, inquiries and audience flow.
+- `docs/audience.md`: contacts, segments and targeted messages.
 - `docs/front-system.md`: Blade/CSS component system.
 - `docs/media-system.md`: images, galleries and lightbox.
 - `docs/js-system.md`: progressive JavaScript modules.

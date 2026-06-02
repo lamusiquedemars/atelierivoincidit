@@ -68,7 +68,7 @@ class SiteSetting extends Model
             'site_name' => 'Maracuja CMS',
             'baseline' => 'Site vitrine administrable, sobre et sur mesure.',
             'default_seo_title' => 'Maracuja CMS',
-            'default_seo_description' => 'Un starter Laravel + Filament pour sites vitrines administrables.',
+            'default_seo_description' => 'Atelier Ivo Incidit présente des archets contemporains, des archets anciens et le savoir-faire d’un atelier dédié aux musiciens.',
             'default_og_image_path' => '/demo/theme-system.svg',
             'contact_email' => 'contact@example.test',
             'contact_form_show_name' => false,

@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Schema;
 
 class MaracujaDoctorCommand extends Command
 {
-    protected $signature = 'maracuja:doctor {--production : Run stricter checks before public delivery}';
+    protected $signature = 'maracuja:doctor {--production : Lance des contrôles plus stricts avant livraison}';
 
-    protected $description = 'Check whether the Maracuja CMS installation is ready for delivery.';
+    protected $description = 'Vérifie que l’installation Maracuja CMS est prête pour la livraison.';
 
     /** @var array<int, array{status: string, check: string, detail: string}> */
     private array $results = [];
@@ -22,7 +22,7 @@ class MaracujaDoctorCommand extends Command
     {
         $production = (bool) $this->option('production');
 
-        $this->info('Maracuja CMS Doctor');
+        $this->info('Diagnostic Maracuja CMS');
         $this->newLine();
 
         $this->checkAppConfiguration($production);
@@ -31,17 +31,17 @@ class MaracujaDoctorCommand extends Command
         $this->checkStorage();
         $this->checkSeo($production);
 
-        $this->table(['Status', 'Check', 'Detail'], $this->results);
+        $this->table(['Statut', 'Contrôle', 'Détail'], $this->results);
 
         if ($this->hasFailures()) {
             $this->newLine();
-            $this->error('Installation needs attention before delivery.');
+            $this->error('L’installation demande une vérification avant livraison.');
 
             return self::FAILURE;
         }
 
         $this->newLine();
-        $this->info('Installation looks healthy.');
+        $this->info('L’installation semble saine.');
 
         return self::SUCCESS;
     }
@@ -51,7 +51,7 @@ class MaracujaDoctorCommand extends Command
         $this->record(
             filled(config('app.key')) ? 'ok' : 'fail',
             'APP_KEY',
-            filled(config('app.key')) ? 'Application key is configured.' : 'Run php artisan key:generate.'
+            filled(config('app.key')) ? 'La clé d’application est configurée.' : 'Lancez php artisan key:generate.'
         );
 
         $url = (string) config('app.url');
@@ -60,7 +60,7 @@ class MaracujaDoctorCommand extends Command
         $this->record(
             $production && $isLocalUrl ? 'fail' : 'ok',
             'APP_URL',
-            $production && $isLocalUrl ? 'Production URL still points to local.' : "Current URL: {$url}"
+            $production && $isLocalUrl ? 'L’URL de production pointe encore vers le local.' : "URL actuelle : {$url}"
         );
     }
 
@@ -71,10 +71,10 @@ class MaracujaDoctorCommand extends Command
 
         $this->record(
             in_array($offer, $offers, true) ? 'ok' : 'fail',
-            'Offer profile',
+            'Profil d’offre',
             in_array($offer, $offers, true)
-                ? "Active offer: {$offer}."
-                : 'Unknown offer. Expected one of: '.implode(', ', $offers).'.'
+                ? "Offre active : {$offer}."
+                : 'Offre inconnue. Valeurs attendues : '.implode(', ', $offers).'.'
         );
 
         $enabledModules = collect((array) config('maracuja.modules', []))
@@ -85,8 +85,8 @@ class MaracujaDoctorCommand extends Command
 
         $this->record(
             count($enabledModules) > 0 ? 'ok' : 'fail',
-            'Enabled modules',
-            count($enabledModules) > 0 ? implode(', ', $enabledModules) : 'No module is enabled.'
+            'Modules activés',
+            count($enabledModules) > 0 ? implode(', ', $enabledModules) : 'Aucun module n’est activé.'
         );
     }
 
@@ -95,27 +95,27 @@ class MaracujaDoctorCommand extends Command
         try {
             DB::connection()->getPdo();
         } catch (\Throwable $exception) {
-            $this->record('fail', 'Database connection', $exception->getMessage());
+            $this->record('fail', 'Connexion base de données', $exception->getMessage());
 
             return;
         }
 
-        $this->record('ok', 'Database connection', 'Connection is available.');
+        $this->record('ok', 'Connexion base de données', 'La connexion est disponible.');
 
         if (! Schema::hasTable('users')) {
-            $this->record('fail', 'Migrations', 'Users table is missing. Run migrations.');
+            $this->record('fail', 'Migrations', 'La table users est absente. Lancez les migrations.');
 
             return;
         }
 
-        $this->record('ok', 'Migrations', 'Core tables are available.');
+        $this->record('ok', 'Migrations', 'Les tables principales sont disponibles.');
 
         $this->record(
             User::query()->where('is_admin', true)->exists() ? 'ok' : 'fail',
-            'Admin account',
+            'Compte administrateur',
             User::query()->where('is_admin', true)->exists()
-                ? 'At least one admin account exists.'
-                : 'Create an admin user before delivery.'
+                ? 'Au moins un compte administrateur existe.'
+                : 'Créez un compte administrateur avant livraison.'
         );
 
         if (Modules::enabled('site_settings')) {
@@ -123,17 +123,17 @@ class MaracujaDoctorCommand extends Command
 
             $this->record(
                 $settings !== null ? 'ok' : 'fail',
-                'Site settings',
-                $settings !== null ? "Site name: {$settings->site_name}." : 'Missing site settings record.'
+                'Paramètres du site',
+                $settings !== null ? "Nom du site : {$settings->site_name}." : 'L’enregistrement des paramètres du site est absent.'
             );
 
             if (Modules::enabled('contact')) {
                 $this->record(
                     $settings && filled($settings->contact_email) ? 'ok' : 'warn',
-                    'Contact email',
+                    'Email de contact',
                     $settings && filled($settings->contact_email)
-                        ? "Contact email: {$settings->contact_email}."
-                        : 'Contact module is enabled but contact email is empty.'
+                        ? "Email de contact: {$settings->contact_email}."
+                        : 'Le module contact est activé, mais l’email de contact est vide.'
                 );
             }
         }
@@ -143,10 +143,10 @@ class MaracujaDoctorCommand extends Command
     {
         $this->record(
             is_link(public_path('storage')) || file_exists(public_path('storage')) ? 'ok' : 'warn',
-            'Public storage',
+            'Stockage public',
             is_link(public_path('storage')) || file_exists(public_path('storage'))
-                ? 'public/storage exists.'
-                : 'Run php artisan storage:link if uploaded media must be public.'
+                ? 'public/storage existe.'
+                : 'Lancez php artisan storage:link si les médias téléversés doivent être publics.'
         );
     }
 
@@ -156,10 +156,10 @@ class MaracujaDoctorCommand extends Command
 
         $this->record(
             $production && ! $indexable ? 'fail' : 'ok',
-            'SEO indexing',
+            'Indexation SEO',
             $indexable
-                ? 'Site can be indexed.'
-                : 'Site is configured as noindex. Good for lab/staging, not for public production.'
+                ? 'Le site peut être indexé.'
+                : 'Le site est configuré en noindex. Correct pour un laboratoire ou une préproduction, pas pour une production publique.'
         );
     }
 

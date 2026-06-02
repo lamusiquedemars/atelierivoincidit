@@ -17,4 +17,5 @@ current/data/*.xml
 current/storage/private/
 current/storage/cache/
 current/storage/logs/
+migration/backups/
 capture.txt

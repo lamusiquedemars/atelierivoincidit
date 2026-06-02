@@ -17,8 +17,8 @@ php artisan serve
 Admin:
 
 - URL: `/admin`
-- email demo: `admin@maracuja.test`
-- mot de passe demo: `password`
+- email démo: `admin@maracuja.test`
+- mot de passe démo: `password`
 
 ## Configuration client minimale
 
@@ -35,9 +35,9 @@ MARACUJA_OFFER=signature
 MARACUJA_INDEXABLE=false
 ```
 
-Ne passer `MARACUJA_INDEXABLE=true` qu au moment de mise en ligne publique.
+Ne passer `MARACUJA_INDEXABLE=true` qu’au moment de mise en ligne publique.
 
-## Profils d offre
+## Profils d’offre
 
 ```env
 MARACUJA_OFFER=essence
@@ -45,7 +45,9 @@ MARACUJA_OFFER=signature
 MARACUJA_OFFER=univers
 ```
 
-Le profil fixe la base commerciale. Les variables `MARACUJA_MODULE_*` permettent d enlever un module pour un projet precis.
+Le profil indique le niveau de complexité vendu. Il ne remplace pas le cadrage fonctionnel.
+
+Les variables `MARACUJA_MODULE_*` permettent d’activer ou retirer un module pour un projet précis.
 
 Exemple:
 
@@ -54,9 +56,17 @@ MARACUJA_MODULE_CONTENT_SLOTS=true
 MARACUJA_MODULE_NEWS=false
 ```
 
-## Base de donnees
+Le module `Pages` n’est pas un module client standard. Son admin est masqué par défaut:
 
-Le starter utilise SQLite en local par defaut. Pour un projet client livre, preferer MySQL/MariaDB si l hebergement est mutualise classique.
+```env
+MARACUJA_DEV_PAGES_ADMIN=false
+```
+
+Le passer à `true` seulement pour un usage développeur.
+
+## Base de données
+
+Le starter utilise SQLite en local par défaut. Pour un projet client livré, préférer MySQL/MariaDB si l’hébergement est mutualisé classique.
 
 Exemple:
 
@@ -94,9 +104,9 @@ Verifier ensuite:
 - le formulaire contact fonctionne;
 - les modules vendus apparaissent dans l admin;
 - les modules non vendus sont absents;
-- `MARACUJA_INDEXABLE=true` seulement si le site doit etre indexe;
-- le compte demo a ete remplace ou supprime.
+- `MARACUJA_INDEXABLE=true` seulement si le site doit être indexé;
+- le compte démo a été remplacé ou supprimé.
 
 ## Regle produit
 
-Le client administre ses contenus vivants. Le developpeur garde les templates, les CTA structurants, la mise en page, les presets galerie et le theme.
+Le client administré ses contenus vivants. Le développeur garde les templates, les CTA structurants, la mise en page, les presets galerie et le thème.

@@ -37,8 +37,15 @@ return [
         'news' => env('MARACUJA_MODULE_NEWS', true),
         'articles' => env('MARACUJA_MODULE_ARTICLES', true),
         'gallery' => env('MARACUJA_MODULE_GALLERY', true),
-        'contact' => env('MARACUJA_MODULE_CONTACT', true),
-        'arcus' => env('MARACUJA_MODULE_ARCUS', false),
+        'contact_form' => env('MARACUJA_MODULE_CONTACT_FORM', true),
+        'inquiries' => env('MARACUJA_MODULE_INQUIRIES', true),
+        'audience' => env('MARACUJA_MODULE_AUDIENCE', false),
+        'campaigns' => env('MARACUJA_MODULE_CAMPAIGNS', false),
+        'arcus' => env('MARACUJA_MODULE_ARCUS', true),
+    ],
+
+    'developer_tools' => [
+        'pages_admin' => env('MARACUJA_DEV_PAGES_ADMIN', false),
     ],
 
     'offers' => [
@@ -50,7 +57,10 @@ return [
             'news' => false,
             'articles' => false,
             'gallery' => false,
-            'contact' => true,
+            'contact_form' => true,
+            'inquiries' => false,
+            'audience' => false,
+            'campaigns' => false,
             'arcus' => false,
         ],
         'signature' => [
@@ -61,7 +71,10 @@ return [
             'news' => true,
             'articles' => true,
             'gallery' => true,
-            'contact' => true,
+            'contact_form' => true,
+            'inquiries' => true,
+            'audience' => false,
+            'campaigns' => false,
             'arcus' => false,
         ],
         'univers' => [
@@ -72,7 +85,10 @@ return [
             'news' => true,
             'articles' => true,
             'gallery' => true,
-            'contact' => true,
+            'contact_form' => true,
+            'inquiries' => true,
+            'audience' => true,
+            'campaigns' => false,
             'arcus' => true,
         ],
     ],

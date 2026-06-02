@@ -6,6 +6,7 @@ use App\Filament\Resources\ContentSlots\Pages\ManageContentSlots;
 use App\Modules\ContentSlots\Models\ContentSlot;
 use App\Support\Modules;
 use BackedEnum;
+use UnitEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -29,6 +30,8 @@ class ContentSlotResource extends Resource
 
     protected static ?string $navigationLabel = 'Contenus courts';
 
+    protected static UnitEnum|string|null $navigationGroup = 'Réglages';
+
     protected static ?string $modelLabel = 'contenu court';
 
     protected static ?string $pluralModelLabel = 'contenus courts';
@@ -37,12 +40,12 @@ class ContentSlotResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return Modules::enabled('content_slots');
+        return false;
     }
 
     public static function canAccess(): bool
     {
-        return Modules::enabled('content_slots') && parent::canAccess();
+        return false;
     }
 
     public static function form(Schema $schema): Schema
@@ -54,7 +57,7 @@ class ContentSlotResource extends Resource
                     ->required()
                     ->maxLength(120),
                 TextInput::make('key')
-                    ->label('Cle technique')
+                    ->label('Clé technique')
                     ->required()
                     ->maxLength(120)
                     ->unique(ignoreRecord: true)
@@ -86,8 +89,8 @@ class ContentSlotResource extends Resource
                     ->rows(2)
                     ->columnSpanFull(),
                 Toggle::make('is_locked')
-                    ->label('Cle verrouillee')
-                    ->helperText('Verrouiller les slots fournis par le starter pour eviter de casser les templates.'),
+                    ->label('Clé verrouillée')
+                    ->helperText('Verrouiller les slots fournis par le starter pour éviter de casser les templates.'),
             ]);
     }
 
@@ -102,7 +105,7 @@ class ContentSlotResource extends Resource
                     ->label('Nom')
                     ->searchable(),
                 TextColumn::make('key')
-                    ->label('Cle')
+                    ->label('Clé')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('value')

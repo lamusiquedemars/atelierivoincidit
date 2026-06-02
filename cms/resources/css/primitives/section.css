@@ -1,13 +1,13 @@
 .section {
-    padding-block: var(--space-3xl);
-}
-
-.section--compact {
     padding-block: var(--space-2xl);
 }
 
+.section--compact {
+    padding-block: var(--space-xl);
+}
+
 .section--spacious {
-    padding-block: var(--space-4xl);
+    padding-block: var(--space-3xl);
 }
 
 .section--flush {

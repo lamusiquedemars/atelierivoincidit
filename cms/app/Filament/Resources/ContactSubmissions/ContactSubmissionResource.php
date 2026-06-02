@@ -6,6 +6,7 @@ use App\Filament\Resources\ContactSubmissions\Pages\ManageContactSubmissions;
 use App\Modules\Contact\Models\ContactSubmission;
 use App\Support\Modules;
 use BackedEnum;
+use UnitEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -25,13 +26,15 @@ class ContactSubmissionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $navigationLabel = 'Demandes';
+    protected static ?string $navigationLabel = 'Demandes reçues';
+
+    protected static UnitEnum|string|null $navigationGroup = 'Relation client';
 
     protected static ?string $modelLabel = 'demande';
 
     protected static ?string $pluralModelLabel = 'demandes';
 
-    protected static ?int $navigationSort = 40;
+    protected static ?int $navigationSort = 10;
 
     public static function shouldRegisterNavigation(): bool
     {
@@ -62,7 +65,7 @@ class ContactSubmissionResource extends Resource
                     ->required()
                     ->columnSpanFull(),
                 DateTimePicker::make('handled_at')
-                    ->label('Traite le'),
+                    ->label('Traité le'),
             ]);
     }
 
@@ -81,7 +84,7 @@ class ContactSubmissionResource extends Resource
                 TextColumn::make('subject')
                     ->searchable(),
                 TextColumn::make('handled_at')
-                    ->label('Traite le')
+                    ->label('Traité le')
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('created_at')

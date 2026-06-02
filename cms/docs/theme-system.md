@@ -1,10 +1,10 @@
 # Maracuja Theme System
 
-Le Theme System permet de changer l'ambiance d'un site sans changer sa structure Blade ni recreer les composants.
+Le Theme System permet de changer l'ambiance d'un site sans changer sa structure Blade ni recréer les composants.
 
 ## Selection
 
-Le theme actif se regle par configuration :
+Le thème actif se règle par configuration :
 
 ```php
 'theme' => env('MARACUJA_THEME', 'default'),
@@ -16,7 +16,7 @@ Dans `.env` :
 MARACUJA_THEME=maracuja
 ```
 
-Themes disponibles :
+Thèmes disponibles :
 
 ```txt
 default
@@ -33,14 +33,14 @@ Le layout ajoute automatiquement :
 ## Fichiers
 
 ```txt
-resources/css/themes/default.css
-resources/css/themes/maracuja.css
-resources/css/themes/atelier.css
+resources/css/thèmes/default.css
+resources/css/thèmes/maracuja.css
+resources/css/thèmes/atelier.css
 ```
 
 ## Regle
 
-Un theme doit surtout modifier des variables :
+Un thème doit surtout modifier des variables :
 
 ```css
 .theme-maracuja {
@@ -51,7 +51,7 @@ Un theme doit surtout modifier des variables :
 }
 ```
 
-Un theme ne doit pas recreer du layout :
+Un thème ne doit pas recréer du layout :
 
 ```css
 /* Non */
@@ -67,10 +67,10 @@ Un theme ne doit pas recreer du layout :
 }
 ```
 
-## Role des themes
+## Role des thèmes
 
-- `default` : theme neutre du starter.
-- `maracuja` : theme agence, chaud, digital, fruit.
-- `atelier` : theme generique artisan / atelier / matiere, inspire par Atelier Ivo sans etre specifique a lui.
+- `default` : thème neutre du starter.
+- `maracuja` : thème agence, chaud, digital, fruit.
+- `atelier` : thème generique artisan / atelier / matière, inspiré par Atelier Ivo sans être spécifique à lui.
 
-Les modules metier restent dans `resources/css/modules`, pas dans `themes`.
+Les modules métier restent dans `resources/css/modules`, pas dans `thèmes`.

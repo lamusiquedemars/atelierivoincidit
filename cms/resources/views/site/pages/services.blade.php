@@ -19,7 +19,7 @@
 
     <x-site.section title="Trois niveaux, un même socle" intro="La différence se joue sur la richesse du contenu, les modules actifs et le degré de personnalisation." heading-variant="accent">
         <x-site.grid columns="3">
-            <x-site.card title="Essence" :kicker="\App\Support\ContentSlots::value('services.essence.price', 'A partir de 1500')" variant="featured">
+            <x-site.card title="Essence" :kicker="\App\Support\ContentSlots::value('services.essence.price', 'À partir de 1500')" variant="featured">
                 Pages essentielles, contact, SEO de base, thème sobre et administration limitée aux contenus utiles.
             </x-site.card>
 
@@ -27,7 +27,7 @@
                 Structure plus riche, actualités, galerie, sections de preuve, CTA, media system et finitions thème.
             </x-site.card>
 
-            <x-site.card title="Sur mesure" :kicker="\App\Support\ContentSlots::value('services.custom.price', 'Sur mesure')">
+            <x-site.card title="Univers" :kicker="\App\Support\ContentSlots::value('services.univers.price', 'Sur devis métier')">
                 Module métier client, catalogue sans paiement, workflow spécifique ou intégration externe selon le besoin.
             </x-site.card>
         </x-site.grid>
@@ -47,7 +47,7 @@
     <x-site.section>
         <x-site.cta
             title="Une offre simple a expliquer"
-            text="Le client choisit un niveau de site. Le developpeur garde un socle commun versionne."
+            text="Le client choisit un niveau de site. Le développeur garde un socle commun versionné."
             href="{{ route('contact') }}"
             label="Présenter un projet"
             inline

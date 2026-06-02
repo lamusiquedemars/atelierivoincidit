@@ -1,21 +1,21 @@
 # Maracuja SEO System
 
-Le SEO System V1 donne une base propre a chaque site livre : metas HTML, Open Graph, canonical, robots et sitemap.
+Le SEO System V1 donne une base propre à chaque site livré : métas HTML, Open Graph, canonical, robots et sitemap.
 
-## Idee simple
+## Idée simple
 
-Le SEO n'est pas une magie. C'est surtout :
+Le SEO n’est pas une magie. C'est surtout :
 
 - dire clairement le titre de chaque page ;
-- resumer la page en une description courte ;
-- indiquer l'URL officielle avec `canonical` ;
+- résumer la page en une description courte ;
+- indiquer l’URL officielle avec `canonical` ;
 - fournir une image de partage ;
 - aider les moteurs avec un sitemap ;
-- proteger les preproductions avec `noindex`.
+- protéger les préproductions avec `noindex`.
 
 ## Indexation
 
-Par defaut, le starter bloque l'indexation :
+Par défaut, le starter bloque l'indexation :
 
 ```env
 MARACUJA_INDEXABLE=false
@@ -27,7 +27,7 @@ Pour un site en production :
 MARACUJA_INDEXABLE=true
 ```
 
-Cela controle :
+Cela contrôle :
 
 ```html
 <meta name="robots" content="noindex, nofollow">
@@ -43,7 +43,7 @@ Et aussi `/robots.txt`.
 
 ## Champs globaux
 
-Dans Parametres :
+Dans Paramètres :
 
 ```txt
 default_seo_title
@@ -51,18 +51,18 @@ default_seo_description
 default_og_image_path
 ```
 
-Ces valeurs servent de fallback si une page n'a pas ses propres champs.
+Ces valeurs servent de fallback si une page n’a pas ses propres champs.
 
 ## Champs par page
 
-Pages et Actualites ont :
+Pages et Actualités ont :
 
 ```txt
 seo_title
 seo_description
 ```
 
-Les images utilisees pour Open Graph viennent de :
+Les images utilisées pour Open Graph viennent de :
 
 ```txt
 Page: hero_image_path
@@ -70,9 +70,9 @@ News: image_path
 Fallback: default_og_image_path
 ```
 
-## Metas generees
+## Metas générées
 
-Le layout public genere :
+Le layout public génère :
 
 ```html
 <title>
@@ -99,9 +99,9 @@ URL :
 Il liste :
 
 - accueil ;
-- pages publiees ;
-- index actualites ;
-- actualites publiees.
+- pages publiées ;
+- index actualités ;
+- actualités publiées.
 
 ## Robots
 
@@ -111,7 +111,7 @@ URL :
 /robots.txt
 ```
 
-En preproduction :
+En préproduction :
 
 ```txt
 User-agent: *
@@ -126,18 +126,18 @@ Allow: /
 Sitemap: https://example.com/sitemap.xml
 ```
 
-## Regles editoriales
+## Règles éditoriales
 
 Titre SEO :
 
 ```txt
-50 a 60 caracteres idealement.
+50 à 60 caractères idéalement.
 ```
 
 Description SEO :
 
 ```txt
-140 a 160 caracteres idealement.
+140 à 160 caractères idéalement.
 ```
 
-Une bonne description dit ce que la page offre, pas seulement ce qu'elle contient.
+Une bonne description dit ce que la page offre, pas seulement ce qu’elle contient.

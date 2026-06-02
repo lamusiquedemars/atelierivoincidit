@@ -6,6 +6,7 @@ use App\Filament\Resources\Arcus\Bows\Pages\ManageBows;
 use App\Modules\Arcus\Models\Bow;
 use App\Support\Modules;
 use BackedEnum;
+use UnitEnum;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -17,12 +18,12 @@ use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\HtmlString;
 
 class ArcusBowResource extends Resource
 {
@@ -32,11 +33,13 @@ class ArcusBowResource extends Resource
 
     protected static ?string $navigationLabel = 'Archets';
 
+    protected static UnitEnum|string|null $navigationGroup = 'Catalogue';
+
     protected static ?string $modelLabel = 'archet';
 
     protected static ?string $pluralModelLabel = 'archets';
 
-    protected static ?int $navigationSort = 15;
+    protected static ?int $navigationSort = 10;
 
     public static function shouldRegisterNavigation(): bool
     {
@@ -99,6 +102,31 @@ class ArcusBowResource extends Resource
                             ->label('Visible sur le site')
                             ->default(true)
                             ->required(),
+                    ]),
+
+                Section::make('Photos')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('photo_directory_path')
+                            ->label('Dossier attendu')
+                            ->disabled()
+                            ->dehydrated(false)
+                            ->copyable(),
+
+                        TextInput::make('main_image_url')
+                            ->label('Image principale détectée')
+                            ->disabled()
+                            ->dehydrated(false)
+                            ->copyable(),
+
+                        Textarea::make("photo_public_paths_display")
+                            ->label("Chemins publics des images")
+                            ->formatStateUsing(fn (?Bow $record): string => $record ? implode("\n", $record->photo_public_paths) : "")
+                            ->rows(6)
+                            ->disabled()
+                            ->dehydrated(false)
+                            ->columnSpanFull()
+                            ->helperText("Les photos sont détectées automatiquement depuis le dossier public de cet archet."),
                     ]),
 
                 Section::make('Classification')
@@ -283,9 +311,14 @@ class ArcusBowResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                ImageColumn::make('main_image_url')
-                    ->label('Photo')
-                    ->size(56)
+                TextColumn::make("main_image_url")
+                    ->label("Photo")
+                    ->formatStateUsing(fn (?string $state): HtmlString => new HtmlString(
+                        $state
+                            ? "<img src=\"" . e($state) . "\" alt=\"\" style=\"width:64px;height:48px;object-fit:cover;border-radius:6px;background:#f3f4f6\">"
+                            : "<span style=\"color:#9ca3af\">Aucune</span>"
+                    ))
+                    ->html()
                     ->toggleable(),
 
                 TextColumn::make('display_title')

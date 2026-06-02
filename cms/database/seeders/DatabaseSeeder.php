@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             'site_name' => 'Maracuja CMS',
             'baseline' => 'Sites vitrines administrables, sobres et sur mesure.',
             'default_seo_title' => 'Maracuja CMS',
-            'default_seo_description' => 'Un starter Laravel + Filament pour créer des sites vitrines administrables sans surcharge.',
+            'default_seo_description' => 'Atelier Ivo Incidit présente des archets contemporains, des archets anciens et le savoir-faire d’un atelier dédié aux musiciens.',
             'default_og_image_path' => '/demo/theme-system.svg',
             'contact_email' => 'contact@maracuja.test',
             'social_links' => [
@@ -94,12 +94,12 @@ class DatabaseSeeder extends Seeder
                 'help_text' => 'Prix ou mention courte affichée sur la carte Signature.',
             ],
             [
-                'key' => 'services.custom.price',
-                'label' => 'Prix sur mesure',
+                'key' => 'services.univers.price',
+                'label' => 'Prix Univers',
                 'group' => 'Services',
                 'type' => 'price',
-                'value' => 'Sur mesure',
-                'help_text' => 'Prix ou mention courte affichée sur la carte Sur mesure.',
+                'value' => 'Sur devis métier',
+                'help_text' => 'Prix ou mention courte affichée sur la carte Univers.',
             ],
         ])->each(fn (array $slot) => ContentSlot::query()->updateOrCreate(
             ['key' => $slot['key']],
@@ -141,16 +141,16 @@ class DatabaseSeeder extends Seeder
         Page::query()->updateOrCreate(['slug' => 'services'], [
             'title' => 'Services',
             'template' => 'services',
-            'excerpt' => 'Les offres types portees par le starter.',
+            'excerpt' => 'Les offres type portées par le starter.',
             'hero_title' => 'Des sites vitrines administrables, sans usine à gaz',
-            'hero_subtitle' => 'Essence pour aller vite et bien. Signature pour une présence plus complète. Le sur mesure arrive quand le besoin métier le justifie.',
+            'hero_subtitle' => 'Essence pour aller vite et bien. Signature pour une présence plus complète. Univers couvre les besoins métier cadrés.',
             'body_blocks' => [
                 'essence_price' => 'À partir de 1500',
                 'signature_price' => 'Sur devis cadre',
-                'custom_price' => 'Sur mesure',
+                'univers_price' => 'Sur devis métier',
             ],
             'seo_title' => 'Services - Maracuja CMS',
-            'seo_description' => 'Offres Essence, Signature et sur mesure pour sites vitrines administrables.',
+            'seo_description' => 'Offres Essence, Signature et Univers pour sites vitrines administrables.',
             'is_published' => true,
             'published_at' => now(),
         ]);
@@ -179,7 +179,7 @@ class DatabaseSeeder extends Seeder
 
         NewsPost::query()->updateOrCreate(['slug' => 'admin-simplifiee'], [
             'title' => 'Une admin limitée aux modules utiles',
-            'excerpt' => 'Filament affiche seulement les sections activees pour le projet client.',
+            'excerpt' => 'Filament affiche seulement les sections activées pour le projet client.',
             'content' => '<p>Le client garde un tableau de bord lisible, orienté contenu et sans surcharge inutile.</p>',
             'is_published' => true,
             'is_pinned' => false,
@@ -189,7 +189,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         SiteNotice::query()->updateOrCreate(['title' => 'Annonce demo'], [
-            'message' => 'Ce bloc est une annonce courte independante des pages. Si aucune annonce active n existe, rien ne s affiche.',
+            'message' => 'Ce bloc est une annonce courte indépendante des pages. Si aucune annonce active n’existe, rien ne s’affiche.',
             'link_label' => 'Contacter',
             'link_url' => '/contact',
             'placement' => 'home',
@@ -201,14 +201,14 @@ class DatabaseSeeder extends Seeder
 
         $homeGallery = Gallery::query()->updateOrCreate(['slug' => 'home'], [
             'title' => 'Galerie principale',
-            'intro' => 'Le Media System gere alt, legende, credit, dimensions et lightbox.',
+            'intro' => 'Le Media System gère alt, légende, credit, dimensions et lightbox.',
             'position' => 1,
             'is_published' => true,
         ]);
 
         GalleryImage::query()->updateOrCreate(['title' => 'Admin simple'], [
             'gallery_id' => $homeGallery->id,
-            'caption' => 'Un back-office limite aux modules actives.',
+            'caption' => 'Une administration limitée aux modules activés.',
             'alt_text' => 'Interface d’administration simple limitée aux modules utiles.',
             'credit' => 'Maracuja CMS',
             'image_path' => '/demo/admin-simple.svg',
@@ -220,8 +220,8 @@ class DatabaseSeeder extends Seeder
 
         GalleryImage::query()->updateOrCreate(['title' => 'Composants front'], [
             'gallery_id' => $homeGallery->id,
-            'caption' => 'Des sections, cartes, CTA, galeries et variantes reutilisables.',
-            'alt_text' => 'Exemple abstrait de composants front organises.',
+            'caption' => 'Des sections, cartes, CTA, galeries et variantes réutilisables.',
+            'alt_text' => 'Exemple abstrait de composants front organisés.',
             'credit' => 'Maracuja CMS',
             'image_path' => '/demo/front-system.svg',
             'width' => 1200,
@@ -230,7 +230,7 @@ class DatabaseSeeder extends Seeder
             'is_published' => true,
         ]);
 
-        GalleryImage::query()->updateOrCreate(['title' => 'Themes clients'], [
+        GalleryImage::query()->updateOrCreate(['title' => 'Thèmes clients'], [
             'gallery_id' => $homeGallery->id,
             'caption' => 'Une structure commune peut prendre plusieurs ambiances.',
             'alt_text' => 'Variantes de thèmes pour sites clients.',

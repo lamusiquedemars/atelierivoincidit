@@ -1,7 +1,7 @@
 .theme-atelier {
     --theme-name: 'atelier';
-    --font-heading: 'Cormorant Garamond', Palatino, Georgia, serif;
-    --font-body: 'Cormorant Garamond', Palatino, Georgia, serif;
+    --font-heading: Palatino, Georgia, serif;
+    --font-body: Palatino, Georgia, serif;
     --color-bg: #eeeae4;
     --color-surface: #fef7ea;
     --color-surface-muted: #e8d8b7;

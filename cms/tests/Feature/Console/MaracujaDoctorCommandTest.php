@@ -28,7 +28,7 @@ class MaracujaDoctorCommandTest extends TestCase
         User::factory()->create(['is_admin' => true]);
 
         $this->artisan('maracuja:doctor')
-            ->expectsOutputToContain('Installation looks healthy.')
+            ->expectsOutputToContain('L’installation semble saine.')
             ->assertExitCode(0);
     }
 
@@ -47,7 +47,7 @@ class MaracujaDoctorCommandTest extends TestCase
         User::factory()->create(['is_admin' => true]);
 
         $this->artisan('maracuja:doctor')
-            ->expectsOutputToContain('Unknown offer')
+            ->expectsOutputToContain('Offre inconnue')
             ->assertExitCode(1);
     }
 
@@ -68,7 +68,7 @@ class MaracujaDoctorCommandTest extends TestCase
         User::factory()->create(['is_admin' => true]);
 
         $this->artisan('maracuja:doctor --production')
-            ->expectsOutputToContain('Site is configured as noindex')
+            ->expectsOutputToContain('Le site est configuré en noindex')
             ->assertExitCode(1);
     }
 }

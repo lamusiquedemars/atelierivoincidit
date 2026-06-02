@@ -1,4 +1,6 @@
 .carousel {
+    --carousel-gap: var(--space-lg);
+
     display: grid;
     gap: var(--space-md);
 }
@@ -9,7 +11,7 @@
 
 .carousel__track {
     display: flex;
-    gap: var(--space-lg);
+    gap: var(--carousel-gap);
     touch-action: pan-y pinch-zoom;
 }
 
@@ -18,8 +20,57 @@
     flex: 0 0 min(100%, 360px);
 }
 
+.carousel--items-1 .carousel__slide {
+    flex-basis: 100%;
+}
+
+.carousel--items-2 .carousel__slide {
+    flex-basis: calc((100% - var(--carousel-gap)) / 2);
+}
+
+.carousel--items-3 .carousel__slide {
+    flex-basis: calc((100% - var(--carousel-gap) - var(--carousel-gap)) / 3);
+}
+
+.carousel--items-4 .carousel__slide {
+    flex-basis: calc((100% - var(--carousel-gap) - var(--carousel-gap) - var(--carousel-gap)) / 4);
+}
+
 .carousel__controls {
     display: flex;
     gap: var(--space-sm);
     justify-content: flex-end;
+}
+
+.carousel__controls [disabled] {
+    cursor: default;
+    opacity: 0.45;
+}
+
+.carousel__dots {
+    display: flex;
+    gap: var(--space-xs);
+    justify-content: center;
+    margin-top: var(--space-md);
+}
+
+.carousel__dot {
+    width: 0.65rem;
+    height: 0.65rem;
+    padding: 0;
+    border: 1px solid var(--color-brand);
+    border-radius: 999px;
+    background: transparent;
+}
+
+.carousel__dot[aria-current] {
+    background: var(--color-brand);
+}
+
+@media (max-width: 720px) {
+    .carousel--items-2 .carousel__slide,
+    .carousel--items-3 .carousel__slide,
+    .carousel--items-4 .carousel__slide {
+        flex-basis: 100%;
+    }
 }

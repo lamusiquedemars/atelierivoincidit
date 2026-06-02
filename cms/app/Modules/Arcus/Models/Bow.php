@@ -72,6 +72,8 @@ class Bow extends Model
         'instrument_name',
         'photo_count',
         'main_image_url',
+        'photo_public_paths',
+        'photo_directory_path',
     ];
 
     protected function displayTitle(): Attribute
@@ -121,10 +123,23 @@ class Bow extends Model
     protected function mainImageUrl(): Attribute
     {
         return Attribute::get(function (): ?string {
-            $paths = $this->photoPaths();
+            $paths = $this->photo_public_paths;
 
-            return $paths === [] ? null : '/assets/images/archets/'.$this->normalizedCode().'/'.basename($paths[0]);
+            return $paths[0] ?? null;
         });
+    }
+
+    protected function photoPublicPaths(): Attribute
+    {
+        return Attribute::get(fn (): array => array_map(
+            fn (string $path): string => '/assets/images/archets/' . $this->normalizedCode() . '/' . basename($path),
+            $this->photoPaths(),
+        ));
+    }
+
+    protected function photoDirectoryPath(): Attribute
+    {
+        return Attribute::get(fn (): string => 'public/assets/images/archets/' . $this->normalizedCode());
     }
 
     protected function lookupName(string $table, string $foreignKey): ?string

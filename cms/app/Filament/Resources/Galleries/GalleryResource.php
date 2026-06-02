@@ -29,7 +29,7 @@ class GalleryResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedSquares2x2;
 
     protected static ?string $navigationLabel = 'Galeries';
-    protected static string|UnitEnum|null $navigationGroup = 'Galerie';
+    protected static string|UnitEnum|null $navigationGroup = 'Médias';
 
     protected static ?string $modelLabel = 'galerie';
 

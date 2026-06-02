@@ -24,14 +24,14 @@ class SeoTest extends TestCase
         SiteSetting::query()->create([
             'site_name' => 'Maracuja CMS',
             'default_seo_title' => 'Maracuja default',
-            'default_seo_description' => 'Description par defaut du starter.',
+            'default_seo_description' => 'Description par défaut du starter.',
             'default_og_image_path' => '/demo/theme-system.svg',
         ]);
 
         Page::query()->create([
-            'title' => 'Methode',
+            'title' => 'Méthode',
             'slug' => 'methode',
-            'seo_title' => 'Methode SEO',
+            'seo_title' => 'Méthode SEO',
             'seo_description' => 'Une description SEO claire.',
             'is_published' => true,
             'published_at' => now(),
@@ -39,10 +39,10 @@ class SeoTest extends TestCase
 
         $this->get('/methode')
             ->assertOk()
-            ->assertSee('<title>Methode SEO</title>', false)
+            ->assertSee('<title>Méthode SEO</title>', false)
             ->assertSee('<meta name="description" content="Une description SEO claire.">', false)
             ->assertSee('<link rel="canonical" href="'.url('/methode').'">', false)
-            ->assertSee('<meta property="og:title" content="Methode SEO">', false)
+            ->assertSee('<meta property="og:title" content="Méthode SEO">', false)
             ->assertSee('<meta property="og:image" content="'.url('/demo/theme-system.svg').'">', false)
             ->assertSee('<meta name="robots" content="noindex, nofollow">', false);
     }

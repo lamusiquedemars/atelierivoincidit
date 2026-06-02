@@ -6,6 +6,7 @@ use App\Filament\Resources\Articles\Pages\ManageArticles;
 use App\Modules\Articles\Models\Article;
 use App\Support\Modules;
 use BackedEnum;
+use UnitEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -33,6 +34,8 @@ class ArticleResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
     protected static ?string $navigationLabel = 'Articles';
+
+    protected static UnitEnum|string|null $navigationGroup = 'Contenus';
 
     protected static ?string $modelLabel = 'article';
 
@@ -63,7 +66,7 @@ class ArticleResource extends Resource
                 Textarea::make('excerpt')
                     ->label('Résumé')
                     ->columnSpanFull()
-                    ->helperText('Utilisé pour le listing et le SEO si aucune description SEO n’est renseignée.'),
+                    ->helperText('Utilisé pour la liste et le SEO si aucune description SEO n’est renseignée.'),
                 FileUpload::make('image_path')
                     ->label('Image principale')
                     ->disk('public')

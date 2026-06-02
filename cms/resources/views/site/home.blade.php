@@ -125,14 +125,13 @@
             </div>
         </x-site.section>
 
-        <x-site.section variant="gradient" title="Quelques retours de musiciens" heading-variant="accent">
-            <div class="quote-carousel__track">
-                @foreach ($atelierQuotes as $quote)
-                    <x-site.quote :author="$quote['author']" :meta="$quote['meta']">
-                        {{ $quote['quote'] }}
-                    </x-site.quote>
-                @endforeach
-            </div>
+        <x-site.section variant="gradient">
+            <x-site.quote-carousel
+                :items="$atelierQuotes"
+                kicker="Quelques retours de musiciens"
+                variant="editorial"
+                items-per-view="1"
+            />
         </x-site.section>
     @else
         <x-site.section

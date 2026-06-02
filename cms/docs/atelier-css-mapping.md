@@ -21,7 +21,7 @@ But : définir pour chaque fichier CSS du thème Atelier et de l’installation 
 - tokens de `resources/css/foundations/tokens.css`
 - structure des primitives (`container`, `grid`, `stack`, `split`, `section`, `cluster`)
 - refonte de la structure d’un composant partagé
-- modifications directes de `resources/css/themes/atelier.css`, `default.css`, `maracuja.css`
+- modifications directes de `resources/css/thèmes/atelier.css`, `default.css`, `maracuja.css`
 
 ## Tableau par fichier CSS
 
@@ -75,10 +75,10 @@ But : définir pour chaque fichier CSS du thème Atelier et de l’installation 
 
 | Fichier | Couche | Attributs modifiables depuis `ivo-incidit.css` | Recommandation |
 |---|---|---|---|
-| `resources/css/themes/atelier.css` | Thème template | Aucun direct | Interdit pour Ivo Incidit |
-| `resources/css/themes/default.css` | Thème template | Aucun direct | Interdit |
-| `resources/css/themes/maracuja.css` | Thème template | Aucun direct | Interdit |
-| `resources/css/themes/ivo-incidit.css` | Thème client | couleurs de marque, hiérarchie typographique, espacements, overrides ciblés de composants | Autorisé, point d’entrée client |
+| `resources/css/thèmes/atelier.css` | Thème template | Aucun direct | Interdit pour Ivo Incidit |
+| `resources/css/thèmes/default.css` | Thème template | Aucun direct | Interdit |
+| `resources/css/thèmes/maracuja.css` | Thème template | Aucun direct | Interdit |
+| `resources/css/thèmes/ivo-incidit.css` | Thème client | couleurs de marque, hiérarchie typographique, espacements, overrides ciblés de composants | Autorisé, point d’entrée client |
 
 ## Notes
 - `ivo-incidit.css` est le point d’override client autorisé, mais il doit rester ciblé : on change l’apparence, pas la structure CSS partagée.

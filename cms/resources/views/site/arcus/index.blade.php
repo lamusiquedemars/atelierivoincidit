@@ -5,10 +5,12 @@
 
 @section('content')
     <x-site.hero
+        class="hero--arcus-heads"
         eyebrow=""
         title="Archets"
         subtitle="Trois séries, trois intentions de jeu."
         variant="arcus"
+        image="/assets/images/arcus-tetes.jpeg"
     />
 
     <x-site.section heading-variant="accent">

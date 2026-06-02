@@ -1,13 +1,13 @@
 # Maracuja Front System
 
-Maracuja Front System est le design system interne du starter. Il sert a produire des sites vitrines administres sans repartir d'un gros fichier CSS par client.
+Maracuja Front System est le design system interne du starter. Il sert à produire des sites vitrines administrés sans repartir d’un gros fichier CSS par client.
 
 ## Objectif
 
 - Garder une base commune entre les sites clients.
-- Eviter les classes page-specific pour du layout generique.
-- Laisser les themes porter l'identite visuelle.
-- Garder les modules metier limites a leur propre comportement.
+- Éviter les classes page-specific pour du layout générique.
+- Laisser les thèmes porter l’identité visuelle.
+- Garder les modules métier limités à leur propre comportement.
 
 ## Architecture CSS
 
@@ -16,13 +16,13 @@ resources/css/
   foundations/  reset, tokens, base, typography
   primitives/   container, section, grid, split, stack
   components/   button, card, hero, header, footer, form, gallery, table, showcase
-  modules/      news, contact, gallery, puis modules client si necessaire
-  themes/       default, puis themes client
+  modules/      news, contact, gallery, puis modules client si nécessaire
+  thèmes/       default, puis thèmes client
 ```
 
-## Regles de nommage
+## Règles de nommage
 
-Les primitives portent le layout reutilisable :
+Les primitives portent le layout réutilisable :
 
 ```html
 <section class="section section--compact">
@@ -37,7 +37,7 @@ Les composants portent une structure stable :
 ```html
 <article class="card card--featured">
     <p class="card__kicker">Essence</p>
-    <h3>Pages structurees</h3>
+    <h3>Pages structurées</h3>
 </article>
 ```
 
@@ -49,9 +49,9 @@ Les modules portent uniquement le comportement propre au domaine :
 </div>
 ```
 
-## A eviter
+## À éviter
 
-Ne pas creer une classe metier si elle ne fait que regler un padding, une largeur, une grille ou une couleur.
+Ne pas créer une classe métier si elle ne fait que régler un padding, une largeur, une grille ou une couleur.
 
 ```css
 /* Non */
@@ -81,7 +81,7 @@ Ne pas creer une classe metier si elle ne fait que regler un padding, une largeu
 <x-site.badge />
 ```
 
-Les pages doivent composer ces briques avant d'ajouter une classe specifique.
+Les pages doivent composer ces briques avant d'ajouter une classe spécifique.
 
 ## Variantes disponibles
 
@@ -200,7 +200,7 @@ Hero de page :
 ```blade
 <x-site.hero
     title="Contact"
-    subtitle="Une page simple, administree et claire."
+    subtitle="Une page simple, administrée et claire."
     variant="page"
 />
 ```
@@ -210,7 +210,7 @@ Hero image :
 ```blade
 <x-site.hero
     title="Atelier"
-    subtitle="Un univers visuel fort sans classe metier."
+    subtitle="Un univers visuel fort sans classe métier."
     variant="center"
     image="/assets/images/atelier.jpg"
 />
@@ -220,8 +220,8 @@ Section avec heading decoratif :
 
 ```blade
 <x-site.section
-    title="Une methode claire"
-    intro="Le client comprend, le developpeur garde la structure."
+    title="Une méthode claire"
+    intro="Le client comprend, le développeur garde la structure."
     heading-variant="accent"
 />
 ```
@@ -239,10 +239,10 @@ CTA :
 
 ```blade
 <x-site.cta
-    title="Pret a lancer le site ?"
+    title="Prêt à lancer le site ?"
     text="On garde le socle propre et les contenus administrables."
     href="/contact"
-    label="Demarrer"
+    label="Démarrer"
     variant="brand"
     inline
 />
@@ -261,11 +261,11 @@ btn-secondary  -> btn btn--secondary
 table--simple  -> table table--simple
 ```
 
-Les classes `arcus-*`, `scripta-*`, `officina-*`, `essai-*`, `hero-ars-*` et equivalents restent hors du core. Elles iront dans un module ou theme client.
+Les classes `arcus-*`, `scripta-*`, `officina-*`, `essai-*`, `hero-ars-*` et équivalents restent hors du core. Elles iront dans un module ou thème client.
 
 ## Strategie theme
 
-Un theme client surcharge les variables CSS, pas les primitives. Voir aussi `docs/theme-system.md`.
+Un thème client surcharge les variables CSS, pas les primitives. Voir aussi `docs/theme-system.md`.
 
 ```css
 :root {
@@ -275,4 +275,4 @@ Un theme client surcharge les variables CSS, pas les primitives. Voir aussi `doc
 }
 ```
 
-Pour Atelier Ivo, les classes comme `arcus-*` resteront dans un module metier. Pour Maracuja Digital, les variantes de cartes, tables, sections et boutons doivent revenir dans les composants communs.
+Pour Atelier Ivo, les classes comme `arcus-*` resteront dans un module métier. Pour Maracuja Digital, les variantes de cartes, tables, sections et boutons doivent revenir dans les composants communs.

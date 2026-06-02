@@ -6,7 +6,7 @@
 - `cms/`: nouvelle installation Laravel issue de Maracuja CMS Starter.
 - `migration/`: notes, scripts et exports temporaires de migration.
 
-## Regles
+## Règles
 
 - Ne pas modifier `current/` sauf correction explicite du site actuel.
 - Construire la nouvelle version dans `cms/`.
@@ -17,7 +17,7 @@
 ## Source des données
 
 - Export SQL actuel: `current/storage/private/ivoin2573774.sql`
-- Images d archets: `current/public/assets/images/archets/`
+- Images d’archets: `current/public/assets/images/archets/`
 - Galerie atelier : `current/app/data/showcase.php`
 - Pages référence : `current/app/pages/`
 
@@ -32,12 +32,12 @@
 ## Notes à reprendre plus tard
 
 - Élargir le modal Filament d’édition des archets : les selects sont trop étroits et les valeurs s’empilent.
-- Corriger les thumbnails d’archets dans l’admin : ils ne s’affichent pas dans la liste ni dans le modal.
-- Conserver comme option sérieuse la méthode actuelle des photos : créer un dossier `assets/images/archets/{code}` pour chaque archet est très rapide.
+- Thumbnails d’archets dans l’admin : corrigé côté `cms`; la liste affiche l’image principale et le détail montre les chemins détectés.
+- Photos d’archets : méthode conservée à court terme avec dossier `assets/images/archets/{code}` et convention à formaliser.
 - Étudier plus tard les alternatives d’upload, sans imposer une interface glisser-déposer si elle ralentit le travail réel.
 - Réorganiser le CSS Ivo Incidit après stabilisation : garder le principe `base.css` + thème, avec des commentaires de sections comme dans le site `current`, et découper si nécessaire les surcharges par composants.
 - Formaliser la différence `module installé` / `module activé` dans Maracuja CMS : un module non vendu ne doit pas seulement être masqué par config, il doit être absent de l’installation client ou impossible à activer sans intervention Maracuja. Appliquer ensuite ce pattern à Galerie, News, Articles, Contact et Arcus.
 
 ## Prochaine étape
 
-Continuer la migration fidèle des pages publiques et du module métier Arcus dans `cms/`, sans modifier le site de référence dans `current/`.
+Continuer la migration fidèle dans `cms/`. Le dossier `current/` reste une référence figée : il peut contenir d’anciens noms ou routes tant qu’ils servent à comparer l’existant.

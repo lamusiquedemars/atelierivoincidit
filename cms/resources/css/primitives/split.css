@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--space-2xl);
-    align-items: center;
+    align-items: start;
 }
 
 .split--reverse > :first-child {

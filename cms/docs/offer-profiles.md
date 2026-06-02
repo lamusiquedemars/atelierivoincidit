@@ -1,6 +1,6 @@
 # Offer Profiles
 
-Maracuja CMS peut etre configure par profil commercial. Le profil donne une base coherente pour l offre vendue, puis les modules restent des interrupteurs fins par projet.
+Maracuja CMS peut être configuré par profil commercial. Le profil décrit le niveau de complexité vendu. Il ne remplace pas le cadrage fonctionnel et ne doit pas devenir une liste rigide de modules.
 
 ## Profils
 
@@ -12,44 +12,51 @@ MARACUJA_OFFER=univers
 
 ## Essence
 
-Profil minimal pour site vitrine simple:
+Profil minimal pour site vitrine simple.
 
-- parametres du site;
-- pages structurees;
-- contact.
+Intention:
 
-Modules desactives par defaut:
-
-- annonce courte;
-- contenus courts;
-- actualites;
-- galerie.
+- une structure courte;
+- peu de contenus vivants;
+- une administration très limitée;
+- aucun module métier spécifique.
 
 ## Signature
 
-Profil vitrine plus complet:
+Profil vitrine plus complet.
 
-- parametres du site;
-- annonce courte;
-- contenus courts;
-- pages structurees;
-- actualites;
-- galerie;
-- contact.
+Intention:
+
+- plus de contenus éditoriaux;
+- galerie, actualités ou articles si le projet le demande;
+- plus de finitions visuelles;
+- toujours sans module métier lourd.
 
 ## Univers
 
-Profil cadré pour les sites avec module metier simple, catalogue, reservation ou outil connecte.
+Profil cadré pour les sites avec module métier simple, catalogue, réservation, outil connecté ou besoin qui dépasse la vitrine éditoriale.
+
+`Univers` ne signifie pas “tous les modules”. Il signifie qu’un module métier doit être conçu, adapté ou créé pour le client.
 
 ## Interrupteurs par module
 
-Un module doit etre autorise par le profil et active par sa variable pour etre visible.
+Les modules restent activés par projet. Une offre peut contenir peu ou beaucoup de modules selon le besoin réel.
 
-Exemple: vendre une Signature sans galerie.
+Exemple: vendre une Signature sans galerie, ou une Essence avec une annonce courte.
 
 ```env
 MARACUJA_OFFER=signature
 MARACUJA_MODULE_GALLERY=false
 ```
 
-Le layout public, les routes protegees et les ressources Filament doivent passer par `App\Support\Modules::enabled()`.
+Le layout public, les routes protégées et les ressources Filament doivent passer par `App\Support\Modules::enabled()`.
+
+## Outils développeur
+
+Certains modules peuvent rester installés sans être visibles dans l’admin client.
+
+`Pages` est dans ce cas: il peut servir à gérer des pages techniques pendant le développement, mais il n’est pas une promesse client et ne doit pas devenir un page builder.
+
+```env
+MARACUJA_DEV_PAGES_ADMIN=false
+```
