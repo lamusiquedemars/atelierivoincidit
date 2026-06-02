@@ -83,7 +83,7 @@ But : définir pour chaque fichier CSS du thème Atelier et de l’installation 
 ## Notes
 - `ivo-incidit.css` est le point d’override client autorisé, mais il doit rester ciblé : on change l’apparence, pas la structure CSS partagée.
 - Si un changement est important ou crée un nouveau comportement, il doit être proposé dans `resources/css/components/` ou `resources/css/modules/` plutôt que dans le fichier client.
-- `current/public/assets/css/*.css` sert de référence historique uniquement et n’est pas à modifier directement.
+- `archive/public/assets/css/*.css` sert de référence historique uniquement et n’est pas à modifier directement.
 
 ## Exemple de bonnes pratiques
 - changer les couleurs de boutons depuis `ivo-incidit.css` en adaptant les variables de `button.css`

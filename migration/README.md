@@ -2,24 +2,24 @@
 
 ## Structure
 
-- `current/`: site actuel PHP maison, conservé comme référence stable.
-- `cms/`: nouvelle installation Laravel issue de Maracuja CMS Starter.
+- `archive/`: ancien site PHP maison, conservé comme référence stable après migration.
+- racine du dépôt : nouvelle installation Laravel issue de Maracuja CMS Starter.
 - `migration/`: notes, scripts et exports temporaires de migration.
 
 ## Règles
 
-- Ne pas modifier `current/` sauf correction explicite du site actuel.
-- Construire la nouvelle version dans `cms/`.
-- Importer progressivement les données et médias depuis `current/`.
+- Ne pas modifier `archive/` sauf correction explicite du site actuel.
+- La nouvelle version Laravel vit désormais à la racine du dépôt.
+- importer progressivement les données et médias depuis `archive/`.
 - Garder les URLs publiques importantes autant que possible.
 - Ne pas ajouter le module Archets au starter générique : il appartient à cette implémentation Univers.
 
 ## Source des données
 
-- Export SQL actuel: `current/storage/private/ivoin2573774.sql`
-- Images d’archets: `current/public/assets/images/archets/`
-- Galerie atelier : `current/app/data/showcase.php`
-- Pages référence : `current/app/pages/`
+- Export SQL actuel: `archive/storage/private/ivoin2573774.sql`
+- Images d’archets: `archive/public/assets/images/archets/`
+- Galerie atelier : `archive/app/data/showcase.php`
+- Pages référence : `archive/app/pages/`
 
 ## Base de données
 
@@ -40,4 +40,4 @@
 
 ## Prochaine étape
 
-Continuer la migration fidèle dans `cms/`. Le dossier `current/` reste une référence figée : il peut contenir d’anciens noms ou routes tant qu’ils servent à comparer l’existant.
+La migration fidèle est maintenant remontée à la racine du dépôt. Le dossier `archive/` reste une référence figée : il peut contenir d’anciens noms ou routes tant qu’ils servent à comparer l’existant.

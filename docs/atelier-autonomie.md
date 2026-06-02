@@ -7,7 +7,7 @@ Ce document sert à avancer manuellement pendant la migration Atelier vers Marac
 Dans l’ancien site PHP, beaucoup de choses étaient regroupées ici :
 
 ```text
-current/app/pages/
+archive/app/pages/
 ```
 
 Une page contenait souvent à la fois :
@@ -167,7 +167,7 @@ routes/web.php
 app/Modules/Arcus/Http/Controllers/ArcusController.php
 app/Modules/Arcus/Support/ArcusCatalog.php
 resources/views/site/arcus/show.blade.php
-base MySQL existante + photos dans current/public/assets/images/archets/c025/
+base MySQL existante + photos dans archive/public/assets/images/archets/c025/
 ```
 
 ## 5. À faire - priorité haute
@@ -275,7 +275,7 @@ Puis :
 Source de vérité :
 
 ```text
-current/app/pages/
+archive/app/pages/
 ```
 
 Pages déjà migrées mais à relire :
@@ -293,7 +293,7 @@ Objectif : remplacer mes formulations ajoutées quand elles ne sont pas souhait�
 
 Méthode :
 
-1. Ouvrir l’ancien fichier dans `current/app/pages/`.
+1. Ouvrir l’ancien fichier dans `archive/app/pages/`.
 2. Ouvrir le fichier Blade équivalent.
 3. Copier le texte uniquement.
 4. Garder la structure Blade propre.
@@ -502,7 +502,7 @@ choisir la vue selon le thème.
 Depuis :
 
 ```bash
-cd /Users/ivocorreiademelo/Sites/atelierivoincidit/cms
+cd /Users/ivocorreiademelo/Sites/atelierivoincidit
 ```
 
 Après Blade/PHP :
@@ -549,7 +549,7 @@ Si c’est une donnée longue éditoriale : Articles.
 
 Si c’est une donnée métier archet : Arcus.
 
-Si c’est une image d’archet : source historique dans `current/public/assets/images/archets/{code}`, affichage CMS dans `public/assets/images/archets/{code}` pour l’instant.
+Si c’est une image d’archet : source historique dans `archive/public/assets/images/archets/{code}`, affichage CMS dans `public/assets/images/archets/{code}` pour l’instant.
 
 Si c’est du design global : CSS component ou thème.
 
