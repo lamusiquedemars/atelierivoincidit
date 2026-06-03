@@ -147,6 +147,8 @@ class PublicSiteTest extends TestCase
         ]);
 
         SiteSetting::current();
+        [$imageWidth, $imageHeight] = getimagesize(public_path('assets/images/showcase-vb-2.jpeg'));
+
         $gallery = Gallery::query()->create([
             'title' => 'Galerie atelier',
             'slug' => 'atelier-home',
@@ -168,8 +170,8 @@ class PublicSiteTest extends TestCase
             ->assertSee('Galerie d’atelier')
             ->assertSee('showcase--featured')
             ->assertSee('data-lightbox')
-            ->assertSee('data-pswp-width="3024"', false)
-            ->assertSee('data-pswp-height="2268"', false)
+            ->assertSee('data-pswp-width="'.$imageWidth.'"', false)
+            ->assertSee('data-pswp-height="'.$imageHeight.'"', false)
             ->assertSee('data-pswp-caption="Légende atelier - Crédit : Atelier"', false)
             ->assertSee('/assets/images/showcase-vb-2.jpeg')
             ->assertDontSee('/assets/images/showcase-hausses.jpeg');
