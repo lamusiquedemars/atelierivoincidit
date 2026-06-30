@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Modules\Gallery\Models\Gallery;
 use App\Modules\Gallery\Models\GalleryImage;
+use App\Modules\ContentSlots\Models\ContentSlot;
 use App\Modules\Pages\Models\Page;
 use App\Modules\SiteSettings\Models\SiteSetting;
 use Illuminate\Database\Seeder;
@@ -42,16 +43,53 @@ class AtelierInitialSeeder extends Seeder
             ],
         ]);
 
+        collect([
+            [
+                'key' => 'articles.public_label',
+                'label' => 'Libellé public articles',
+                'group' => 'Articles',
+                'type' => 'text',
+                'value' => 'Articles',
+                'help_text' => 'Nom public du module Articles, utilisé dans la navigation et les pages.',
+            ],
+            [
+                'key' => 'articles.index.subtitle',
+                'label' => 'Sous-titre page articles',
+                'group' => 'Articles',
+                'type' => 'textarea',
+                'value' => 'Réflexions sur l’archèterie, la matière, le geste et l’histoire.',
+                'help_text' => 'Sous-titre et description SEO de la liste des articles.',
+            ],
+            [
+                'key' => 'gallery.title',
+                'label' => 'Titre galerie',
+                'group' => 'Galerie',
+                'type' => 'text',
+                'value' => 'Galerie d’atelier',
+                'help_text' => 'Titre de secours de la section galerie si la galerie n’a pas de titre.',
+            ],
+            [
+                'key' => 'gallery.intro',
+                'label' => 'Introduction galerie',
+                'group' => 'Galerie',
+                'type' => 'textarea',
+                'value' => 'Quelques archets réalisés récemment.',
+                'help_text' => 'Introduction de secours de la section galerie si la galerie n’a pas d’intro.',
+            ],
+        ])->each(fn (array $slot) => ContentSlot::query()->updateOrCreate(
+            ['key' => $slot['key']],
+            $slot + ['is_locked' => true],
+        ));
+
+
         Page::query()->updateOrCreate(['slug' => 'accueil'], [
             'title' => 'Accueil',
             'template' => 'landing',
             'excerpt' => 'Accueil de l’Atelier Ivo Incidit.',
             'hero_title' => 'Atelier Ivo Incidit',
+            'type' => Page::TYPE_SYSTEM,
             'hero_subtitle' => 'Archets contemporains, gestes anciens et matières choisies.',
-            'body_blocks' => [
-                'intro_title' => 'Un atelier dédié à l’archet',
-                'intro_text' => 'La migration Maracuja CMS est en cours. Le site actuel reste la référence pendant la reconstruction.',
-            ],
+            'content' => null,
             'seo_title' => 'Atelier Ivo Incidit - Archetier',
             'seo_description' => 'Archets contemporains, atelier et savoir-faire.',
             'is_published' => true,

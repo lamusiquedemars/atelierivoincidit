@@ -29,7 +29,8 @@ class GalleryResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedSquares2x2;
 
     protected static ?string $navigationLabel = 'Galeries';
-    protected static string|UnitEnum|null $navigationGroup = 'Médias';
+
+    protected static UnitEnum|string|null $navigationGroup = 'Médias';
 
     protected static ?string $modelLabel = 'galerie';
 
@@ -54,14 +55,15 @@ class GalleryResource extends Resource
                 TextInput::make('title')
                     ->label('Nom')
                     ->required(),
+                TextInput::make('slug')
+                    ->label('Slug')
+                    ->helperText('Identifiant technique utilisé par les templates. Laisser vide pour le générer.')
+                    ->disabled(fn (?Gallery $record): bool => (bool) $record?->isSystemGallery())
+                    ->dehydrated()
+                    ->unique(ignoreRecord: true),
                 Textarea::make('intro')
                     ->label('Introduction')
                     ->columnSpanFull(),
-                TextInput::make('position')
-                    ->label('Ordre')
-                    ->numeric()
-                    ->default(0)
-                    ->required(),
                 Toggle::make('is_published')
                     ->label('Publié')
                     ->required()
@@ -76,20 +78,19 @@ class GalleryResource extends Resource
                 TextColumn::make('title')
                     ->label('Nom')
                     ->searchable(),
+                TextColumn::make('slug')
+                    ->label('Slug')
+                    ->searchable()
+                    ->copyable(),
                 TextColumn::make('images_count')
                     ->counts('images')
                     ->label('Photos')
-                    ->sortable(),
-                TextColumn::make('position')
-                    ->label('Ordre')
-                    ->numeric()
                     ->sortable(),
                 IconColumn::make('is_published')
                     ->label('Publié')
                     ->boolean(),
             ])
             ->defaultSort('position')
-            ->reorderable('position')
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make()

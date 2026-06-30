@@ -113,7 +113,7 @@
                         <a href="{{ route('atelier.probatio') }}">Essayer</a>
                     @endif
                     @if (\App\Support\Modules::enabled('articles'))
-                        <a href="{{ route('articles.index') }}">{{ config('maracuja.articles.public_label', 'Articles') }}</a>
+                        <a href="{{ route('articles.index') }}">{{ \App\Support\ContentSlots::value('articles.public_label', 'Articles') }}</a>
                     @endif
                     @if (\App\Support\Modules::enabled('news'))
                         <a href="{{ route('news.index') }}">Actualités</a>
@@ -121,7 +121,6 @@
                     @if (\App\Support\Modules::enabled('pages'))
                         @unless (config('maracuja.theme') === 'atelier')
                             <a href="{{ route('pages.show', 'services') }}">Services</a>
-                            <a href="{{ route('pages.show', 'methode') }}">Méthode</a>
                         @endunless
                     @endif
                     @if (\App\Support\Modules::enabled('contact'))

@@ -29,20 +29,21 @@ class SeoTest extends TestCase
         ]);
 
         Page::query()->create([
-            'title' => 'Méthode',
-            'slug' => 'methode',
-            'seo_title' => 'Méthode SEO',
+            'title' => 'Politique confidentialité',
+            'slug' => 'politique-confidentialite',
+            'type' => Page::TYPE_TEXT,
+            'seo_title' => 'Politique confidentialité SEO',
             'seo_description' => 'Une description SEO claire.',
             'is_published' => true,
             'published_at' => now(),
         ]);
 
-        $this->get('/methode')
+        $this->get('/politique-confidentialite')
             ->assertOk()
-            ->assertSee('<title>Méthode SEO</title>', false)
+            ->assertSee('<title>Politique confidentialité SEO</title>', false)
             ->assertSee('<meta name="description" content="Une description SEO claire.">', false)
-            ->assertSee('<link rel="canonical" href="'.url('/methode').'">', false)
-            ->assertSee('<meta property="og:title" content="Méthode SEO">', false)
+            ->assertSee('<link rel="canonical" href="'.url('/politique-confidentialite').'">', false)
+            ->assertSee('<meta property="og:title" content="Politique confidentialité SEO">', false)
             ->assertSee('<meta property="og:image" content="'.url('/demo/theme-system.svg').'">', false)
             ->assertSee('<meta name="robots" content="noindex, nofollow">', false);
     }

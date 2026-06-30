@@ -321,25 +321,26 @@ class PublicSiteTest extends TestCase
             ->assertDontSee('Actualite expirée');
     }
 
-    public function test_published_page_is_available_by_slug(): void
+    public function test_text_page_is_available_by_slug(): void
     {
         SiteSetting::current();
 
         Page::query()->create([
-            'title' => 'Méthode',
-            'slug' => 'methode',
-            'hero_title' => 'Une structure avant les options',
-            'body_blocks' => ['section' => 'Admin simple'],
-            'is_published' => true,
-            'published_at' => now(),
+            "title" => "Politique confidentialité",
+            "slug" => "politique-confidentialite",
+            "type" => Page::TYPE_TEXT,
+            "hero_title" => "Politique confidentialité",
+            "content" => "<p>Texte confidentialité simple.</p>",
+            "is_published" => true,
+            "published_at" => now(),
         ]);
 
-        $this->get('/methode')
+        $this->get("/politique-confidentialite")
             ->assertOk()
-            ->assertSee('Fil d’Ariane')
-            ->assertSee('Une structure avant les options')
-            ->assertSee('Admin simple')
-            ->assertSee('Retour à l’accueil');
+            ->assertSee("Fil d’Ariane")
+            ->assertSee("Politique confidentialité")
+            ->assertSee("Texte confidentialité simple")
+            ->assertSee("Retour à l&#039;accueil", false);
     }
 
     public function test_contact_form_stores_submission_and_sends_mail(): void

@@ -23,9 +23,9 @@
             :eyebrow="config('maracuja.product_name')"
             :title="$homePage?->hero_title ?? $settings->site_name"
             :subtitle="$homePage?->hero_subtitle ?? $settings->baseline"
-            cta-url="{{ route('contact') }}"
+            :cta-url="$contactUrl"
             :cta-label="\App\Support\ContentSlots::value('home.hero.cta_label', 'Présenter un projet')"
-            :secondary-cta-url="route('pages.show', 'services')"
+            :secondary-cta-url="$servicesUrl"
             :secondary-cta-label="\App\Support\ContentSlots::value('home.hero.secondary_cta_label', 'Voir les services')"
         />
     @endif
@@ -173,7 +173,7 @@
     @endunless
 
     @if (! $isAtelier && $galleryImages->isNotEmpty())
-        <x-site.section :title="$gallery?->title ?? config('maracuja.gallery.title')" :intro="$gallery?->intro ?? config('maracuja.gallery.intro')" heading-variant="decorated">
+        <x-site.section :title="$gallery?->title ?? \App\Support\ContentSlots::value('gallery.title', 'Galerie demo')" :intro="$gallery?->intro ?? \App\Support\ContentSlots::value('gallery.intro', 'Le Media System gere alt, legende, credit, dimensions et lightbox.')" heading-variant="decorated">
             <x-site.gallery
                 :images="$galleryImages"
                 :layout="config('maracuja.gallery.layout')"

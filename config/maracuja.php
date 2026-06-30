@@ -16,8 +16,6 @@ return [
         'slug' => env('MARACUJA_GALLERY_SLUG', 'home'),
         'layout' => env('MARACUJA_GALLERY_LAYOUT', 'grid'),
         'lightbox' => env('MARACUJA_GALLERY_LIGHTBOX', true),
-        'title' => env('MARACUJA_GALLERY_TITLE', 'Galerie demo'),
-        'intro' => env('MARACUJA_GALLERY_INTRO', 'Le Media System gere alt, legende, credit, dimensions et lightbox.'),
     ],
 
     'news' => [
@@ -25,7 +23,6 @@ return [
     ],
 
     'articles' => [
-        'public_label' => env('MARACUJA_ARTICLES_PUBLIC_LABEL', 'Articles'),
         'public_path' => env('MARACUJA_ARTICLES_PUBLIC_PATH', 'articles'),
     ],
 
