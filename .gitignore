@@ -31,6 +31,7 @@ archive/
 archive/data/*.sql
 archive/data/*.xml
 archive/storage/private/
+/docs/Bois_et_Materiaux.docx
 archive/storage/cache/
 archive/storage/logs/
 migration/backups/
