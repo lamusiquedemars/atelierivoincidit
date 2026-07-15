@@ -27,6 +27,7 @@ Homestead.yaml
 Thumbs.db
 archive/config.local.php
 archive/config.prod.php
+archive/
 archive/data/*.sql
 archive/data/*.xml
 archive/storage/private/
