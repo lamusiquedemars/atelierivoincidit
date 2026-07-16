@@ -65,9 +65,12 @@
 }
 
 .theme-ivo-incidit .site-header {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
+    inset-block-start: 0;
     z-index: 1000;
+    align-self: flex-start;
     width: 100%;
     margin-inline: auto;
     padding: 0;
