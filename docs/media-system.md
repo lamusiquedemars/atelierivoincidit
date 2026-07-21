@@ -12,12 +12,12 @@ Le Media System encadre les images du starter : upload, métadonnées, accessibi
 ## Stockage V1
 
 ```txt
-storage/app/public/galleries/{gallery-slug}
-storage/app/public/news
-storage/app/public/pages
-storage/app/public/articles
-storage/app/public/articles/blocks
-storage/app/public/site
+public/storage/galleries/{gallery-slug}
+public/storage/news
+public/storage/pages
+public/storage/articles
+public/storage/articles/blocks
+public/storage/site
 ```
 
 Les uploads administrables utilisent explicitement le disk Laravel `public`.
@@ -35,11 +35,16 @@ Ce flux est rapide pour l'atelier et ne doit pas être mélangé avec les upload
 CMS génériques. Une future relation media du module Archets pourra reprendre ce
 schéma sans obliger à changer les dossiers existants.
 
-Une installation doit exécuter :
+Le dossier `public/storage` fait partie de la structure du projet, mais son
+contenu reste hors Git. Il doit être accessible en écriture par PHP. Aucun
+lien symbolique ni `php artisan storage:link` n'est nécessaire.
 
-```bash
-php artisan storage:link
-```
+Le document root du domaine doit idéalement pointer vers le dossier `public`
+du projet. Sur un hébergement LWS qui impose la racine du dépôt, le fichier
+`.htaccess` et le `index.php` situés à la racine adaptent le routage. Laravel
+sert alors `/storage/...` depuis `public/storage/...` grâce au contrôleur de
+secours, tandis que `.htaccess` bloque les dossiers internes. Ces fichiers font
+partie du code et doivent donc être déployés avec le reste du projet.
 
 ## Champs recommandés
 
