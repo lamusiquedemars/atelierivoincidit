@@ -9,35 +9,31 @@ Le Media System encadre les images du starter : upload, métadonnées, accessibi
 - Garder un rendu responsive simple en V1.
 - Préparer plus tard les conversions WebP/AVIF et thumbnails.
 
-## Stockage V1
+## Contrat de stockage Maracuja
 
 ```txt
-public/storage/galleries/{gallery-slug}
-public/storage/news
-public/storage/pages
-public/storage/articles
-public/storage/articles/blocks
-public/storage/site
+public/storage/media/images/YYYY/MM/{ulid}.{extension}
+public/storage/media/documents/YYYY/MM/{ulid}.{extension}
 ```
 
-Les uploads administrables utilisent explicitement le disk Laravel `public`.
-Le chemin en base reste relatif au disk, par exemple
-`galleries/atelier-home/photo.jpeg`.
+Ce contrat est identique pour tous les sites Maracuja, quel que soit
+l'hébergeur. Le chemin absolu varie selon le serveur, mais le disque Laravel
+`public` pointe toujours vers `public_path('storage')`. Aucun lien symbolique
+ni `php artisan storage:link` n'est nécessaire.
 
-Pour Atelier Ivo Incidit, les photos d’archets restent volontairement dans le
-dossier métier historique :
+Le dossier `public/storage` fait partie de la structure du projet, son contenu
+reste hors Git et il doit être accessible en écriture par PHP. Tous les médias
+publics ajoutés depuis l'administration sont catalogués par le module Media et
+stockés exclusivement dans l'une des deux familles suivantes:
 
-```txt
-public/assets/images/archets/{code}
-```
+- `media/images`: images affichables sur le site, dans l'administration et
+  dans les emails;
+- `media/documents`: documents explicitement destinés au téléchargement
+  public.
 
-Ce flux est rapide pour l'atelier et ne doit pas être mélangé avec les uploads
-CMS génériques. Une future relation media du module Archets pourra reprendre ce
-schéma sans obliger à changer les dossiers existants.
-
-Le dossier `public/storage` fait partie de la structure du projet, mais son
-contenu reste hors Git. Il doit être accessible en écriture par PHP. Aucun
-lien symbolique ni `php artisan storage:link` n'est nécessaire.
+Le contexte métier n'apparaît pas dans le chemin physique. Une image utilisée
+par une page, une actualité, une galerie et un message reste un seul média. Ses
+usages sont enregistrés en base de données.
 
 Le document root du domaine doit idéalement pointer vers le dossier `public`
 du projet. Sur un hébergement LWS qui impose la racine du dépôt, le fichier
@@ -46,22 +42,77 @@ sert alors `/storage/...` depuis `public/storage/...` grâce au contrôleur de
 secours, tandis que `.htaccess` bloque les dossiers internes. Ces fichiers font
 partie du code et doivent donc être déployés avec le reste du projet.
 
+Tous les uploads visibles sur le site utilisent le disque Laravel `public`.
+Le chemin stocké en base reste relatif au disque, par exemple:
+
+```txt
+media/images/2026/07/01KXYZ.webp
+media/documents/2026/07/01KABC.pdf
+```
+
+Le front les sert ensuite via `/storage/...`.
+
+Ne jamais enregistrer en base un chemin absolu, un chemin commençant par
+`public/storage` ou une URL liée au domaine courant. Les URL sont calculées au
+moment du rendu afin que les données restent portables entre local, LWS et les
+autres hébergeurs.
+
+### Stockage privé et exceptions techniques
+
+`storage/app/private` est réservé aux fichiers non publics:
+
+```txt
+storage/app/private/imports
+storage/app/private/exports
+storage/app/private/temporary
+storage/app/private/livewire-tmp
+```
+
+`livewire-tmp` est un emplacement transitoire géré par Livewire. Aucun fichier
+métier permanent ne doit y rester. Les imports Audience ne sont pas des médias
+publics et ne figurent pas dans la médiathèque.
+
+Les assets livrés avec le code et suivis par Git, par exemple `public/build` ou
+`public/demo`, ne sont pas des médias administrables et restent hors du module
+Media.
+
+### Emplacements interdits
+
+Après migration, aucun média public administrable ne doit subsister dans:
+
+```txt
+storage/app/public
+storage/app/private
+public/storage/pages
+public/storage/news
+public/storage/articles
+public/storage/events
+public/storage/galleries
+public/storage/site
+public/storage/settings
+public/storage/uploads
+public/storage/attachments
+public/storage/ (fichiers directement à la racine)
+```
+
+Tout dossier public non déclaré est une anomalie à auditer, migrer puis
+supprimer. `storage/app/public` n'est pas utilisé par Maracuja et ne doit pas
+être recréé par une installation ou un déploiement.
+
 ## Champs recommandés
 
 Pour une image administrable :
 
 ```txt
-image_path
-alt_text
-caption
-credit
-width
-height
+media_id
 position
 is_published
 ```
 
-Le module Galerie utilise déjà cette structure.
+Le média central porte son chemin, son texte alternatif, sa légende, son
+crédit, ses dimensions et ses informations techniques. Le modèle métier ne
+stocke que sa référence et les propriétés propres à son usage, comme la
+position ou l'état de publication.
 
 ## Règles alt
 
@@ -71,13 +122,210 @@ Le module Galerie utilise déjà cette structure.
 
 ## Upload admin
 
-Règles V1 :
+Règles pour les images publiques:
 
 ```txt
+disk: public
+visibility: public
 types: jpg, jpeg, png, webp
 max: 5 MB
-dossier: par module
+dossier: media/images/YYYY/MM
 ```
+
+Règles initiales pour les documents publics:
+
+```txt
+disk: public
+visibility: public
+types: pdf
+max: 15 MB
+dossier: media/documents/YYYY/MM
+```
+
+Le type MIME est vérifié à partir du contenu et pas seulement de l'extension.
+Les formats exécutables ou actifs, dont PHP, HTML et SVG téléversé, sont
+refusés. D'autres formats de documents ne sont ajoutés qu'en réponse à un
+besoin explicite et avec leurs propres règles de validation.
+
+Le nom physique est un ULID immuable et sûr. Le nom original et le nom
+d'affichage sont conservés dans le catalogue Media. La source de vérité est
+l'enregistrement du média, pas son nom physique.
+
+Tous les uploads administrables passent par le module Media, y compris ceux
+initiés depuis un champ métier ou un éditeur riche. Les composants Filament ne
+doivent pas appeler directement `FileUpload` ou les pièces jointes natives du
+`RichEditor` vers un autre dossier public.
+
+Le Media Picker filtre les choix selon le contexte sans changer leur stockage:
+
+- un champ image propose uniquement les images;
+- un champ document propose uniquement les documents autorisés;
+- un éditeur riche sélectionne ou crée d'abord un média catalogué;
+- les messages SMTP et Brevo réutilisent les mêmes médias publics.
+
+Les sélecteurs compacts affichent une vignette carrée de l’image originale,
+son nom, ses dimensions et son poids. Les documents affichent un repère PDF.
+Cette prévisualisation ne crée aucune copie physique : le navigateur contraint
+simplement l’image originale à la taille d’affichage. De vraies miniatures ne
+seront générées que si le volume de la médiathèque le justifie.
+
+Dans un formulaire Filament, le picker est toujours relié à une relation
+Eloquent et jamais à un chemin de fichier:
+
+```php
+MediaPicker::make('hero_media_id')
+    ->relationship('heroMedia', 'display_name')
+    ->imagesOnly();
+
+MediaPicker::make('document_media_id')
+    ->relationship('documentMedia', 'display_name')
+    ->documentsOnly();
+```
+
+Le composant utilise le `ModalTableSelect` natif de Filament. Il ouvre une
+grille recherchable et filtrable, permet de sélectionner un média existant et
+propose la même action d'upload contrôlée que la page « Médias ».
+
+## Catalogue et usages
+
+Le modèle central Media conserve au minimum le type, le chemin relatif, les
+noms physique et original, le type MIME, l'extension, le poids, l'empreinte,
+les dimensions des images et les métadonnées éditoriales.
+
+Les champs structurés référencent un média par identifiant. Les blocs JSON et
+les éditeurs riches enregistrent également une référence traçable. La
+suppression physique est refusée tant qu'un usage existe dans un modèle, un
+bloc, un contenu riche, un message ou un snapshot d'email.
+
+## Migration et assainissement
+
+Avant toute migration ou opération de nettoyage, créer un snapshot logique de
+la base courante :
+
+```bash
+php artisan maracuja:db:backup --name=avant-migration-medias
+```
+
+Le snapshot est écrit hors Git dans `storage/app/private/database-backups`. Il
+contient les colonnes et lignes de toutes les tables. L'absence de
+`mysqldump` sur l'hébergement ne dispense jamais de cette sauvegarde.
+
+### Déploiement sur un autre site Maracuja
+
+Chaque site est traité séparément. Ne jamais réutiliser le manifeste, les
+identifiants de médias ou le snapshot d'un autre site.
+
+Ordre obligatoire :
+
+1. déployer le code et vérifier la configuration du disque `public` ;
+2. créer un snapshot `maracuja:db:backup` et le conserver hors du serveur ;
+3. exécuter `maracuja:media:audit` et archiver sa sortie ;
+4. créer un nouveau manifeste avec `maracuja:media:migrate` ;
+5. relire les exclusions et références avant toute application ;
+6. appliquer le manifeste, tester le front, l'administration et les emails ;
+7. attendre la validation fonctionnelle avant `--cleanup` ;
+8. relancer l'audit et exiger zéro anomalie ;
+9. conserver le snapshot et le manifeste pendant la période de garantie.
+
+Une référence en base non prise en charge bloque l'application du manifeste :
+elle doit être migrée explicitement, jamais ignorée ou remplacée par
+approximation.
+
+Les emplacements existants ne constituent pas une architecture historique à
+conserver. Ils sont des sources de migration vers le contrat unique.
+
+La migration doit:
+
+1. inventorier les fichiers des stockages public, ancien public et privé;
+2. calculer une empreinte SHA-256 et regrouper les copies identiques;
+3. relever les références dans les colonnes, le JSON et le HTML;
+4. produire un manifeste `ancien chemin -> média -> nouveau chemin` avant
+   toute écriture;
+5. créer un seul média catalogué par fichier utile;
+6. déplacer la copie retenue sous `public/storage/media`;
+7. mettre à jour et tester toutes les références;
+8. supprimer les copies et dossiers obsolètes après validation;
+9. confirmer qu'aucun fichier ou dossier fantôme ne subsiste.
+
+Le mode `--dry-run` est obligatoire avant chaque migration de site. Le starter
+est migré et validé en premier. Les autres sites sont ensuite traités
+séparément avec la même commande et le même contrat, sans modification pendant
+le prototype du starter.
+
+La commande Maracuja sépare explicitement la préparation et l’écriture :
+
+```bash
+# Crée seulement un manifeste privé. Aucun média n'est modifié.
+php artisan maracuja:media:migrate --manifest=nom-du-plan.json
+
+# Vérifie les empreintes, copie vers le stockage canonique et crée le catalogue.
+# Les sources historiques sont conservées.
+php artisan maracuja:media:migrate --apply --manifest=nom-du-plan.json
+
+# Revérifie les copies canoniques puis supprime les copies historiques.
+php artisan maracuja:media:migrate --cleanup --manifest=nom-du-plan.json
+
+# Restaure les anciens chemins nettoyés puis supprime uniquement les médias
+# créés par le plan, s'ils ne sont pas utilisés.
+php artisan maracuja:media:migrate --rollback --manifest=nom-du-plan.json
+```
+
+Le manifeste est stocké dans `storage/app/private/media-migrations`. Il contient
+les sources, copies identiques, exclusions, empreintes, destinations et
+identifiants de catalogue. Une application est refusée si une source a changé
+depuis la création du plan ou si des références en base nécessitent un
+migrateur qui n'est pas encore disponible.
+
+## Audit permanent
+
+L'audit Media signale comme erreur:
+
+- un média public hors de `public/storage/media`;
+- un fichier métier dans `storage/app/public`;
+- un média public dans `storage/app/private`;
+- un chemin absolu ou une URL de domaine stocké en base;
+- une référence vers un fichier absent;
+- un fichier public sans entrée Media;
+- une entrée Media sans fichier;
+- un dossier public non déclaré;
+- un upload Filament configuré vers un ancien dossier métier.
+
+Ces contrôles doivent être disponibles dans `maracuja:media:audit`, intégrés à
+`maracuja:doctor` et couverts par les tests automatisés.
+
+## Galeries
+
+Le module Galerie utilise deux niveaux métier:
+
+- `Gallery`: collection publiée, par exemple `home`;
+- `GalleryImage`: photos rattachées à une collection.
+
+`GalleryImage` référence un média central. Il ne crée pas de dossier physique
+propre à la galerie et ne duplique pas le fichier lorsqu'une image est
+réutilisée ailleurs.
+
+Le template choisit la galerie à afficher par slug:
+
+```env
+MARACUJA_GALLERY_SLUG=home
+```
+
+Les galeries système comme `home` ne sont pas supprimables depuis l’admin, afin de protéger les templates qui les utilisent. Les photos se gèrent dans la galerie, via l’onglet `Photos`.
+
+## Dimensions et moules d’affichage
+
+Le module Media renseigne automatiquement `width` et `height` à l'upload ou à
+la migration. La galerie lit ces dimensions pour alimenter la lightbox
+PhotoSwipe.
+
+Le rendu front reste cadré par les composants:
+
+- hero: image de fond en `cover`;
+- galerie: ratios définis par le preset `grid`, `featured` ou `carousel`;
+- article: image contrainte par la largeur du contenu;
+- cartes média: image en `cover`.
+
+La V1 ne génère pas encore de thumbnails, WebP/AVIF ou recadrages. Ces optimisations viendront seulement si le besoin projet le justifie.
 
 ## Composants Blade
 
@@ -92,7 +340,7 @@ Image :
 
 ```blade
 <x-site.image
-    src="galleries/atelier-home/photo.webp"
+    src="media/images/2026/07/01KXYZ.webp"
     alt="Détail d'un archet"
     width="1200"
     height="800"
@@ -103,7 +351,7 @@ Figure :
 
 ```blade
 <x-site.figure
-    src="galleries/atelier-home/photo.webp"
+    src="media/images/2026/07/01KXYZ.webp"
     alt="Détail d'un archet"
     caption="Détail de finition"
     credit="Atelier Ivo Incidit"
@@ -151,11 +399,12 @@ Le client ne choisit pas `grid`, `featured` ou `carousel` dans l’admin. Il adm
 ## Configuration
 
 ```env
+MARACUJA_GALLERY_SLUG=home
 MARACUJA_GALLERY_LAYOUT=featured
 MARACUJA_GALLERY_LIGHTBOX=true
-MARACUJA_GALLERY_TITLE="Galerie"
-MARACUJA_GALLERY_INTRO="Quelques images du projet."
 ```
+
+Les textes visibles de la section galerie ne sont pas en config. Ils viennent de la galerie elle-même (`title`, `intro`) ou des `Content Slots` de secours `gallery.title` et `gallery.intro`.
 
 ## PhotoSwipe
 
@@ -164,16 +413,65 @@ Pour fonctionner au mieux, chaque image de lightbox doit avoir :
 ```txt
 data-pswp-width
 data-pswp-height
-data-pswp-caption
 ```
 
 Si les dimensions sont absentes, le composant utilise un fallback. En production, les dimensions doivent être renseignées.
-La légende de zoom est construite par le composant galerie depuis `caption` et `credit`.
 
 ## Prochaines évolutions
 
-- Lire automatiquement largeur/hauteur après upload.
-- Générer thumbnails.
-- Générer WebP/AVIF.
-- Ajouter un champ `is_decorative`.
-- Ajouter un media picker réutilisable pour Pages, Actualités et modules métier.
+- Générer éventuellement des thumbnails et des conversions WebP/AVIF derrière
+  un service Maracuja, sans changer le contrat de stockage public.
+- Ajouter un champ `is_decorative` aux images si le besoin éditorial est
+  confirmé.
+
+## Éditeurs riches
+
+Tous les contenus riches d’Atelier utilisent `MaracujaRichEditor`. Son bouton
+« Insérer une image de la médiathèque » insère l’URL publique canonique et un
+identifiant `media-{id}` dans le nœud image. Cet identifiant alimente
+`media_usages` à l’enregistrement du contenu et protège le média contre une
+suppression accidentelle.
+
+Chaque sélecteur média doit toujours proposer les deux parcours suivants :
+
+- choisir un média déjà présent sur le site ;
+- importer un fichier depuis l’ordinateur.
+
+Un import depuis l’ordinateur crée d’abord une entrée du catalogue via
+`MediaStorageService`, dans le chemin canonique correspondant, puis sélectionne
+ce nouveau média. Il ne constitue jamais un upload direct vers un dossier du
+module appelant.
+
+L’upload de pièces jointes natif du RichEditor Filament est désactivé : il ne
+doit jamais créer un fichier public hors du catalogue.
+
+Le module Audience/Brevo n’est pas activé sur Atelier. L’intégration des médias
+aux messages ciblés ne fait donc pas partie de ce déploiement.
+
+## Exceptions métier Atelier
+
+Les photographies du catalogue d’archets Arcus restent des assets métier
+suivis par Git sous `public/assets/images/archets/{code}`. Elles sont pilotées
+par le catalogue Arcus et ne sont pas des médias éditoriaux téléversés depuis
+Filament.
+
+Les dix fichiers `public/assets/images/showcase-*` sont également conservés
+dans Git, mais leurs onze lignes éditoriales de galerie utilisent désormais la
+médiathèque centrale. Une copie canonique est donc cataloguée sous
+`public/storage/media/images`, sans supprimer les sources du thème.
+
+## État d’Atelier après migration locale
+
+Le snapshot privé `avant-media-manager.json` contient les 39 tables présentes
+avant intégration, y compris les tables historiques sans préfixe et les tables
+CMS préfixées par `cms_`.
+
+Deux manifestes privés et réversibles ont été appliqués puis nettoyés :
+
+- `atelier-media-plan.json` pour les anciens stockages public, legacy et privé ;
+- `atelier-gallery-assets-plan.json` pour les dix assets de galerie suivis par
+  Git, dont les sources sont explicitement préservées.
+
+Après migration, les onze photos de galerie sont reliées au catalogue, le
+stockage ne contient aucun doublon historique et l’audit du 22 juillet 2026
+retourne zéro anomalie.

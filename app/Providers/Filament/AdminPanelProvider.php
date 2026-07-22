@@ -23,7 +23,7 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
+        $panel = $panel
             ->default()
             ->id('admin')
             ->path('admin')
@@ -55,5 +55,12 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+
+        $panel->discoverResources(
+            in: app_path('Modules/Media/Filament/Resources'),
+            for: 'App\Modules\Media\Filament\Resources',
+        );
+
+        return $panel;
     }
 }

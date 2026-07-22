@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\SiteSettings;
 
 use App\Filament\Resources\SiteSettings\Pages\ManageSiteSettings;
+use App\Modules\Media\Filament\Forms\Components\MediaPicker;
 use App\Modules\SiteSettings\Models\SiteSetting;
 use App\Support\Modules;
 use BackedEnum;
@@ -11,7 +12,6 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -87,22 +87,19 @@ class SiteSettingResource extends Resource
                 Textarea::make('address')
                     ->label('Adresse')
                     ->columnSpanFull(),
-                FileUpload::make('logo_path')
+                MediaPicker::make('logo_media_id')
                     ->label('Logo')
-                    ->disk('public')
-                    ->directory('site')
-                    ->image(),
-                FileUpload::make('favicon_path')
+                    ->relationship('logoMedia', 'display_name')
+                    ->imagesOnly(),
+                MediaPicker::make('favicon_media_id')
                     ->label('Favicon')
-                    ->disk('public')
-                    ->directory('site')
-                    ->image(),
-                FileUpload::make('default_og_image_path')
+                    ->relationship('faviconMedia', 'display_name')
+                    ->imagesOnly(),
+                MediaPicker::make('default_og_media_id')
                     ->label('Image sociale par défaut')
                     ->helperText('Image utilisée par Open Graph si une page ou actualité n’en fournit pas.')
-                    ->disk('public')
-                    ->directory('site')
-                    ->image(),
+                    ->relationship('defaultOgMedia', 'display_name')
+                    ->imagesOnly(),
                 KeyValue::make('social_links')
                     ->label('Liens sociaux')
                     ->keyLabel('Libellé')

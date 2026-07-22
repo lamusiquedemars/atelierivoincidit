@@ -26,13 +26,24 @@
             ->merge($isCarousel ? ['data-carousel' => true] : []) }}
     >
         @php
-            $renderItem = function ($image) use ($lightbox) {
-                $src = str_starts_with($image->image_path, 'http') || str_starts_with($image->image_path, '/')
-                    ? $image->image_path
-                    : asset('storage/' . $image->image_path);
-                $caption = $image->caption ?: $image->title;
+            $renderItem = function ($image) {
+                $media = data_get($image, 'media');
+                $src = data_get($image, 'resolved_image_url') ?: data_get($image, 'image_path');
 
-                return compact('src', 'caption');
+                if ($src
+                    && ! str_starts_with($src, 'http://')
+                    && ! str_starts_with($src, 'https://')
+                    && ! str_starts_with($src, '/')) {
+                    $src = asset('storage/'.$src);
+                }
+
+                $caption = data_get($image, 'caption') ?: data_get($media, 'caption') ?: data_get($image, 'title');
+                $credit = data_get($image, 'credit') ?: data_get($media, 'credit');
+                $alt = data_get($image, 'alt') ?: data_get($image, 'alt_text') ?: data_get($media, 'alt_text') ?: '';
+                $width = data_get($image, 'width');
+                $height = data_get($image, 'height');
+
+                return compact('src', 'caption', 'credit', 'alt', 'width', 'height');
             };
         @endphp
 
@@ -42,44 +53,44 @@
             @endif
 
             @foreach ($items as $image)
-                @php(['src' => $src, 'caption' => $caption] = $renderItem($image))
-                @php($lightboxCaption = collect([$caption, $image->credit ? 'Crédit : ' . $image->credit : null])->filter()->join(' - '))
+                @php(['src' => $src, 'caption' => $caption, 'credit' => $credit, 'alt' => $alt, 'width' => $width, 'height' => $height] = $renderItem($image))
+                @php($lightboxCaption = collect([$caption, $credit ? 'Crédit : ' . $credit : null])->filter()->join(' - '))
 
                 <article @class(['showcase__item', 'carousel__slide' => $isCarousel])>
                     <div class="showcase__media">
                         @if ($lightbox)
                             <a
                                 href="{{ $src }}"
-                                data-pswp-width="{{ $image->width ?? 1600 }}"
-                                data-pswp-height="{{ $image->height ?? 1000 }}"
+                                data-pswp-width="{{ $width ?? 1600 }}"
+                                data-pswp-height="{{ $height ?? 1000 }}"
                                 @if ($lightboxCaption) data-pswp-caption="{{ $lightboxCaption }}" @endif
                                 target="_blank"
                                 rel="noreferrer"
                             >
                                 <x-site.image
-                                    :src="$image->image_path"
-                                    :alt="$image->alt"
-                                    :width="$image->width"
-                                    :height="$image->height"
+                                    :src="$src"
+                                    :alt="$alt"
+                                    :width="$width"
+                                    :height="$height"
                                 />
                             </a>
                         @else
                             <x-site.image
-                                :src="$image->image_path"
-                                :alt="$image->alt"
-                                :width="$image->width"
-                                :height="$image->height"
+                                :src="$src"
+                                :alt="$alt"
+                                :width="$width"
+                                :height="$height"
                             />
                         @endif
                     </div>
 
-                    @if ($caption || $image->credit)
+                    @if ($caption || $credit)
                         <div class="showcase__content">
                             @if ($caption)
                                 <h3 class="showcase__item-title">{{ $caption }}</h3>
                             @endif
-                            @if ($image->credit)
-                                <p class="showcase__meta">Crédit : {{ $image->credit }}</p>
+                            @if ($credit)
+                                <p class="showcase__meta">Crédit : {{ $credit }}</p>
                             @endif
                         </div>
                     @endif

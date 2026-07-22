@@ -12,7 +12,8 @@
 
         $clientTheme = config('maracuja.client_theme');
         $isIvoIncidit = $clientTheme === 'ivo-incidit';
-        $brandLogo = $settings->logo_path ?: ($isIvoIncidit ? '/assets/images/blason-ivo-incidit2.png' : null);
+        $brandLogo = $settings->logoUrl() ?: ($isIvoIncidit ? '/assets/images/blason-ivo-incidit2.png' : null);
+        $favicon = $settings->faviconUrl();
         $ivoSocialLinks = $settings->social_links ?: ['Instagram : @ivo_incidit' => 'https://instagram.com/ivo_incidit'];
     @endphp
 
@@ -40,8 +41,8 @@
         <meta name="twitter:image" content="{{ $seo['image'] }}">
     @endif
 
-    @if ($settings->favicon_path)
-        <link rel="icon" href="{{ \App\Support\Seo::absoluteUrl($settings->favicon_path) }}">
+    @if ($favicon)
+        <link rel="icon" href="{{ \App\Support\Seo::absoluteUrl($favicon) }}">
     @endif
 
     @if ($isIvoIncidit)

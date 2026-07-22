@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\NewsPosts;
 
 use App\Filament\Resources\NewsPosts\Pages\ManageNewsPosts;
+use App\Modules\Media\Filament\Forms\Components\MaracujaRichEditor;
+use App\Modules\Media\Filament\Forms\Components\MediaPicker;
 use App\Modules\News\Models\NewsPost;
 use App\Support\Modules;
 use BackedEnum;
@@ -12,8 +14,6 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -57,20 +57,21 @@ class NewsPostResource extends Resource
             ->components([
                 TextInput::make('title')
                     ->label('Titre')
+                    ->columnSpanFull()
                     ->required(),
                 TextInput::make('slug')
                     ->required(),
                 Textarea::make('excerpt')
                     ->label('Résumé')
                     ->columnSpanFull(),
-                RichEditor::make('content')
+                MaracujaRichEditor::make('content')
                     ->label('Contenu')
                     ->columnSpanFull(),
-                FileUpload::make('image_path')
+                MediaPicker::make('image_media_id')
                     ->label('Image')
-                    ->disk('public')
-                    ->directory('news')
-                    ->image(),
+                    ->relationship('imageMedia', 'display_name')
+                    ->imagesOnly()
+                    ->helperText('Choisir une image de la médiathèque centrale.'),
                 Toggle::make('is_published')
                     ->label('Publié')
                     ->required(),
