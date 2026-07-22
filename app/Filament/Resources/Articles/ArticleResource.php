@@ -3,6 +3,9 @@
 namespace App\Filament\Resources\Articles;
 
 use App\Filament\Resources\Articles\Pages\ManageArticles;
+use App\Modules\Media\Filament\Forms\Components\MaracujaRichEditor;
+use App\Modules\Media\Filament\Forms\Components\MediaIdSelect;
+use App\Modules\Media\Filament\Forms\Components\MediaPicker;
 use App\Modules\Articles\Models\Article;
 use App\Support\Modules;
 use BackedEnum;
@@ -12,9 +15,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -59,6 +60,7 @@ class ArticleResource extends Resource
             ->components([
                 TextInput::make('title')
                     ->label('Titre')
+                    ->columnSpanFull()
                     ->required(),
                 TextInput::make('slug')
                     ->required()
@@ -67,11 +69,11 @@ class ArticleResource extends Resource
                     ->label('Résumé')
                     ->columnSpanFull()
                     ->helperText('Utilisé pour la liste et le SEO si aucune description SEO n’est renseignée.'),
-                FileUpload::make('image_path')
+                MediaPicker::make('image_media_id')
                     ->label('Image principale')
-                    ->disk('public')
-                    ->directory('articles')
-                    ->image(),
+                    ->relationship('imageMedia', 'display_name')
+                    ->imagesOnly()
+                    ->helperText('Choisir une image de la médiathèque centrale.'),
                 Repeater::make('body_blocks')
                     ->label('Blocs de contenu')
                     ->columnSpanFull()
@@ -102,16 +104,15 @@ class ArticleResource extends Resource
                         TextInput::make('heading')
                             ->label('Intertitre')
                             ->visible(fn ($get): bool => $get('type') === 'heading'),
-                        RichEditor::make('text')
+                        MaracujaRichEditor::make('text')
                             ->label('Texte')
                             ->visible(fn ($get): bool => $get('type') === 'rich_text')
                             ->columnSpanFull(),
-                        FileUpload::make('image_path')
-                            ->label('Image')
-                            ->disk('public')
-                            ->directory('articles/blocks')
-                            ->image()
-                            ->visible(fn ($get): bool => $get('type') === 'image'),
+                        MediaIdSelect::make('media_id')
+                            ->label('Image de la médiathèque')
+                            ->imagesOnly()
+                            ->visible(fn ($get): bool => $get('type') === 'image')
+                            ->helperText('Les anciennes images restent affichées jusqu’à leur migration.'),
                         TextInput::make('alt')
                             ->label('Texte alternatif')
                             ->visible(fn ($get): bool => $get('type') === 'image'),
@@ -124,7 +125,7 @@ class ArticleResource extends Resource
                         TextInput::make('author')
                             ->label('Auteur')
                             ->visible(fn ($get): bool => $get('type') === 'quote'),
-                        RichEditor::make('note')
+                        MaracujaRichEditor::make('note')
                             ->label('Note')
                             ->visible(fn ($get): bool => $get('type') === 'note')
                             ->columnSpanFull(),
