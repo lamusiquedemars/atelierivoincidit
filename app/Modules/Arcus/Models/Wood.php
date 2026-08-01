@@ -2,17 +2,13 @@
 
 namespace App\Modules\Arcus\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
-class Wood extends Model
+class Wood extends ArcusTerm
 {
-    protected $connection = 'legacy';
-
-    protected $table = 'wood';
-
-    public $timestamps = false;
-
-    protected $fillable = [
-        'name',
-    ];
+    protected static function booted(): void
+    {
+        static::addGlobalScope('wood', fn (Builder $query) => $query->where('type', 'wood'));
+        static::creating(fn (self $wood) => $wood->type = 'wood');
+    }
 }

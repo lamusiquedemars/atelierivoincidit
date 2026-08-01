@@ -3,11 +3,13 @@
 namespace App\Filament\Resources\Arcus\Bows;
 
 use App\Filament\Resources\Arcus\Bows\Pages\ManageBows;
+use App\Modules\Arcus\Models\ArcusTerm;
 use App\Modules\Arcus\Models\Bow;
+use App\Modules\Media\Filament\Forms\Components\MediaIdSelect;
 use App\Support\Modules;
 use BackedEnum;
-use UnitEnum;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -22,8 +24,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\HtmlString;
+use UnitEnum;
 
 class ArcusBowResource extends Resource
 {
@@ -105,28 +107,28 @@ class ArcusBowResource extends Resource
                     ]),
 
                 Section::make('Photos')
-                    ->columns(2)
                     ->schema([
-                        TextInput::make('photo_directory_path')
-                            ->label('Dossier attendu')
-                            ->disabled()
-                            ->dehydrated(false)
-                            ->copyable(),
+                        Repeater::make('images')
+                            ->label('Galerie de l’archet')
+                            ->relationship()
+                            ->orderColumn('position')
+                            ->reorderable()
+                            ->collapsible()
+                            ->defaultItems(0)
+                            ->addActionLabel('Ajouter une photo')
+                            ->helperText('La première photo de la liste est celle affichée sur la carte de l’archet.')
+                            ->schema([
+                                MediaIdSelect::make('media_asset_id')
+                                    ->label('Photo')
+                                    ->imagesOnly()
+                                    ->required(),
 
-                        TextInput::make('main_image_url')
-                            ->label('Image principale détectée')
-                            ->disabled()
-                            ->dehydrated(false)
-                            ->copyable(),
-
-                        Textarea::make("photo_public_paths_display")
-                            ->label("Chemins publics des images")
-                            ->formatStateUsing(fn (?Bow $record): string => $record ? implode("\n", $record->photo_public_paths) : "")
-                            ->rows(6)
-                            ->disabled()
-                            ->dehydrated(false)
-                            ->columnSpanFull()
-                            ->helperText("Les photos sont détectées automatiquement depuis le dossier public de cet archet."),
+                                Textarea::make('caption')
+                                    ->label('Légende propre à cet archet')
+                                    ->rows(2),
+                            ])
+                            ->columns(1)
+                            ->columnSpanFull(),
                     ]),
 
                 Section::make('Classification')
@@ -311,12 +313,12 @@ class ArcusBowResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make("main_image_url")
-                    ->label("Photo")
+                TextColumn::make('main_image_url')
+                    ->label('Photo')
                     ->formatStateUsing(fn (?string $state): HtmlString => new HtmlString(
                         $state
-                            ? "<img src=\"" . e($state) . "\" alt=\"\" style=\"width:64px;height:48px;object-fit:cover;border-radius:6px;background:#f3f4f6\">"
-                            : "<span style=\"color:#9ca3af\">Aucune</span>"
+                            ? '<img src="'.e($state).'" alt="" style="width:64px;height:48px;object-fit:cover;border-radius:6px;background:#f3f4f6">'
+                            : '<span style="color:#9ca3af">Aucune</span>'
                     ))
                     ->html()
                     ->toggleable(),
@@ -387,6 +389,7 @@ class ArcusBowResource extends Resource
     {
         return [
             'available' => 'Disponible',
+            'reserved' => 'En essai',
             'unavailable' => 'Indisponible',
             'sold' => 'Vendu',
         ];
@@ -394,8 +397,8 @@ class ArcusBowResource extends Resource
 
     protected static function legacyOptions(string $table): array
     {
-        return DB::connection('legacy')
-            ->table($table)
+        return ArcusTerm::query()
+            ->where('type', $table)
             ->orderBy('name')
             ->pluck('name', 'id')
             ->all();
@@ -403,9 +406,9 @@ class ArcusBowResource extends Resource
 
     protected static function qualityOptions(string $type): array
     {
-        return DB::connection('legacy')
-            ->table('quality')
-            ->where('type', $type)
+        return ArcusTerm::query()
+            ->where('type', 'quality')
+            ->where('group', $type)
             ->orderBy('id')
             ->pluck('name', 'id')
             ->all();

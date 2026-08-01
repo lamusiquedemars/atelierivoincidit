@@ -2,9 +2,8 @@
 
 namespace App\Modules\Arcus\Support;
 
+use App\Modules\Arcus\Models\Bow;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 
 class ArcusCatalog
 {
@@ -107,62 +106,48 @@ class ArcusCatalog
 
     public static function bowsByRange(string $rangeSlug, ?string $instrument = null): Collection
     {
-        $query = self::baseBowQuery()
-            ->where('r.slug', $rangeSlug)
-            ->orderBy('b.code');
+        $query = Bow::query()
+            ->with(['range', 'instrument', 'size', 'wood', 'color', 'images.media'])
+            ->where('active', true)
+            ->whereHas('range', fn ($query) => $query->where('slug', $rangeSlug))
+            ->orderBy('code');
 
         if ($instrument !== null && trim($instrument) !== '') {
-            $query->where('i.name', trim($instrument));
+            $query->whereHas('instrument', fn ($query) => $query->where('name', trim($instrument)));
         }
 
-        return $query->get()->map(fn ($bow) => self::prepareBowCard((array) $bow));
+        return $query->get()->map(fn (Bow $bow): array => self::prepareBowCard($bow));
     }
 
     public static function bowByCode(string $code): ?array
     {
-        $bow = self::baseBowQuery()
-            ->addSelect([
-                'b.notes',
-                'b.stick_weight',
-                'b.total_weight',
-                'b.stick_length',
-                'b.total_length',
-                'b.balance_point',
-                'b.density',
-                'b.speed',
-                'b.elasticity',
-                'b.frequency',
-                'b.damping',
-                'o.name as origin_name',
-            ])
-            ->leftJoin('origin as o', 'b.origin_id', '=', 'o.id')
-            ->where('b.code', trim($code))
+        $bow = Bow::query()
+            ->with(self::bowRelations())
+            ->where('code', strtolower(trim($code)))
+            ->where('active', true)
             ->first();
 
-        return $bow ? (array) $bow : null;
+        return $bow ? self::bowData($bow) : null;
     }
 
     public static function galleryImages(string $code): Collection
     {
-        $code = strtolower(trim($code));
-        $dir = public_path('assets/images/archets/'.$code);
+        $bow = Bow::query()->where('code', strtolower(trim($code)))->first();
 
-        if ($code === '' || ! File::isDirectory($dir)) {
+        if (! $bow) {
             return collect();
         }
 
-        return collect(File::glob($dir.'/*.{jpg,jpeg,png,webp,heic}', GLOB_BRACE))
-            ->sort()
-            ->values()
-            ->map(fn (string $path) => (object) [
-                'image_path' => '/assets/images/archets/'.$code.'/'.basename($path),
-                'alt' => 'Archet '.$code,
-                'caption' => null,
-                'title' => null,
-                'credit' => null,
-                'width' => 1600,
-                'height' => 1000,
-            ]);
+        return $bow->images()->with('media')->get()->map(fn ($image) => (object) [
+            'image_path' => $image->media->url(),
+            'resolved_image_url' => $image->media->url(),
+            'alt' => $image->media->alt_text ?: 'Archet '.strtoupper($bow->code),
+            'caption' => $image->caption ?: $image->media->caption,
+            'title' => $image->media->display_name,
+            'credit' => $image->media->credit,
+            'width' => $image->media->width,
+            'height' => $image->media->height,
+        ]);
     }
 
     public static function priceData(array $bow): ?array
@@ -205,98 +190,66 @@ class ArcusCatalog
         };
     }
 
-    protected static function baseBowQuery()
-    {
-        return DB::connection('legacy')
-            ->table('bow as b')
-            ->select([
-                'b.id',
-                'b.code',
-                'b.name as atelier_name',
-                'b.status',
-                'b.price',
-                'b.discount',
-                'b.short_trait',
-                'i.name as instrument_name',
-                's.name as style_name',
-                'sh.name as shape_name',
-                'w.name as wood_name',
-                'c.name as color_name',
-                'fm.name as frog_material_name',
-                'sm.name as slide_material_name',
-                'bm.name as button_material_name',
-                'tm.name as tip_material_name',
-                'g.name as garnish_name',
-                'sz.name as size_name',
-                'r.name as range_name',
-                'r.slug as range_slug',
-                'q1.name as flexibility_name',
-                'q2.name as responsiveness_name',
-                'q3.name as handling_name',
-                'q4.name as natural_pressure_name',
-                'q5.name as tone_name',
-                'q6.name as projection_name',
-                'q7.name as sustain_name',
-                'q8.name as articulation_name',
-            ])
-            ->leftJoin('instrument as i', 'b.instrument_id', '=', 'i.id')
-            ->leftJoin('style as s', 'b.style_id', '=', 's.id')
-            ->leftJoin('shape as sh', 'b.shape_id', '=', 'sh.id')
-            ->leftJoin('wood as w', 'b.wood_id', '=', 'w.id')
-            ->leftJoin('color as c', 'b.color_id', '=', 'c.id')
-            ->leftJoin('material as fm', 'b.frog_material_id', '=', 'fm.id')
-            ->leftJoin('material as sm', 'b.slide_material_id', '=', 'sm.id')
-            ->leftJoin('material as bm', 'b.button_material_id', '=', 'bm.id')
-            ->leftJoin('material as tm', 'b.tip_material_id', '=', 'tm.id')
-            ->leftJoin('garnish as g', 'b.garnish_id', '=', 'g.id')
-            ->leftJoin('size as sz', 'b.size_id', '=', 'sz.id')
-            ->leftJoin('range as r', 'b.range_id', '=', 'r.id')
-            ->leftJoin('quality as q1', 'b.flexibility_id', '=', 'q1.id')
-            ->leftJoin('quality as q2', 'b.responsiveness_id', '=', 'q2.id')
-            ->leftJoin('quality as q3', 'b.handling_id', '=', 'q3.id')
-            ->leftJoin('quality as q4', 'b.natural_pressure_id', '=', 'q4.id')
-            ->leftJoin('quality as q5', 'b.tone_id', '=', 'q5.id')
-            ->leftJoin('quality as q6', 'b.projection_id', '=', 'q6.id')
-            ->leftJoin('quality as q7', 'b.sustain_id', '=', 'q7.id')
-            ->leftJoin('quality as q8', 'b.articulation_id', '=', 'q8.id')
-            ->where('b.active', true);
-    }
-
-    protected static function prepareBowCard(array $bow): array
+    protected static function prepareBowCard(Bow $bow): array
     {
         $title = trim(implode(' ', array_filter([
-            $bow['range_name'] ?? null,
-            ! empty($bow['id']) ? 'n°'.$bow['id'] : null,
-            ! empty($bow['atelier_name']) ? '"'.$bow['atelier_name'].'"' : null,
+            $bow->range?->name,
+            $bow->id ? 'n°'.$bow->id : null,
+            $bow->name ? '"'.$bow->name.'"' : null,
         ])));
-
-        $code = strtolower((string) ($bow['code'] ?? ''));
 
         return [
             'title' => $title,
-            'meta' => implode(' · ', array_filter([$bow['instrument_name'] ?? null, $bow['size_name'] ?? null])),
-            'text' => implode("\n", array_filter([$bow['wood_name'] ?? null, $bow['color_name'] ?? null])),
-            'image' => self::mainImage($code),
-            'alt' => self::altText($bow),
-            'priceData' => self::priceData($bow),
-            'statusLabel' => self::statusLabel($bow['status'] ?? null),
-            'href' => route('arcus.show', $code),
+            'meta' => implode(' · ', array_filter([$bow->instrument?->name, $bow->size?->name])),
+            'text' => implode("\n", array_filter([$bow->wood?->name, $bow->color?->name])),
+            'image' => $bow->main_image_url ?: '',
+            'alt' => self::altText(self::bowData($bow)),
+            'priceData' => self::priceData($bow->toArray()),
+            'statusLabel' => self::statusLabel($bow->status),
+            'href' => route('arcus.show', strtolower($bow->code)),
             'ctaLabel' => 'Voir le détail de cet archet',
         ];
     }
 
-    protected static function mainImage(string $code): string
+    /** @return array<int, string> */
+    protected static function bowRelations(): array
     {
-        $dir = public_path('assets/images/archets/'.$code);
+        return [
+            'range', 'instrument', 'style', 'shape', 'size', 'wood', 'origin', 'color',
+            'buttonMaterial', 'frogMaterial', 'slideMaterial', 'tipMaterial', 'garnish',
+            'flexibility', 'responsiveness', 'handling', 'naturalPressure', 'tone',
+            'projection', 'sustain', 'articulation',
+        ];
+    }
 
-        if ($code === '' || ! File::isDirectory($dir)) {
-            return '';
-        }
-
-        $mainImages = File::glob($dir.'/main.{jpg,jpeg,png,webp,heic}', GLOB_BRACE);
-        $images = $mainImages ?: File::glob($dir.'/*.{jpg,jpeg,png,webp,heic}', GLOB_BRACE);
-
-        return empty($images) ? '' : '/assets/images/archets/'.$code.'/'.basename($images[0]);
+    protected static function bowData(Bow $bow): array
+    {
+        return [
+            ...$bow->attributesToArray(),
+            'atelier_name' => $bow->name,
+            'range_name' => $bow->range?->name,
+            'range_slug' => $bow->range?->slug,
+            'instrument_name' => $bow->instrument?->name,
+            'style_name' => $bow->style?->name,
+            'shape_name' => $bow->shape?->name,
+            'size_name' => $bow->size?->name,
+            'wood_name' => $bow->wood?->name,
+            'origin_name' => $bow->origin?->name,
+            'color_name' => $bow->color?->name,
+            'button_material_name' => $bow->buttonMaterial?->name,
+            'frog_material_name' => $bow->frogMaterial?->name,
+            'slide_material_name' => $bow->slideMaterial?->name,
+            'tip_material_name' => $bow->tipMaterial?->name,
+            'garnish_name' => $bow->garnish?->name,
+            'flexibility_name' => $bow->flexibility?->name,
+            'responsiveness_name' => $bow->responsiveness?->name,
+            'handling_name' => $bow->handling?->name,
+            'natural_pressure_name' => $bow->naturalPressure?->name,
+            'tone_name' => $bow->tone?->name,
+            'projection_name' => $bow->projection?->name,
+            'sustain_name' => $bow->sustain?->name,
+            'articulation_name' => $bow->articulation?->name,
+        ];
     }
 
     protected static function altText(array $bow): string
