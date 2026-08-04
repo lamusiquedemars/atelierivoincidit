@@ -14,7 +14,6 @@
         $isIvoIncidit = $clientTheme === 'ivo-incidit';
         $brandLogo = $settings->logoUrl() ?: ($isIvoIncidit ? '/assets/images/blason-ivo-incidit2.png' : null);
         $favicon = $settings->faviconUrl();
-        $ivoSocialLinks = $settings->social_links ?: ['Instagram : @ivo_incidit' => 'https://instagram.com/ivo_incidit'];
     @endphp
 
     <meta charset="utf-8">
@@ -144,11 +143,8 @@
             <a href="{{ route('atelier.legal') }}">Mentions légales</a>
             <a href="{{ route('atelier.terms') }}">CGV</a>
             <a href="{{ route('contact') }}">Contact</a>
-            @foreach ($ivoSocialLinks as $label => $url)
-                <span aria-hidden="true">•</span>
-                <a href="{{ $url }}" target="_blank" rel="noopener">{{ $label }}</a>
-            @endforeach
         </nav>
+        <x-site.social-links :settings="$settings" />
     </footer>
 
     <button class="btn btn--primary back-to-top" type="button" data-back-to-top hidden aria-label="Retour en haut">
