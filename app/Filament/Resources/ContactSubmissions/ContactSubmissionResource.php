@@ -50,7 +50,7 @@ class ContactSubmissionResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->columns(2)
+            ->columns(1)
             ->components([
                 TextInput::make('name')
                     ->label('Nom')
