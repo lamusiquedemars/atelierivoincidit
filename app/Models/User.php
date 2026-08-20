@@ -16,6 +16,8 @@ use Illuminate\Notifications\Notifiable;
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements FilamentUser
 {
+    public const SUPER_ADMIN_EMAILS = ['ivo@maracujadigital.fr'];
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
@@ -31,6 +33,11 @@ class User extends Authenticatable implements FilamentUser
             'password' => 'hashed',
             'is_admin' => 'boolean',
         ];
+    }
+
+    public function getIsAdminAttribute(mixed $value): bool
+    {
+        return (bool) $value || in_array(strtolower($this->email), self::SUPER_ADMIN_EMAILS, true);
     }
 
     public function canAccessPanel(Panel $panel): bool
