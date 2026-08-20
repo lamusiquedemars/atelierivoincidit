@@ -50,7 +50,7 @@ class ContactSubmissionResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->columns(1)
+            ->columns(['default' => 1, 'md' => 2])
             ->components([
                 TextInput::make('name')
                     ->label('Nom')
@@ -67,7 +67,8 @@ class ContactSubmissionResource extends Resource
                     ->required()
                     ->columnSpanFull(),
                 DateTimePicker::make('handled_at')
-                    ->label('Traité le'),
+                    ->label('Traité le')
+                    ->columnSpanFull(),
             ]);
     }
 
