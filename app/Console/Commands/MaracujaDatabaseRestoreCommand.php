@@ -47,7 +47,7 @@ class MaracujaDatabaseRestoreCommand extends Command
         try {
             DB::transaction(function () use ($tables): void {
                 foreach (array_keys($tables) as $table) {
-                    DB::table($table)->delete();
+                    DB::table($this->logicalTable($table))->delete();
                 }
 
                 foreach ($tables as $table => $data) {
@@ -59,7 +59,7 @@ class MaracujaDatabaseRestoreCommand extends Command
                     }
 
                     foreach (array_chunk($rows, 250) as $chunk) {
-                        DB::table($table)->insert(array_map(
+                        DB::table($this->logicalTable($table))->insert(array_map(
                             fn (array $row): array => array_intersect_key($this->decodeRow($row), array_flip($columns)),
                             $chunk,
                         ));
@@ -85,5 +85,10 @@ class MaracujaDatabaseRestoreCommand extends Command
 
             return $value;
         }, $row);
+    }
+
+    private function logicalTable(string $table): string
+    {
+        return str_starts_with($table, 'cms_') ? substr($table, 4) : $table;
     }
 }
