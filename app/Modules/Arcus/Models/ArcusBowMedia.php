@@ -14,6 +14,7 @@ class ArcusBowMedia extends Model
     protected $table = 'arcus_bow_media';
 
     protected $fillable = [
+        'arcus_bow_id',
         'media_asset_id',
         'position',
         'caption',
