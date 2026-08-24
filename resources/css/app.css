@@ -44,3 +44,7 @@
 @import './themes/maracuja.css';
 @import './themes/atelier.css';
 @import './themes/ivo-incidit/base.css';
+/* Forces a fresh immutable Vite fingerprint after an LWS edge-cache repair. */
+:root {
+    --lws-build-revision: 27d2d68;
+}
