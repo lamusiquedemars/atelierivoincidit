@@ -137,9 +137,15 @@ class ImportLegacyArcusCommand extends Command
 
     private function importImages(Bow $bow, string $code): int
     {
-        $sourceDirectory = public_path('assets/images/archets/'.strtolower(trim($code)));
+        $directory = 'assets/images/archets/'.strtolower(trim($code));
+        $sourceDirectory = collect([
+            public_path($directory),
+            // Before the Media System, LWS exposed the repository root directly.
+            // Its historical bow photos therefore live outside public/.
+            base_path($directory),
+        ])->first(fn (string $path): bool => File::isDirectory($path));
 
-        if (! File::isDirectory($sourceDirectory)) {
+        if ($sourceDirectory === null) {
             return 0;
         }
 

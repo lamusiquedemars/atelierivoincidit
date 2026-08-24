@@ -5,6 +5,17 @@ RewriteBase /
 RewriteRule ^(?:app|bootstrap|config|database|docs|resources|routes|scripts|tests|vendor)(?:/|$) - [F,L,NC]
 RewriteRule ^(?:\.env|artisan|composer\.(?:json|lock)|package(?:-lock)?\.json|phpunit\.xml|vite\.config\.js)$ - [F,L,NC]
 
+# LWS exposes the repository root rather than Laravel's public/ directory.
+# Public uploads must therefore always go through the controlled Laravel route,
+# even though the application itself has an internal storage/ directory.
+RewriteRule ^storage/(.+)$ index.php/storage/$1 [L,QSA]
+
+# Serve versioned public assets from their canonical Laravel location without
+# duplicating them at the repository root.
+RewriteCond %{DOCUMENT_ROOT}/public/$1 -f [OR]
+RewriteCond %{DOCUMENT_ROOT}/public/$1 -d
+RewriteRule ^((?:assets|build|css|demo|fonts|incidit-vox|js)(?:/.*)?)$ public/$1 [L]
+
 # Routage Laravel deja utilise par LWS.
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
