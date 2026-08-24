@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Modules\Arcus\Models\Bow;
+use App\Modules\Articles\Models\Article;
 use App\Modules\News\Models\NewsPost;
 use App\Modules\Pages\Models\Page;
 use App\Modules\SiteSettings\Models\SiteSetting;
@@ -57,7 +59,13 @@ class SeoTest extends TestCase
 
     public function test_sitemap_lists_public_content(): void
     {
-        config(['maracuja.modules.news' => true]);
+        config([
+            'maracuja.theme' => 'atelier',
+            'maracuja.modules.arcus' => true,
+            'maracuja.modules.articles' => true,
+            'maracuja.modules.news' => true,
+            'maracuja.modules.contact_form' => true,
+        ]);
 
         SiteSetting::current();
 
@@ -73,14 +81,73 @@ class SeoTest extends TestCase
             'slug' => 'demo',
             'is_published' => true,
             'has_detail_page' => true,
+            'content' => 'Contenu public.',
             'published_at' => now(),
+        ]);
+
+        Article::query()->create([
+            'title' => 'Guide',
+            'slug' => 'guide',
+            'is_published' => true,
+            'published_at' => now(),
+        ]);
+
+        Bow::query()->create([
+            'code' => 'V001',
+            'active' => true,
         ]);
 
         $this->get('/sitemap.xml')
             ->assertOk()
-            ->assertHeader('content-type', 'application/xml')
+            ->assertHeader('content-type', 'application/xml; charset=UTF-8')
             ->assertSee('<loc>'.url('/').'</loc>', false)
+            ->assertSee('<loc>'.url('/arcus').'</loc>', false)
+            ->assertSee('<loc>'.url('/arcus/ars-antiqua').'</loc>', false)
+            ->assertSee('<loc>'.url('/arcus/ars-classica').'</loc>', false)
+            ->assertSee('<loc>'.url('/arcus/ars-nova').'</loc>', false)
+            ->assertSee('<loc>'.url('/arcus/v001').'</loc>', false)
+            ->assertSee('<loc>'.url('/essai').'</loc>', false)
+            ->assertSee('<loc>'.url('/archetier').'</loc>', false)
+            ->assertSee('<loc>'.url('/articles').'</loc>', false)
+            ->assertSee('<loc>'.url('/articles/guide').'</loc>', false)
+            ->assertSee('<loc>'.url('/contact').'</loc>', false)
             ->assertSee('<loc>'.url('/services').'</loc>', false)
             ->assertSee('<loc>'.url('/actualites/demo').'</loc>', false);
+    }
+
+    public function test_sitemap_excludes_non_public_dynamic_content(): void
+    {
+        config([
+            'maracuja.modules.arcus' => true,
+            'maracuja.modules.articles' => true,
+            'maracuja.modules.news' => true,
+        ]);
+
+        Article::query()->create([
+            'title' => 'Brouillon',
+            'slug' => 'brouillon',
+            'is_published' => false,
+        ]);
+
+        NewsPost::query()->create([
+            'title' => 'Sans détail',
+            'slug' => 'sans-detail',
+            'is_published' => true,
+            'has_detail_page' => false,
+            'published_at' => now(),
+        ]);
+
+        Bow::query()->create([
+            'code' => 'V002',
+            'active' => false,
+        ]);
+
+        $this->get('/sitemap.xml')
+            ->assertOk()
+            ->assertDontSee(url('/articles/brouillon'), false)
+            ->assertDontSee(url('/actualites/sans-detail'), false)
+            ->assertDontSee(url('/arcus/v002'), false)
+            ->assertDontSee(url('/admin'), false)
+            ->assertDontSee(url('/article.php'), false);
     }
 }

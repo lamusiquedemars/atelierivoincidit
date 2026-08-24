@@ -3,7 +3,9 @@
 @foreach ($urls as $url)
     <url>
         <loc>{{ $url['loc'] }}</loc>
+@if ($url['lastmod'])
         <lastmod>{{ $url['lastmod']->toAtomString() }}</lastmod>
+@endif
         <priority>{{ $url['priority'] }}</priority>
     </url>
 @endforeach
