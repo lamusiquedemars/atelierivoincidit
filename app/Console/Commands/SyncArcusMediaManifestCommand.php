@@ -36,6 +36,7 @@ class SyncArcusMediaManifestCommand extends Command
 
                 return [
                     'bow_code' => $link->bow->code,
+                    'bow_legacy_id' => (int) $link->bow->legacy_id,
                     'position' => $link->position,
                     'caption' => $link->caption,
                     'media' => collect($media->only([
@@ -88,7 +89,7 @@ class SyncArcusMediaManifestCommand extends Command
 
         DB::transaction(function () use ($items): void {
             foreach ($items as $item) {
-                $bow = Bow::query()->where('code', $item['bow_code'])->firstOrFail();
+                $bow = Bow::query()->where('legacy_id', $item['bow_legacy_id'])->firstOrFail();
                 $media = MediaAsset::query()->updateOrCreate(
                     ['disk' => $item['media']['disk'], 'path' => $item['media']['path']],
                     $item['media'],
@@ -114,6 +115,7 @@ class SyncArcusMediaManifestCommand extends Command
 
             if (! is_array($media)
                 || ! is_string($item['bow_code'] ?? null)
+                || ! is_int($item['bow_legacy_id'] ?? null)
                 || ! is_int($item['position'] ?? null)
                 || ($media['disk'] ?? null) !== 'public'
                 || ! is_string($media['path'] ?? null)
