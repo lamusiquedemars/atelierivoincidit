@@ -3,6 +3,7 @@
     'layout' => 'grid',
     'lightbox' => false,
     'itemsPerView' => null,
+    'showMeta' => true,
 ])
 
 @php
@@ -84,7 +85,7 @@
                         @endif
                     </div>
 
-                    @if ($caption || $credit)
+                    @if ($showMeta && ($caption || $credit))
                         <div class="showcase__content">
                             @if ($caption)
                                 <h3 class="showcase__item-title">{{ $caption }}</h3>

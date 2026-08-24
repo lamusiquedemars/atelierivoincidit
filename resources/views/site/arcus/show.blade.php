@@ -52,7 +52,7 @@
 
     @if ($photos->isNotEmpty())
         <x-site.section>
-            <x-site.gallery :images="$photos" layout="carousel" lightbox />
+            <x-site.gallery :images="$photos" layout="carousel" lightbox :show-meta="false" />
         </x-site.section>
     @endif
 
