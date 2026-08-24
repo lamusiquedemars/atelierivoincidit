@@ -14,6 +14,7 @@
         $isIvoIncidit = $clientTheme === 'ivo-incidit';
         $brandLogo = $settings->logoUrl() ?: ($isIvoIncidit ? '/assets/images/blason-ivo-incidit2.png' : null);
         $favicon = $settings->faviconUrl();
+        $gtmContainerId = config('services.google_tag_manager.container_id');
     @endphp
 
     <meta charset="utf-8">
@@ -51,6 +52,25 @@
     @endif
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if ($gtmContainerId)
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', {
+                analytics_storage: 'denied',
+                ad_storage: 'denied',
+                ad_user_data: 'denied',
+                ad_personalization: 'denied',
+                wait_for_update: 500,
+            });
+
+            if (document.cookie.includes('ivo_analytics_consent=granted')) {
+                gtag('consent', 'update', {analytics_storage: 'granted'});
+            }
+
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',@json($gtmContainerId));
+        </script>
+    @endif
 </head>
 <body @class([
     'site-shell',
@@ -146,6 +166,35 @@
         </nav>
         <x-site.social-links :settings="$settings" />
     </footer>
+
+    @if ($gtmContainerId)
+        <aside class="consent-banner" data-consent-banner aria-label="Choix des cookies" hidden>
+            <strong>Mesure d’audience</strong>
+            <p>Avec votre accord, nous utilisons une mesure d’audience pour comprendre l’usage du site.</p>
+            <p><a href="{{ route('atelier.legal') }}">En savoir plus</a></p>
+            <div class="consent-banner__actions">
+                <button class="btn btn--primary" type="button" data-consent="granted">Accepter</button>
+                <button class="btn btn--secondary" type="button" data-consent="denied">Refuser</button>
+            </div>
+        </aside>
+        <script>
+            (() => {
+                const banner = document.querySelector('[data-consent-banner]');
+                const saved = document.cookie.match(/(?:^|; )ivo_analytics_consent=([^;]+)/)?.[1];
+
+                if (! saved) banner.hidden = false;
+
+                document.querySelectorAll('[data-consent]').forEach((button) => {
+                    button.addEventListener('click', () => {
+                        const value = button.dataset.consent;
+                        document.cookie = `ivo_analytics_consent=${value}; Max-Age=15552000; Path=/; SameSite=Lax; Secure`;
+                        gtag('consent', 'update', {analytics_storage: value});
+                        banner.hidden = true;
+                    });
+                });
+            })();
+        </script>
+    @endif
 
     <button class="btn btn--primary back-to-top" type="button" data-back-to-top hidden aria-label="Retour en haut">
         <span class="back-to-top__icon" aria-hidden="true">↑</span>

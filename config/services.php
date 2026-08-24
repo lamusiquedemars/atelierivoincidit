@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'google_tag_manager' => [
+        'container_id' => env('GTM_CONTAINER_ID'),
+    ],
+
 ];
