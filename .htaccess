@@ -11,9 +11,8 @@ RewriteRule ^(?:\.env|artisan|composer\.(?:json|lock)|package(?:-lock)?\.json|ph
 RewriteRule ^storage/(.+)$ index.php/storage/$1 [L,QSA]
 
 # Serve versioned public assets from their canonical Laravel location without
-# duplicating them at the repository root.
-RewriteCond %{DOCUMENT_ROOT}/public/$1 -f [OR]
-RewriteCond %{DOCUMENT_ROOT}/public/$1 -d
+# duplicating them at the repository root. Do not depend on DOCUMENT_ROOT:
+# LWS does not expose a stable value for it in every PHP/Apache setup.
 RewriteRule ^((?:assets|build|css|demo|fonts|incidit-vox|js)(?:/.*)?)$ public/$1 [L]
 
 # Routage Laravel deja utilise par LWS.
