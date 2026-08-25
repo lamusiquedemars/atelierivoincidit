@@ -52,11 +52,19 @@ class ContactController extends Controller
         $submission = ContactSubmission::query()->create($data);
 
         if ($settings->contact_form_send_admin_email && $settings->contact_email) {
-            Mail::to($settings->contact_email)->send(new ContactSubmissionReceived($submission));
+            try {
+                Mail::to($settings->contact_email)->send(new ContactSubmissionReceived($submission));
+            } catch (\Throwable $exception) {
+                report($exception);
+            }
         }
 
         if ($settings->contact_form_send_confirmation_email) {
-            Mail::to($submission->email)->send(new ContactSubmissionConfirmation($submission));
+            try {
+                Mail::to($submission->email)->send(new ContactSubmissionConfirmation($submission));
+            } catch (\Throwable $exception) {
+                report($exception);
+            }
         }
 
         return redirect()
