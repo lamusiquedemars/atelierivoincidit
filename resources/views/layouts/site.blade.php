@@ -164,6 +164,9 @@
             <a href="{{ route('atelier.legal') }}">Mentions légales</a>
             <a href="{{ route('atelier.terms') }}">CGV</a>
             <a href="{{ route('contact') }}">Contact</a>
+            @if ($gtmContainerId)
+                <button class="btn btn--link" type="button" data-open-consent>Gérer les cookies</button>
+            @endif
         </nav>
         <x-site.social-links :settings="$settings" />
     </footer>
@@ -184,6 +187,10 @@
                 const saved = document.cookie.match(/(?:^|; )ivo_analytics_consent=([^;]+)/)?.[1];
 
                 if (! saved) banner.hidden = false;
+
+                document.querySelectorAll('[data-open-consent]').forEach((button) => {
+                    button.addEventListener('click', () => { banner.hidden = false; });
+                });
 
                 document.querySelectorAll('[data-consent]').forEach((button) => {
                     button.addEventListener('click', () => {
