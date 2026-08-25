@@ -61,6 +61,7 @@ class ContactController extends Controller
 
         return redirect()
             ->route('contact')
+            ->with('contact_submission_success', true)
             ->with('status', 'Votre message a bien été enregistré. Nous le traitons depuis l’administration.');
     }
 }

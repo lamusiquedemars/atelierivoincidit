@@ -196,6 +196,14 @@
                 });
             })();
         </script>
+
+        @if (session('contact_submission_success'))
+            <script>
+                if (document.cookie.includes('ivo_analytics_consent=granted')) {
+                    dataLayer.push({event: 'generate_lead'});
+                }
+            </script>
+        @endif
     @endif
 
     <button class="btn btn--primary back-to-top" type="button" data-back-to-top hidden aria-label="Retour en haut">
