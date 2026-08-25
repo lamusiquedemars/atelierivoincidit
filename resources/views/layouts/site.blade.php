@@ -66,6 +66,7 @@
 
             if (document.cookie.includes('ivo_analytics_consent=granted')) {
                 gtag('consent', 'update', {analytics_storage: 'granted'});
+                dataLayer.push({event: 'analytics_consent_granted'});
             }
 
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',@json($gtmContainerId));
@@ -189,6 +190,7 @@
                         const value = button.dataset.consent;
                         document.cookie = `ivo_analytics_consent=${value}; Max-Age=15552000; Path=/; SameSite=Lax; Secure`;
                         gtag('consent', 'update', {analytics_storage: value});
+                        if (value === 'granted') dataLayer.push({event: 'analytics_consent_granted'});
                         banner.hidden = true;
                     });
                 });
