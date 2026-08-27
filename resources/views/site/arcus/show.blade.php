@@ -5,6 +5,7 @@
         $bow['instrument_name'] ?? null,
         $bow['size_name'] ?? null,
     ]));
+    $measure = static fn (string $value, ?string $unit = null): string => $value === '' ? '—' : $value.($unit === null ? '' : ' '.$unit);
 @endphp
 
 @extends('layouts.site', [
@@ -92,18 +93,16 @@
             <article class="card">
                 <h3>Mesures d’atelier</h3>
                 <table>
-                    <tr><th>Poids baguette</th><td>{{ $bow['stick_weight_display'] }} g</td></tr>
-                    @if ($bow['total_weight_display'] !== '')
-                        <tr><th>Poids total</th><td>{{ $bow['total_weight_display'] }} g</td></tr>
-                    @endif
-                    <tr><th>Longueur baguette</th><td>{{ $bow['stick_length_display'] }} mm</td></tr>
-                    <tr><th>Longueur totale</th><td>{{ $bow['total_length_display'] }} mm</td></tr>
-                    <tr><th>Équilibre</th><td>{{ $bow['balance_point_display'] }} mm</td></tr>
-                    <tr><th>Densité</th><td>{{ $bow['density_display'] }} g/cm³</td></tr>
-                    <tr><th>Vitesse du son</th><td>{{ $bow['speed_display'] }} m/s</td></tr>
-                    <tr><th>Élasticité</th><td>{{ $bow['elasticity_display'] }} GPa</td></tr>
-                    <tr><th>Fréquence</th><td>{{ $bow['frequency_display'] }} Hz</td></tr>
-                    <tr><th>Amortissement</th><td>{{ $bow['damping_display'] }}</td></tr>
+                    <tr><th>Poids baguette</th><td>{{ $measure($bow['stick_weight_display'], 'g') }}</td></tr>
+                    <tr><th>Poids total</th><td>{{ $measure($bow['total_weight_display'], 'g') }}</td></tr>
+                    <tr><th>Longueur baguette</th><td>{{ $measure($bow['stick_length_display'], 'mm') }}</td></tr>
+                    <tr><th>Longueur totale</th><td>{{ $measure($bow['total_length_display'], 'mm') }}</td></tr>
+                    <tr><th>Équilibre</th><td>{{ $measure($bow['balance_point_display'], 'mm') }}</td></tr>
+                    <tr><th>Densité</th><td>{{ $measure($bow['density_display'], 'g/cm³') }}</td></tr>
+                    <tr><th>Vitesse du son</th><td>{{ $measure($bow['speed_display'], 'm/s') }}</td></tr>
+                    <tr><th>Élasticité</th><td>{{ $measure($bow['elasticity_display'], 'GPa') }}</td></tr>
+                    <tr><th>Fréquence</th><td>{{ $measure($bow['frequency_display'], 'Hz') }}</td></tr>
+                    <tr><th>Amortissement</th><td>{{ $measure($bow['damping_display']) }}</td></tr>
                 </table>
             </article>
         </x-site.grid>

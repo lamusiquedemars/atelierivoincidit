@@ -40,16 +40,16 @@ return new class extends Migration
                 $table->foreignId($relation.'_id')->nullable()->constrained('arcus_terms')->nullOnDelete();
             }
 
-            $table->decimal('stick_length', 8, 2)->nullable();
-            $table->decimal('total_length', 8, 2)->nullable();
-            $table->decimal('stick_weight', 8, 2)->nullable();
-            $table->decimal('total_weight', 8, 2)->nullable();
-            $table->decimal('balance_point', 8, 2)->nullable();
-            $table->decimal('density', 10, 3)->nullable();
-            $table->decimal('speed', 10, 3)->nullable();
-            $table->decimal('elasticity', 10, 4)->nullable();
-            $table->decimal('frequency', 10, 4)->nullable();
-            $table->decimal('damping', 10, 6)->nullable();
+            $table->unsignedInteger('stick_length')->nullable();
+            $table->unsignedInteger('total_length')->nullable();
+            $table->unsignedInteger('stick_weight')->nullable();
+            $table->unsignedInteger('total_weight')->nullable();
+            $table->unsignedInteger('balance_point')->nullable();
+            $table->unsignedInteger('density')->nullable();
+            $table->unsignedInteger('speed')->nullable();
+            $table->decimal('elasticity', 8, 1)->nullable();
+            $table->unsignedInteger('frequency')->nullable();
+            $table->decimal('damping', 8, 3)->nullable();
             $table->text('short_trait')->nullable();
             $table->longText('notes')->nullable();
             $table->timestamps();
