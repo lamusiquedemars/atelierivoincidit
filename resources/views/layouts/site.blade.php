@@ -64,7 +64,8 @@
                 wait_for_update: 500,
             });
 
-            if (document.cookie.includes('ivo_analytics_consent=granted')) {
+            const savedAnalyticsConsent = document.cookie.match(/(?:^|; )ivo_analytics_consent=([^;]+)/)?.[1] || window.localStorage.getItem('ivo_analytics_consent');
+            if (savedAnalyticsConsent === 'granted') {
                 gtag('consent', 'update', {analytics_storage: 'granted'});
                 dataLayer.push({event: 'analytics_consent_granted'});
             }
@@ -181,14 +182,17 @@
         <script>
             (() => {
                 const banner = document.querySelector('[data-consent-banner]');
-                const saved = document.cookie.match(/(?:^|; )ivo_analytics_consent=([^;]+)/)?.[1];
+                const key = 'ivo_analytics_consent';
+                const cookieValue = document.cookie.match(new RegExp(`(?:^|; )${key}=([^;]+)`))?.[1];
+                const saved = cookieValue || window.localStorage.getItem(key);
 
                 if (! saved) banner.hidden = false;
 
                 document.querySelectorAll('[data-consent]').forEach((button) => {
                     button.addEventListener('click', () => {
                         const value = button.dataset.consent;
-                        document.cookie = `ivo_analytics_consent=${value}; Max-Age=15552000; Path=/; SameSite=Lax; Secure`;
+                        document.cookie = `${key}=${value}; Max-Age=15552000; Path=/; Domain=.atelierivoincidit.fr; SameSite=Lax; Secure`;
+                        window.localStorage.setItem(key, value);
                         gtag('consent', 'update', {analytics_storage: value});
                         if (value === 'granted') dataLayer.push({event: 'analytics_consent_granted'});
                         banner.hidden = true;
@@ -199,7 +203,8 @@
 
         @if (session('contact_submission_success'))
             <script>
-                if (document.cookie.includes('ivo_analytics_consent=granted')) {
+                const savedAnalyticsConsent = document.cookie.match(/(?:^|; )ivo_analytics_consent=([^;]+)/)?.[1] || window.localStorage.getItem('ivo_analytics_consent');
+                if (savedAnalyticsConsent === 'granted') {
                     dataLayer.push({event: 'generate_lead'});
                 }
             </script>
