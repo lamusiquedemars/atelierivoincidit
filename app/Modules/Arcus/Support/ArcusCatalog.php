@@ -226,6 +226,16 @@ class ArcusCatalog
     {
         return [
             ...$bow->attributesToArray(),
+            'stick_weight_display' => self::formatMeasure($bow->stick_weight),
+            'total_weight_display' => self::formatMeasure($bow->total_weight),
+            'stick_length_display' => self::formatMeasure($bow->stick_length),
+            'total_length_display' => self::formatMeasure($bow->total_length),
+            'balance_point_display' => self::formatMeasure($bow->balance_point),
+            'density_display' => self::formatMeasure($bow->density),
+            'speed_display' => self::formatMeasure($bow->speed),
+            'elasticity_display' => self::formatMeasure($bow->elasticity, 1),
+            'frequency_display' => self::formatMeasure($bow->frequency),
+            'damping_display' => self::formatMeasure($bow->damping, 3),
             'atelier_name' => $bow->name,
             'range_name' => $bow->range?->name,
             'range_slug' => $bow->range?->slug,
@@ -250,6 +260,15 @@ class ArcusCatalog
             'sustain_name' => $bow->sustain?->name,
             'articulation_name' => $bow->articulation?->name,
         ];
+    }
+
+    private static function formatMeasure(mixed $value, int $decimals = 0): string
+    {
+        if ($value === null || $value === '') {
+            return '';
+        }
+
+        return number_format((float) $value, $decimals, '.', '');
     }
 
     protected static function altText(array $bow): string
