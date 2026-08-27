@@ -93,7 +93,9 @@
                 <h3>Mesures d’atelier</h3>
                 <table>
                     <tr><th>Poids baguette</th><td>{{ $bow['stick_weight_display'] }} g</td></tr>
-                    <tr><th>Poids total</th><td>{{ $bow['total_weight_display'] }} g</td></tr>
+                    @if ($bow['total_weight_display'] !== '')
+                        <tr><th>Poids total</th><td>{{ $bow['total_weight_display'] }} g</td></tr>
+                    @endif
                     <tr><th>Longueur baguette</th><td>{{ $bow['stick_length_display'] }} mm</td></tr>
                     <tr><th>Longueur totale</th><td>{{ $bow['total_length_display'] }} mm</td></tr>
                     <tr><th>Équilibre</th><td>{{ $bow['balance_point_display'] }} mm</td></tr>

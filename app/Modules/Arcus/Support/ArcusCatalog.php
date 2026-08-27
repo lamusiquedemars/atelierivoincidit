@@ -227,7 +227,7 @@ class ArcusCatalog
         return [
             ...$bow->attributesToArray(),
             'stick_weight_display' => self::formatMeasure($bow->stick_weight),
-            'total_weight_display' => self::formatMeasure($bow->total_weight),
+            'total_weight_display' => self::formatWeight($bow->total_weight),
             'stick_length_display' => self::formatMeasure($bow->stick_length),
             'total_length_display' => self::formatMeasure($bow->total_length),
             'balance_point_display' => self::formatMeasure($bow->balance_point),
@@ -269,6 +269,17 @@ class ArcusCatalog
         }
 
         return number_format((float) $value, $decimals, '.', '');
+    }
+
+    private static function formatWeight(mixed $value): string
+    {
+        // No bow in the catalogue can plausibly weigh 120 g or more.  Do not
+        // publish an obviously corrupted measurement as if it were factual.
+        if ($value === null || $value === '' || (float) $value >= 120) {
+            return '';
+        }
+
+        return self::formatMeasure($value);
     }
 
     protected static function altText(array $bow): string
