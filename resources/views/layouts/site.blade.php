@@ -183,10 +183,32 @@
             (() => {
                 const banner = document.querySelector('[data-consent-banner]');
                 const key = 'ivo_analytics_consent';
+                const attributionKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid'];
                 const cookieValue = document.cookie.match(new RegExp(`(?:^|; )${key}=([^;]+)`))?.[1];
                 const saved = cookieValue || window.localStorage.getItem(key);
 
-                if (! saved) banner.hidden = false;
+                const rememberAttribution = () => {
+                    const params = new URLSearchParams(window.location.search);
+                    if (!attributionKeys.some((item) => params.has(item))) return;
+
+                    const touch = Object.fromEntries(attributionKeys
+                        .filter((item) => params.has(item))
+                        .map((item) => [item, params.get(item)]));
+                    touch.landing_page = window.location.pathname + window.location.search;
+                    touch.referrer = document.referrer || '';
+                    touch.captured_at = new Date().toISOString();
+                    const options = '; Max-Age=7776000; Path=/; SameSite=Lax; Secure';
+                    if (!document.cookie.match(/(?:^|; )ivo_attribution_first=/)) {
+                        document.cookie = `ivo_attribution_first=${encodeURIComponent(JSON.stringify(touch))}${options}`;
+                    }
+                    document.cookie = `ivo_attribution_last=${encodeURIComponent(JSON.stringify(touch))}${options}`;
+                };
+
+                if (! saved) {
+                    banner.hidden = false;
+                } else if (saved === 'granted') {
+                    rememberAttribution();
+                }
 
                 document.querySelectorAll('[data-consent]').forEach((button) => {
                     button.addEventListener('click', () => {
@@ -195,6 +217,7 @@
                         window.localStorage.setItem(key, value);
                         gtag('consent', 'update', {analytics_storage: value});
                         if (value === 'granted') dataLayer.push({event: 'analytics_consent_granted'});
+                        if (value === 'granted') rememberAttribution();
                         banner.hidden = true;
                     });
                 });

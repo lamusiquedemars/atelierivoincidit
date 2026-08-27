@@ -6,6 +6,7 @@ use App\Mail\ContactSubmissionConfirmation;
 use App\Mail\ContactSubmissionReceived;
 use App\Modules\Contact\Models\ContactSubmission;
 use App\Modules\SiteSettings\Models\SiteSetting;
+use App\Services\CremonaIncomingRequestDispatcher;
 use App\Support\Modules;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -50,6 +51,8 @@ class ContactController extends Controller
         }
 
         $submission = ContactSubmission::query()->create($data);
+
+        app(CremonaIncomingRequestDispatcher::class)->dispatch($submission, $request);
 
         if ($settings->contact_form_send_admin_email && $settings->contact_email) {
             try {

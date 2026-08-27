@@ -39,4 +39,10 @@ return [
         'container_id' => env('GTM_CONTAINER_ID'),
     ],
 
+    'cremona' => [
+        'incoming_requests_url' => env('CREMONA_INCOMING_REQUESTS_URL'),
+        'incoming_requests_token' => env('CREMONA_INCOMING_REQUESTS_TOKEN'),
+        'site_reference' => env('CREMONA_SITE_REFERENCE', 'atelierivoincidit.fr'),
+    ],
+
 ];
