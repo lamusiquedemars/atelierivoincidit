@@ -55,7 +55,9 @@ class SitemapController extends Controller
         }
 
         if (Modules::enabled('articles')) {
-            $this->addUrl($urls, route('articles.index'), priority: '0.7');
+            if (Article::query()->visible()->exists()) {
+                $this->addUrl($urls, route('articles.index'), priority: '0.7');
+            }
 
             Article::query()
                 ->visible()

@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 class Seo
 {
     /**
-     * @param  array{title?: ?string, description?: ?string, image?: ?string, type?: ?string, canonical?: ?string}  $data
+     * @param  array{title?: ?string, description?: ?string, image?: ?string, type?: ?string, canonical?: ?string, robots?: ?string}  $data
      * @return array{title: string, description: string, canonical: string, image: ?string, type: string, robots: string, site_name: string}
      */
     public static function make(SiteSetting $settings, array $data = []): array
@@ -23,7 +23,9 @@ class Seo
             'canonical' => self::absoluteUrl($data['canonical'] ?? url()->current()),
             'image' => $image ? self::absoluteUrl($image) : null,
             'type' => $data['type'] ?: 'website',
-            'robots' => config('maracuja.seo.indexable') ? 'index, follow' : 'noindex, nofollow',
+            'robots' => config('maracuja.seo.indexable')
+                ? (($data['robots'] ?? null) ?: 'index, follow')
+                : 'noindex, nofollow',
             'site_name' => $settings->site_name,
         ];
     }

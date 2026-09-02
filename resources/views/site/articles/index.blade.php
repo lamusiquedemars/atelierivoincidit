@@ -1,6 +1,7 @@
 @extends('layouts.site', [
     'seoTitle' => $label . ' - ' . $settings->site_name,
     'seoDescription' => $subtitle,
+    'seoRobots' => $posts->isEmpty() ? 'noindex, follow' : null,
 ])
 
 @section('content')

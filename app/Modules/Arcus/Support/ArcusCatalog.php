@@ -12,6 +12,8 @@ class ArcusCatalog
         return [
             'ars-antiqua' => [
                 'title' => 'Ars Antiqua',
+                'seoTitle' => 'Archets baroques et musiques anciennes | Ivo Incidit',
+                'seoDescription' => 'Ars Antiqua réunit des archets baroques et des archets pour musiques anciennes, fabriqués artisanalement près de Lyon par Ivo Correia de Melo.',
                 'description' => 'Archets inspirés des musiques anciennes : baroque, transition, musique de danse, 
         phrasé articulé. Plus qu’une reconstitution, 
             c’est une exploration de la sensibilité ancienne.',
@@ -36,6 +38,8 @@ class ArcusCatalog
             ],
             'ars-classica' => [
                 'title' => 'Ars Classica',
+                'seoTitle' => 'Archets modernes d’inspiration française | Ivo Incidit',
+                'seoDescription' => 'Ars Classica réunit des archets modernes artisanaux inspirés de l’archèterie française, pensés pour l’étude, l’orchestre et la pratique professionnelle.',
                 'description' => 'Archets inspirés de l’héritage de l’archèterie française : équilibre, stabilité, précision et projection.
         Les matériaux sont choisis selon des critères 
         classiques. C’est un archet pensé pour un usage professionnel, 
@@ -61,6 +65,8 @@ class ArcusCatalog
             ],
             'ars-nova' => [
                 'title' => 'Ars Nova',
+                'seoTitle' => 'Archets contemporains | Atelier Ivo Incidit',
+                'seoDescription' => 'Ars Nova rassemble des archets contemporains artisanaux qui explorent les bois brésiliens, l’équilibre et le caractère au service du jeu.',
                 'description' => 'L’art nouveau, l’expression de mon identité. J’explore les propriétés du bois, les dimensions et les couleurs,
         toujours pensant au jeu professionnel.
         Ces archets incarnent ma vision contemporaine de l’archèterie.

@@ -8,11 +8,15 @@
             'image' => $seoImage ?? null,
             'type' => $seoType ?? null,
             'canonical' => $canonical ?? null,
+            'robots' => $seoRobots ?? null,
         ]);
 
         $clientTheme = config('maracuja.client_theme');
         $isIvoIncidit = $clientTheme === 'ivo-incidit';
-        $brandLogo = $settings->logoUrl() ?: ($isIvoIncidit ? '/assets/images/blason-ivo-incidit2.png' : null);
+        $configuredLogo = $settings->logoUrl();
+        $brandLogo = $isIvoIncidit && $configuredLogo === '/assets/images/blason-ivo-incidit2.png'
+            ? '/assets/images/blason-header.png'
+            : ($configuredLogo ?: ($isIvoIncidit ? '/assets/images/blason-header.png' : null));
         $favicon = $settings->faviconUrl();
         $gtmContainerId = config('services.google_tag_manager.container_id');
     @endphp
@@ -40,6 +44,11 @@
     @if ($seo['image'])
         <meta name="twitter:image" content="{{ $seo['image'] }}">
     @endif
+
+    @if ($isIvoIncidit)
+        <script type="application/ld+json">{!! \App\Support\StructuredData::json(\App\Support\StructuredData::siteGraph($settings)) !!}</script>
+    @endif
+    @stack('structured-data')
 
     @if ($favicon)
         <link rel="icon" href="{{ \App\Support\Seo::absoluteUrl($favicon) }}">
@@ -84,7 +93,7 @@
             <a class="site-brand" href="{{ route('home') }}">
                 @if ($brandLogo)
                     <span class="site-brand__mark site-brand__mark--image" aria-hidden="true">
-                        <img src="{{ $brandLogo }}" alt="">
+                        <x-site.image :src="$brandLogo" alt="" loading="eager" fetchpriority="high" />
                     </span>
                 @else
                     <span class="site-brand__mark">M</span>

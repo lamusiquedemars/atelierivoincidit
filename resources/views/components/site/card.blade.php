@@ -4,12 +4,13 @@
     'url' => null,
     'variant' => null,
     'image' => null,
+    'imageAlt' => null,
 ])
 
 <article {{ $attributes->class(['card', 'card--' . $variant => $variant]) }}>
     @if ($image)
         <div class="card__media">
-            <img src="{{ $image }}" alt="">
+            <x-site.image :src="$image" :alt="$imageAlt ?? $title" />
         </div>
     @endif
 
@@ -20,7 +21,7 @@
         <h3>{{ $title }}</h3>
         <p class="card__body">{{ $slot }}</p>
         @if (! empty($url))
-            <a class="card__link" href="{{ $url }}" aria-label="Lire {{ $title }}">Lire</a>
+            <a class="card__link" href="{{ $url }}">Découvrir {{ $title }}</a>
         @endif
     </div>
 </article>

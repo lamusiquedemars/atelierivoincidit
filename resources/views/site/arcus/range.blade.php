@@ -1,6 +1,6 @@
 @extends('layouts.site', [
-    'seoTitle' => $content['title'],
-    'seoDescription' => $content['description'],
+    'seoTitle' => $content['seoTitle'],
+    'seoDescription' => $content['seoDescription'],
 ])
 
 @section('content')
@@ -51,7 +51,7 @@
     <x-site.section variant="muted" :title="$content['finalTitle']" heading-variant="underline">
         <div class="prose container--narrow">
             <p>{{ $content['finalText'] }}</p>
-            <p><a class="btn btn--primary" href="{{ route('contact') }}">Me demander conseil</a></p>
+            <p><a class="btn btn--primary" href="{{ route('atelier.probatio') }}">Comprendre l’essai d’un archet</a></p>
         </div>
     </x-site.section>
 @endsection

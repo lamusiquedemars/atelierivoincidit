@@ -5,13 +5,57 @@
         $bow['instrument_name'] ?? null,
         $bow['size_name'] ?? null,
     ]));
+    $bowStyle = mb_strtolower((string) ($bow['style_name'] ?? ''));
+    $bowInstrument = mb_strtolower((string) ($bow['instrument_name'] ?? ''));
+    $bowSearchLabel = $bowStyle === 'baroque'
+        ? trim('Archet baroque de '.$bowInstrument)
+        : trim('Archet de '.$bowInstrument);
+    $bowSeoTitle = trim(implode(' – ', array_filter([
+        $bowSearchLabel,
+        $bowTitle,
+    ])).' | Ivo Incidit');
+    $bowSeoDescription = rtrim(implode('. ', array_filter([
+        $bowSubtitle,
+        $bow['short_trait'] ?? null,
+        ! empty($bow['wood_name']) ? 'Baguette en '.$bow['wood_name'] : null,
+    ])), '. ').'.';
     $measure = static fn (string $value, ?string $unit = null): string => $value === '' ? '—' : $value.($unit === null ? '' : ' '.$unit);
+
+    $productData = array_filter([
+        '@context' => 'https://schema.org',
+        '@type' => 'Product',
+        '@id' => url()->current().'#product',
+        'name' => $bowTitle,
+        'description' => $bowSeoDescription,
+        'sku' => strtoupper($bow['code']),
+        'category' => $bowSubtitle,
+        'material' => $bow['wood_name'] ?? null,
+        'image' => $photos->pluck('resolved_image_url')->map(fn (string $url) => \App\Support\Seo::absoluteUrl($url))->values()->all() ?: null,
+        'brand' => ['@id' => rtrim(config('app.url'), '/').'/#organization'],
+        'manufacturer' => ['@id' => rtrim(config('app.url'), '/').'/#organization'],
+        'offers' => $priceData === null ? null : [
+            '@type' => 'Offer',
+            'url' => url()->current(),
+            'priceCurrency' => 'EUR',
+            'price' => number_format($priceData['current'] / 100, 2, '.', ''),
+            'availability' => match ($bow['status'] ?? null) {
+                'available' => 'https://schema.org/InStock',
+                'reserved' => 'https://schema.org/LimitedAvailability',
+                default => 'https://schema.org/OutOfStock',
+            },
+            'seller' => ['@id' => rtrim(config('app.url'), '/').'/#organization'],
+        ],
+    ], fn (mixed $value): bool => $value !== null);
 @endphp
 
 @extends('layouts.site', [
-    'seoTitle' => $bowTitle,
-    'seoDescription' => $bowSubtitle,
+    'seoTitle' => $bowSeoTitle,
+    'seoDescription' => $bowSeoDescription,
 ])
+
+@push('structured-data')
+    <script type="application/ld+json">{!! \App\Support\StructuredData::json($productData) !!}</script>
+@endpush
 
 @section('content')
     <x-site.hero
@@ -121,8 +165,8 @@
             class="cta--arcus-trial"
             title="Essayer cet archet"
             text="Les mesures orientent, mais le choix se confirme surtout avec l’instrument, dans le geste et dans l’écoute."
-            :href="route('contact')"
-            label="Demander à essayer cet archet"
+            :href="route('atelier.probatio')"
+            label="Comprendre l’essai de cet archet"
             inline
         />
     </x-site.section>

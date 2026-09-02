@@ -1,6 +1,10 @@
 @extends('layouts.site', [
-    'seoTitle' => $homePage?->seo_title,
-    'seoDescription' => $homePage?->seo_description,
+    'seoTitle' => config('maracuja.theme') === 'atelier'
+        ? 'Archetier à Lyon – Archets artisanaux | Atelier Ivo Incidit'
+        : $homePage?->seo_title,
+    'seoDescription' => config('maracuja.theme') === 'atelier'
+        ? 'Ivo Correia de Melo fabrique près de Lyon des archets artisanaux contemporains et pour musiques anciennes, en bois brésiliens alternatifs.'
+        : $homePage?->seo_description,
 ])
 
 @section('content')
@@ -73,13 +77,13 @@
 
         <x-site.section title="Mes trois approches de l’archet" heading-variant="accent">
             <x-site.grid columns="3">
-                <x-site.card title="Ars Antiqua" :url="route('arcus.range', 'ars-antiqua')" image="/assets/images/home-antiqua.HEIC" variant="featured">
+                <x-site.card title="Ars Antiqua" :url="route('arcus.range', 'ars-antiqua')" image="/assets/images/home-antiqua.jpg" variant="featured">
                     Archets pour la musique ancienne, mais non seulement...
                 </x-site.card>
-                <x-site.card title="Ars Classica" :url="route('arcus.range', 'ars-classica')" image="/assets/images/home-classica.HEIC" variant="featured">
+                <x-site.card title="Ars Classica" :url="route('arcus.range', 'ars-classica')" image="/assets/images/home-classica.jpg" variant="featured">
                     Archets classiques, formes et sensations classiques.
                 </x-site.card>
-                <x-site.card title="Ars Nova" :url="route('arcus.range', 'ars-nova')" image="/assets/images/home-nova.HEIC" variant="featured">
+                <x-site.card title="Ars Nova" :url="route('arcus.range', 'ars-nova')" image="/assets/images/home-nova.jpg" variant="featured">
                     La nouvelle archèterie.
                 </x-site.card>
             </x-site.grid>

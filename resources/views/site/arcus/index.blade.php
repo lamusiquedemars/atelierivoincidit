@@ -1,6 +1,6 @@
 @extends('layouts.site', [
-    'seoTitle' => 'Archets',
-    'seoDescription' => 'Archets artisanaux faits main par Ivo Correia de Melo : Ars Antiqua, Ars Classica et Ars Nova.',
+    'seoTitle' => 'Archets artisanaux à Lyon | Atelier Ivo Incidit',
+    'seoDescription' => 'Archets artisanaux de violon, alto et violoncelle fabriqués près de Lyon par Ivo Correia de Melo : Ars Antiqua, Ars Classica et Ars Nova.',
 ])
 
 @section('content')
@@ -16,7 +16,8 @@
     <x-site.section heading-variant="accent">
         <div class="prose container--narrow">
             <p>
-                Mes archets sont conçus pour servir le musicien selon son niveau, son style et sa sensibilité.
+                Je fabrique près de Lyon des archets artisanaux pour violon, alto et violoncelle,
+                conçus pour servir le musicien selon son niveau, son style et sa sensibilité.
                 Je propose trois gammes distinctes, basées sur des critères mesurables - densité,
                 élasticité, cambrure et équilibre - tout en conservant la même exigence de construction.
             </p>
@@ -41,9 +42,9 @@
     <x-site.section variant="muted" title="Comment choisir ?" heading-variant="underline">
         <div class="prose container--narrow">
             <ul>
-                <li>Si vous cherchez un archet baroque ou historiquement inspiré, commencez par <strong>Ars Antiqua</strong>.</li>
-                <li>Si vous cherchez un archet stable, équilibré, pensé pour une pratique moderne régulière, allez vers <strong>Ars Classica</strong>.</li>
-                <li>Si vous cherchez une proposition plus personnelle, moins standard, regardez du côté d’<strong>Ars Nova</strong>.</li>
+                <li>Si vous cherchez un archet baroque ou historiquement inspiré, commencez par <a href="{{ route('arcus.range', 'ars-antiqua') }}">Ars Antiqua</a>.</li>
+                <li>Si vous cherchez un archet stable, équilibré, pensé pour une pratique moderne régulière, allez vers <a href="{{ route('arcus.range', 'ars-classica') }}">Ars Classica</a>.</li>
+                <li>Si vous cherchez une proposition plus personnelle, moins standard, regardez du côté d’<a href="{{ route('arcus.range', 'ars-nova') }}">Ars Nova</a>.</li>
             </ul>
             <p>Si vous hésitez, l’échange et l’essai restent souvent plus justes qu’un choix fait uniquement sur fiche.</p>
             <p><a class="btn btn--primary" href="{{ route('contact') }}">Me demander conseil</a></p>

@@ -57,6 +57,56 @@ class SeoTest extends TestCase
             ->assertSee('Disallow: /');
     }
 
+    public function test_atelier_pages_expose_clear_titles_and_structured_entities(): void
+    {
+        config([
+            'maracuja.theme' => 'atelier',
+            'maracuja.seo.indexable' => true,
+        ]);
+
+        SiteSetting::query()->create([
+            'site_name' => 'Atelier Ivo Incidit',
+            'contact_email' => 'info@example.test',
+        ]);
+
+        $response = $this->get('/archetier');
+
+        $response
+            ->assertOk()
+            ->assertSee('<title>Ivo Correia de Melo, archetier à Lyon | Ivo Incidit</title>', false)
+            ->assertSee('<meta name="robots" content="index, follow">', false)
+            ->assertSee('"@type":"LocalBusiness"', false)
+            ->assertSee('"@type":"Person"', false)
+            ->assertSee('"@type":"WebSite"', false)
+            ->assertSee('"@type":"BreadcrumbList"', false)
+            ->assertSee('"addressLocality":"Collonges-au-Mont-d’Or"', false);
+
+        preg_match_all('/<script type="application\/ld\+json">(.*?)<\/script>/s', $response->getContent(), $matches);
+        $this->assertNotEmpty($matches[1]);
+
+        foreach ($matches[1] as $json) {
+            json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+        }
+    }
+
+    public function test_empty_article_index_is_noindex_and_absent_from_sitemap(): void
+    {
+        config([
+            'maracuja.modules.articles' => true,
+            'maracuja.seo.indexable' => true,
+        ]);
+
+        SiteSetting::current();
+
+        $this->get('/articles')
+            ->assertOk()
+            ->assertSee('<meta name="robots" content="noindex, follow">', false);
+
+        $this->get('/sitemap.xml')
+            ->assertOk()
+            ->assertDontSee('<loc>'.url('/articles').'</loc>', false);
+    }
+
     public function test_sitemap_lists_public_content(): void
     {
         config([

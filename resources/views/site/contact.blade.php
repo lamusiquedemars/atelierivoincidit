@@ -1,5 +1,7 @@
 @extends('layouts.site', [
-    'seoTitle' => config('maracuja.theme') === 'atelier' ? 'Contact' : 'Contact - ' . $settings->site_name,
+    'seoTitle' => config('maracuja.theme') === 'atelier'
+        ? 'Contact – Atelier d’archeterie près de Lyon | Ivo Incidit'
+        : 'Contact - ' . $settings->site_name,
     'seoDescription' => config('maracuja.theme') === 'atelier'
         ? 'Contacter l’atelier Ivo Incidit pour un conseil, un essai ou une demande d’archet.'
         : 'Contacter ' . $settings->site_name,
@@ -10,7 +12,7 @@
 
     <x-site.hero
         :eyebrow="$isAtelier ? 'Contact' : 'Maracuja CMS'"
-        :title="$isAtelier ? 'Essayer un archet' : 'Contact'"
+        :title="$isAtelier ? 'Contacter l’atelier' : 'Contact'"
         :subtitle="$isAtelier ? 'Contactez-moi pour un essai, un conseil, ou choisir un archet adapté à votre jeu.' : 'Un formulaire simple, stocké en admin et envoyé par email.'"
         :variant="$isAtelier ? 'contact' : 'page'"
     />
@@ -107,7 +109,7 @@
 
             <div class="contact-visual">
                 <x-site.figure
-                    src="/assets/images/ivo-correia.HEIC"
+                    src="/assets/images/ivo-correia.jpg"
                     alt="Ivo Correia de Melo, archetier près de Lyon"
                 />
             </div>

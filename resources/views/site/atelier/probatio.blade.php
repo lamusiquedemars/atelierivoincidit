@@ -1,5 +1,5 @@
 @extends('layouts.site', [
-    'seoTitle' => 'Essayer un archet',
+    'seoTitle' => 'Essayer un archet à Lyon ou à distance | Ivo Incidit',
     'seoDescription' => 'Essayer un archet artisanal Ivo Incidit à Lyon ou à distance, avec conseil avant choix.',
 ])
 

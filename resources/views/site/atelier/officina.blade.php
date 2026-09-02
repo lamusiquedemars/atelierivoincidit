@@ -1,5 +1,5 @@
 @extends('layouts.site', [
-    'seoTitle' => 'L’archetier',
+    'seoTitle' => 'Ivo Correia de Melo, archetier à Lyon | Ivo Incidit',
     'seoDescription' => 'Ivo Correia de Melo, archetier à Lyon, fabrique des archets contemporains en bois brésiliens alternatifs, dans une démarche durable et artisanale.',
 ])
 

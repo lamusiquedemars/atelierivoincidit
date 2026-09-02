@@ -10,6 +10,7 @@ use App\Modules\Arcus\Models\Bow;
 use App\Modules\Arcus\Support\ArcusCatalog;
 use App\Modules\Media\Models\MediaAsset;
 use App\Modules\Media\Models\MediaUsage;
+use App\Modules\SiteSettings\Models\SiteSetting;
 use Filament\Actions\Testing\TestAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -72,6 +73,32 @@ class ArcusNativeTest extends TestCase
             ->get(route('filament.admin.resources.arcus.bows.arcus-bows.index'))
             ->assertOk()
             ->assertSee('Archets');
+    }
+
+    public function test_public_bow_page_exposes_product_structured_data(): void
+    {
+        config([
+            'maracuja.modules.arcus' => true,
+            'maracuja.seo.indexable' => true,
+        ]);
+
+        SiteSetting::current();
+        $bow = $this->createBow();
+
+        $response = $this->get(route('arcus.show', $bow->code));
+
+        $response
+            ->assertOk()
+            ->assertSee('<title>Archet de violon – Ars Antiqua &quot;Test&quot; | Ivo Incidit</title>', false)
+            ->assertSee('"@type":"Product"', false)
+            ->assertSee('"sku":"V-TEST"', false);
+
+        preg_match_all('/<script type="application\/ld\+json">(.*?)<\/script>/s', $response->getContent(), $matches);
+        $this->assertNotEmpty($matches[1]);
+
+        foreach ($matches[1] as $json) {
+            json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+        }
     }
 
     public function test_admin_can_create_a_bow_with_several_ordered_photos(): void

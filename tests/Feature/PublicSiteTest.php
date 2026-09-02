@@ -4,9 +4,9 @@ namespace Tests\Feature;
 
 use App\Mail\ContactSubmissionConfirmation;
 use App\Mail\ContactSubmissionReceived;
+use App\Modules\Articles\Models\Article;
 use App\Modules\Contact\Models\ContactSubmission;
 use App\Modules\ContentSlots\Models\ContentSlot;
-use App\Modules\Articles\Models\Article;
 use App\Modules\Gallery\Models\Gallery;
 use App\Modules\Gallery\Models\GalleryImage;
 use App\Modules\News\Models\NewsPost;
@@ -49,7 +49,11 @@ class PublicSiteTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee(config('maracuja.theme') === 'atelier' ? 'Atelier Ivo Incidit' : 'Un site clair')
-            ->assertSee(config('maracuja.theme') === 'atelier' ? 'Ars Antiqua' : 'Essence');
+            ->assertSee(config('maracuja.theme') === 'atelier' ? 'Ars Antiqua' : 'Essence')
+            ->when(config('maracuja.theme') === 'atelier', fn ($response) => $response
+                ->assertSee('/assets/images/home-antiqua.jpg')
+                ->assertSee('width="1600"', false)
+                ->assertSee('height="1200"', false));
     }
 
     public function test_services_page_uses_dedicated_demo_template(): void
@@ -326,21 +330,21 @@ class PublicSiteTest extends TestCase
         SiteSetting::current();
 
         Page::query()->create([
-            "title" => "Politique confidentialité",
-            "slug" => "politique-confidentialite",
-            "type" => Page::TYPE_TEXT,
-            "hero_title" => "Politique confidentialité",
-            "content" => "<p>Texte confidentialité simple.</p>",
-            "is_published" => true,
-            "published_at" => now(),
+            'title' => 'Politique confidentialité',
+            'slug' => 'politique-confidentialite',
+            'type' => Page::TYPE_TEXT,
+            'hero_title' => 'Politique confidentialité',
+            'content' => '<p>Texte confidentialité simple.</p>',
+            'is_published' => true,
+            'published_at' => now(),
         ]);
 
-        $this->get("/politique-confidentialite")
+        $this->get('/politique-confidentialite')
             ->assertOk()
-            ->assertSee("Fil d’Ariane")
-            ->assertSee("Politique confidentialité")
-            ->assertSee("Texte confidentialité simple")
-            ->assertSee("Retour à l&#039;accueil", false);
+            ->assertSee('Fil d’Ariane')
+            ->assertSee('Politique confidentialité')
+            ->assertSee('Texte confidentialité simple')
+            ->assertSee('Retour à l&#039;accueil', false);
     }
 
     public function test_contact_form_stores_submission_and_sends_mail(): void
@@ -602,6 +606,8 @@ class PublicSiteTest extends TestCase
             ->assertSee('Le bois répond au geste.')
             ->assertSee('Le geste confirme.')
             ->assertSee('Cumaru')
+            ->assertSee('"@type":"Article"', false)
+            ->assertSee('"headline":"Bois et geste"', false)
             ->assertSee('Retour aux articles');
 
         $this->get('/article.php?slug=bois-et-geste')
