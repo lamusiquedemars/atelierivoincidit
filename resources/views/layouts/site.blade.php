@@ -19,8 +19,8 @@
             '/assets/images/blason-header.png',
         ];
         $brandLogo = $isIvoIncidit && in_array($configuredLogo, $legacyIvoLogos, true)
-            ? '/assets/images/logo-ivo-incidit-header-v2.webp'
-            : ($configuredLogo ?: ($isIvoIncidit ? '/assets/images/logo-ivo-incidit-header-v2.webp' : null));
+            ? '/assets/images/logo-ivo-incidit-header-v3.webp'
+            : ($configuredLogo ?: ($isIvoIncidit ? '/assets/images/logo-ivo-incidit-header-v3.webp' : null));
         $favicon = $settings->faviconUrl();
         $gtmContainerId = config('services.google_tag_manager.container_id');
     @endphp
