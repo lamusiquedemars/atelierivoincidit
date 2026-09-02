@@ -56,6 +56,25 @@ class PublicSiteTest extends TestCase
                 ->assertSee('height="1200"', false));
     }
 
+    public function test_gtm_is_prepared_but_not_loaded_before_analytics_consent(): void
+    {
+        config(['services.google_tag_manager.container_id' => 'GTM-TEST123']);
+        SiteSetting::current();
+
+        Page::query()->create([
+            'title' => 'Accueil',
+            'slug' => 'accueil',
+            'is_published' => true,
+            'published_at' => now(),
+        ]);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('window.ivoLoadGtm', false)
+            ->assertSee('if (savedAnalyticsConsent) window.ivoSetAnalyticsConsent(savedAnalyticsConsent);', false)
+            ->assertDontSee('(function(w,d,s,l,i)', false);
+    }
+
     public function test_services_page_uses_dedicated_demo_template(): void
     {
         SiteSetting::current();

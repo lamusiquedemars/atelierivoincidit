@@ -64,8 +64,8 @@
     @if ($gtmContainerId)
         <script>
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('consent', 'default', {
+            window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+            window.gtag('consent', 'default', {
                 analytics_storage: 'denied',
                 ad_storage: 'denied',
                 ad_user_data: 'denied',
@@ -73,13 +73,33 @@
                 wait_for_update: 500,
             });
 
-            const savedAnalyticsConsent = document.cookie.match(/(?:^|; )ivo_analytics_consent=([^;]+)/)?.[1] || window.localStorage.getItem('ivo_analytics_consent');
-            if (savedAnalyticsConsent === 'granted') {
-                gtag('consent', 'update', {analytics_storage: 'granted'});
-                dataLayer.push({event: 'analytics_consent_granted'});
-            }
+            window.ivoLoadGtm = window.ivoLoadGtm || function () {
+                if (window.ivoGtmLoaded) return;
+                window.ivoGtmLoaded = true;
 
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',@json($gtmContainerId));
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(@json($gtmContainerId));
+                document.head.appendChild(script);
+            };
+
+            window.ivoSetAnalyticsConsent = window.ivoSetAnalyticsConsent || function (value) {
+                const granted = value === 'granted';
+                window.gtag('consent', 'update', {
+                    analytics_storage: granted ? 'granted' : 'denied',
+                    ad_storage: 'denied',
+                    ad_user_data: 'denied',
+                    ad_personalization: 'denied',
+                });
+
+                if (granted) {
+                    window.dataLayer.push({event: 'analytics_consent_granted'});
+                    window.ivoLoadGtm();
+                }
+            };
+
+            const savedAnalyticsConsent = document.cookie.match(/(?:^|; )ivo_analytics_consent=([^;]+)/)?.[1] || window.localStorage.getItem('ivo_analytics_consent');
+            if (savedAnalyticsConsent) window.ivoSetAnalyticsConsent(savedAnalyticsConsent);
         </script>
     @endif
 </head>
@@ -224,8 +244,7 @@
                         const value = button.dataset.consent;
                         document.cookie = `${key}=${value}; Max-Age=15552000; Path=/; Domain=.atelierivoincidit.fr; SameSite=Lax; Secure`;
                         window.localStorage.setItem(key, value);
-                        gtag('consent', 'update', {analytics_storage: value});
-                        if (value === 'granted') dataLayer.push({event: 'analytics_consent_granted'});
+                        window.ivoSetAnalyticsConsent?.(value);
                         if (value === 'granted') rememberAttribution();
                         banner.hidden = true;
                     });
