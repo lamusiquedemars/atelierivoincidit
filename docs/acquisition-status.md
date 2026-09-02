@@ -20,7 +20,7 @@
 
 - Une seule identité Google est utilisée pour Atelier et Maracuja ; aucun second compte Google Ivo.
 - GTM est le seul chargeur dans le site ; ne pas coller le snippet `gtag.js` GA4 directement.
-- Consentement audience requis avant la mesure ; aucune interface de réouverture du choix n’a été ajoutée.
+- Consentement audience requis avant la mesure ; le chargement public actuel de GTM doit encore être aligné sur ce choix avant toute campagne.
 - Aucune campagne Google Ads ne doit être créée ou diffusée sans décision commerciale explicite.
 
 ## Étapes
@@ -31,7 +31,7 @@
 | 1 | terminé | Sitemap, robots, canonical HTTPS et URLs publiques contrôlés. | Surveiller l’indexation. |
 | 2 | terminé | Propriété Domaine Search Console `atelierivoincidit.fr` validée ; sitemap soumis. | Attendre l’indexation. |
 | 3 | terminé | Conteneur GTM `GTM-MC53SDPM`. | — |
-| 4 | terminé | GTM et consentement déployés dans `resources/views/layouts/site.blade.php`. | — |
+| 4 | en cours | GTM et consentement sont déployés, mais l’audit public du 2 septembre 2026 confirme que GTM est encore chargé avant le choix de consentement. | Aligner le chargeur sur le consentement `basic` du Starter, puis tester refus et acceptation. |
 | 5 | terminé | Flux GA4 `G-P50G7P4N0D`. | — |
 | 6 | terminé | `page_view` validé dans Tag Assistant et DebugView. | Attendre les rapports consolidés. |
 | 7 | terminé | `generate_lead` émis seulement après succès serveur du formulaire. | — |
@@ -54,3 +54,4 @@
 
 - 2026-08-25 — GTM, consentement, GA4 et conversion formulaire validés ; SMTP de `info@atelierivoincidit.fr` corrigé.
 - 2026-08-26 — Associations Search Console ↔ GA4 et GA4 ↔ Google Ads créées ; compte Ads rattaché au MCC Maracuja.
+- 2026-09-02 — Audit public : `GTM-MC53SDPM`, `G-P50G7P4N0D` et la balise `generate_lead` sont publiés. Écart identifié : GTM est chargé avant le consentement, contrairement au standard Starter/Marcos ; aucune campagne Ads ne doit être lancée avant correction.
