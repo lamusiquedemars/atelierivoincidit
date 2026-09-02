@@ -14,9 +14,13 @@
         $clientTheme = config('maracuja.client_theme');
         $isIvoIncidit = $clientTheme === 'ivo-incidit';
         $configuredLogo = $settings->logoUrl();
-        $brandLogo = $isIvoIncidit && $configuredLogo === '/assets/images/blason-ivo-incidit2.png'
-            ? '/assets/images/blason-header.png'
-            : ($configuredLogo ?: ($isIvoIncidit ? '/assets/images/blason-header.png' : null));
+        $legacyIvoLogos = [
+            '/assets/images/blason-ivo-incidit2.png',
+            '/assets/images/blason-header.png',
+        ];
+        $brandLogo = $isIvoIncidit && in_array($configuredLogo, $legacyIvoLogos, true)
+            ? '/assets/images/logo-ivo-incidit-header.webp'
+            : ($configuredLogo ?: ($isIvoIncidit ? '/assets/images/logo-ivo-incidit-header.webp' : null));
         $favicon = $settings->faviconUrl();
         $gtmContainerId = config('services.google_tag_manager.container_id');
     @endphp

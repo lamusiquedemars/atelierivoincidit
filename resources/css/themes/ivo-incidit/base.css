@@ -103,9 +103,9 @@
 }
 
 .theme-ivo-incidit .site-brand__mark--image {
-    width: 160px;
-    height: auto;
-    border-radius: 0;
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
     background: transparent;
 }
 
@@ -114,7 +114,6 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    clip-path: ellipse(45% 50% at 50% 50%);
 }
 
 .theme-ivo-incidit .site-brand > span:last-child {
@@ -493,7 +492,8 @@
     }
 
     .theme-ivo-incidit .site-brand__mark--image {
-        width: 95px;
+        width: 53px;
+        height: 53px;
     }
 
     .theme-ivo-incidit .site-nav {
