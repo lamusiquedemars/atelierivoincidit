@@ -5,7 +5,7 @@
 
 @section('content')
     <x-site.hero
-        eyebrow="Arcus"
+        eyebrow=""
         :title="$content['title']"
         :subtitle="$content['heroSubtitle']"
         variant="arcus"
