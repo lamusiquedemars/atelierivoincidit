@@ -1,6 +1,6 @@
 @extends('layouts.site', [
-    'seoTitle' => 'Essayer un archet à Lyon ou à distance | Ivo Incidit',
-    'seoDescription' => 'Essayer un archet artisanal Ivo Incidit à Lyon ou à distance, avec conseil avant choix.',
+    'seoTitle' => 'Essayer un archet, en atelier ou à distance | Ivo Incidit',
+    'seoDescription' => 'Essayer un archet artisanal Ivo Incidit en atelier ou à distance, avec conseil avant choix.',
 ])
 
 @section('content')
@@ -72,12 +72,12 @@
         </div>
     </x-site.section>
 
-    <x-site.section title="Essai à Lyon ou à distance" heading-variant="underline">
+    <x-site.section title="Essai en atelier ou à distance" heading-variant="underline">
         <div class="split">
             <div class="prose">
                 <h3>Essai à Lyon</h3>
                 <p>
-                    L’essai peut se faire à Lyon ou en région lyonnaise, selon les possibilités
+                    L’essai se fait sur rendez-vous, selon les possibilités
                     et les modalités convenues ensemble.
                 </p>
                 <p>
@@ -89,7 +89,7 @@
             <div class="prose">
                 <h3>Essai à distance</h3>
                 <p>
-                    Si vous n’êtes pas près de Lyon, un essai par envoi peut être envisagé
+                    Si vous êtes loin, un essai par envoi peut être envisagé
                     après un premier échange.
                 </p>
                 <p>
