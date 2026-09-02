@@ -85,7 +85,7 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--space-lg);
-    padding-block: 8px;
+    padding-block: 3px;
 }
 
 .theme-ivo-incidit .site-brand,
@@ -103,8 +103,8 @@
 }
 
 .theme-ivo-incidit .site-brand__mark--image {
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     border-radius: 12px;
     background: transparent;
 }
@@ -488,12 +488,12 @@
     .theme-ivo-incidit .site-header__inner {
         align-items: center;
         flex-direction: row;
-        padding-block: 8px;
+        padding-block: 5px;
     }
 
     .theme-ivo-incidit .site-brand__mark--image {
-        width: 53px;
-        height: 53px;
+        width: 59px;
+        height: 59px;
     }
 
     .theme-ivo-incidit .site-nav {
