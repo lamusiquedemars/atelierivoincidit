@@ -200,11 +200,11 @@
                 />
                 <div class="prose">
                     <p>
-                        À Lyon, je vous reçois sur rendez-vous chez Contempo Luthiers, l’atelier de Giovanni Corazzol,
-                        maître luthier depuis vingt-cinq ans.
+                        J’ai l’honneur de travailler ponctuellement chez Contempo Luthiers, dans l’atelier de
+                        Giovanni Corazzol, et d’apprendre à ses côtés.
                     </p>
                     <p>
-                        Giovanni est un ami et m’accueille dans son atelier pour permettre aux musiciens d’essayer mes archets
+                        C’est aussi là que je reçois les musiciens sur rendez-vous pour essayer mes archets
                         avec leur propre instrument, tranquillement, dans un cadre adapté à l’écoute et à la comparaison.
                     </p>
                     <p>

@@ -117,8 +117,9 @@
                     maître luthier depuis vingt-cinq ans.
                 </p>
                 <p>
-                    Giovanni est un ami et m’accueille dans son atelier afin que les musiciens puissent essayer
-                    mes archets avec leur propre instrument, dans un cadre adapté à l’écoute et à la comparaison.
+                    J’ai l’honneur de travailler ponctuellement dans son atelier et d’apprendre à ses côtés.
+                    C’est dans ce cadre que je reçois les musiciens pour essayer mes archets avec leur propre
+                    instrument, dans un lieu adapté à l’écoute et à la comparaison.
                 </p>
                 <p>
                     Venez avec votre instrument — violon, alto ou violoncelle — et, si possible, avec votre archet habituel.

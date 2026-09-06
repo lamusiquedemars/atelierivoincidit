@@ -67,6 +67,7 @@ class PublicSiteTest extends TestCase
         $this->get('/essai')
             ->assertOk()
             ->assertSee('Essayer à Lyon chez Contempo Luthiers')
+            ->assertSee('J’ai l’honneur de travailler ponctuellement dans son atelier')
             ->assertSee('/assets/images/essai-main-archet.jpg', false)
             ->assertSee('https://contempoluthiers.fr', false)
             ->assertSee('/contact#contact-form', false);
@@ -74,6 +75,7 @@ class PublicSiteTest extends TestCase
         $this->get('/contact')
             ->assertOk()
             ->assertSee('Essayer les archets chez Contempo Luthiers')
+            ->assertSee('J’ai l’honneur de travailler ponctuellement chez Contempo Luthiers')
             ->assertSee('/assets/images/ivo-giovanni-contempo.jpg', false)
             ->assertSee('9 quai Arloing')
             ->assertSee('id="contact-form"', false)
