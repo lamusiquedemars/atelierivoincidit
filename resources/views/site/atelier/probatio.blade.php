@@ -113,11 +113,11 @@
         <div class="split trial-process contempo-lyon">
             <div class="prose">
                 <p>
-                    À Lyon, je vous reçois sur rendez-vous chez Contempo Luthiers, l’atelier de Giovanni Corazzol.
-                    Diplômé à Crémone en 1998, il est maître luthier.
+                    À Lyon, je vous reçois sur rendez-vous chez Contempo Luthiers, l’atelier de Giovanni Corazzol,
+                    maître luthier depuis près de trente ans.
                 </p>
                 <p>
-                    C’est une grande chance pour moi de pouvoir y travailler ponctuellement et d’apprendre à ses côtés.
+                    C’est une grande chance pour moi d’y travailler ponctuellement et d’apprendre à ses côtés.
                     C’est dans ce cadre que je reçois les musiciens pour essayer mes archets avec leur propre
                     instrument, dans un lieu adapté à l’écoute et à la comparaison.
                 </p>
