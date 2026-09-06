@@ -114,7 +114,7 @@
             <div class="prose">
                 <p>
                     À Lyon, je vous reçois sur rendez-vous chez Contempo Luthiers, l’atelier de Giovanni Corazzol,
-                    maître luthier depuis près de trente ans.
+                    formé à l’École de lutherie de Crémone et maître luthier depuis près de trente ans.
                 </p>
                 <p>
                     C’est une grande chance pour moi d’y travailler ponctuellement et d’apprendre à ses côtés.

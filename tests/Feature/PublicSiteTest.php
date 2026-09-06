@@ -67,7 +67,7 @@ class PublicSiteTest extends TestCase
         $this->get('/essai')
             ->assertOk()
             ->assertSee('Essayer à Lyon chez Contempo Luthiers')
-            ->assertSee('maître luthier depuis près de trente ans')
+            ->assertSee('formé à l’École de lutherie de Crémone')
             ->assertSee('C’est une grande chance pour moi d’y travailler ponctuellement')
             ->assertSee('/assets/images/essai-main-archet.jpg', false)
             ->assertSee('/assets/images/ivo-giovanni-contempo.jpg', false)
