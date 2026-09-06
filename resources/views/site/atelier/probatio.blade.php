@@ -152,7 +152,7 @@
         </div>
     </x-site.section>
 
-    <x-site.section variant="surface" title="Essai à distance" heading-variant="accent" container="readable">
+    <x-site.section variant="surface" title="Essai à distance" heading-variant="accent">
         <div class="prose">
             <p>
                 Si vous ne pouvez pas venir à Lyon, un essai par envoi peut être envisagé après un premier échange.
