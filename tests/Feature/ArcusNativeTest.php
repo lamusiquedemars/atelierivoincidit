@@ -101,6 +101,31 @@ class ArcusNativeTest extends TestCase
         }
     }
 
+    public function test_public_bow_page_uses_the_density_unit_and_hides_empty_measurements(): void
+    {
+        config(['maracuja.modules.arcus' => true]);
+
+        SiteSetting::current();
+        $bow = $this->createBow();
+        $bow->update([
+            'density' => 1010,
+            'speed' => null,
+            'elasticity' => null,
+            'frequency' => null,
+            'damping' => null,
+        ]);
+
+        $this->get(route('arcus.show', $bow->code))
+            ->assertOk()
+            ->assertSee('1010 kg/m³', false)
+            ->assertDontSee('g'.'/cm³')
+            ->assertDontSee('Vitesse du son')
+            ->assertDontSee('Élasticité')
+            ->assertDontSee('Fréquence')
+            ->assertDontSee('Amortissement')
+            ->assertDontSee('<td>'.'—'.'</td>', false);
+    }
+
     public function test_admin_can_create_a_bow_with_several_ordered_photos(): void
     {
         $range = ArcusTerm::query()->create([

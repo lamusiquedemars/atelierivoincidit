@@ -110,9 +110,9 @@
                 <div class="prose">
                     <h2>Bois et matériaux utiles</h2>
                     <p>
-                        Mon travail part d’une croyance simple : on peut fabriquer des archets sérieux
-                        avec d’autres bois que le pernambouc. J’explore des essences brésiliennes
-                        choisies pour leurs propriétés mécaniques et acoustiques et leur réponse sous la main.
+                        J’ai fait le choix de ne pas travailler le pernambouc. Mon archèterie se construit
+                        avec d’autres essences brésiliennes, que je sélectionne pour leurs propriétés
+                        mécaniques et acoustiques et pour leur réponse sous la main.
                     </p>
                     <p>
                         Cette démarche concerne aussi les autres parties de l’archet.

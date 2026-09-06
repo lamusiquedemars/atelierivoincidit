@@ -53,7 +53,9 @@ class PublicSiteTest extends TestCase
             ->when(config('maracuja.theme') === 'atelier', fn ($response) => $response
                 ->assertSee('/assets/images/home-antiqua.jpg')
                 ->assertSee('width="1600"', false)
-                ->assertSee('height="1200"', false));
+                ->assertSee('height="1200"', false)
+                ->assertSee('J’ai fait le choix de ne pas travailler le pernambouc.')
+                ->assertDontSee('Mon travail part d’une croyance'.' simple'));
     }
 
     public function test_gtm_is_prepared_but_not_loaded_before_analytics_consent(): void
