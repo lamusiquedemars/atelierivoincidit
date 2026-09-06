@@ -55,7 +55,29 @@ class PublicSiteTest extends TestCase
                 ->assertSee('width="1600"', false)
                 ->assertSee('height="1200"', false)
                 ->assertSee('J’ai fait le choix de ne pas travailler le pernambouc.')
+                ->assertSee('Essayer les archets à Lyon')
+                ->assertSee('/contact#contact-form', false)
                 ->assertDontSee('Mon travail part d’une croyance'.' simple'));
+    }
+
+    public function test_atelier_trial_and_contact_pages_explain_contempo_appointments(): void
+    {
+        SiteSetting::current();
+
+        $this->get('/essai')
+            ->assertOk()
+            ->assertSee('Essayer à Lyon chez Contempo Luthiers')
+            ->assertSee('/assets/images/essai-main-archet.jpg', false)
+            ->assertSee('https://contempoluthiers.fr', false)
+            ->assertSee('/contact#contact-form', false);
+
+        $this->get('/contact')
+            ->assertOk()
+            ->assertSee('Essayer les archets chez Contempo Luthiers')
+            ->assertSee('/assets/images/ivo-giovanni-contempo.jpg', false)
+            ->assertSee('9 quai Arloing')
+            ->assertSee('id="contact-form"', false)
+            ->assertSee('Collonges-au-Mont-d’Or');
     }
 
     public function test_gtm_is_prepared_but_not_loaded_before_analytics_consent(): void

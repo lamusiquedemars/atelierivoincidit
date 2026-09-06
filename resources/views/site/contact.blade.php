@@ -7,13 +7,41 @@
         : 'Contacter ' . $settings->site_name,
 ])
 
+@push('styles')
+    <style>
+        .theme-ivo-incidit .contempo-trial {
+            grid-template-columns: minmax(260px, 2fr) minmax(0, 3fr);
+            align-items: center;
+        }
+
+        .theme-ivo-incidit .contempo-trial__visual {
+            width: min(100%, 460px);
+        }
+
+        .theme-ivo-incidit .contempo-trial__visual img {
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+        }
+
+        .theme-ivo-incidit .contempo-trial__shipping {
+            margin-top: var(--space-xl);
+        }
+
+        @media (max-width: 800px) {
+            .theme-ivo-incidit .contempo-trial {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     @php($isAtelier = config('maracuja.theme') === 'atelier')
 
     <x-site.hero
         :eyebrow="$isAtelier ? 'Contact' : 'Maracuja CMS'"
         :title="$isAtelier ? 'Contacter l’atelier' : 'Contact'"
-        :subtitle="$isAtelier ? 'Contactez-moi pour un essai, un conseil, ou choisir un archet adapté à votre jeu.' : 'Un formulaire simple, stocké en admin et envoyé par email.'"
+        :subtitle="$isAtelier ? 'Contactez-moi pour organiser un essai, demander conseil, ou choisir un archet adapté à votre jeu.' : 'Un formulaire simple, stocké en admin et envoyé par email.'"
         :variant="$isAtelier ? 'contact' : 'page'"
     />
 
@@ -30,7 +58,7 @@
             </div>
             <x-site.grid columns="3">
                 <x-site.feature-card title="Essayer un archet" icon="01">
-                    Organiser un essai à l’atelier, près de Lyon, ou envisager un envoi lorsque c’est possible.
+                    Organiser un essai à Lyon chez Contempo Luthiers, ou envisager un essai par envoi si vous êtes loin.
                 </x-site.feature-card>
                 <x-site.feature-card title="Demander conseil" icon="02">
                     Choisir entre Ars Antiqua, Ars Classica et Ars Nova, ou mieux cerner le type d’archet adapté à votre jeu.
@@ -66,7 +94,7 @@
                     <p class="notice">{{ session('status') }}</p>
                 @endif
 
-                <form method="post" action="{{ route('contact.store') }}" class="contact-form" data-form>
+                <form id="contact-form" method="post" action="{{ route('contact.store') }}" class="contact-form" data-form>
                     @csrf
                     <input type="text" name="website" value="" autocomplete="off" tabindex="-1" style="position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;">
 
@@ -118,7 +146,7 @@
                 <p class="notice">{{ session('status') }}</p>
             @endif
 
-            <form method="post" action="{{ route('contact.store') }}" class="contact-form" data-form>
+            <form id="contact-form" method="post" action="{{ route('contact.store') }}" class="contact-form" data-form>
                 @csrf
                 <input type="text" name="website" value="" autocomplete="off" tabindex="-1" style="position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;">
 
@@ -161,11 +189,39 @@
     </x-site.section>
 
     @if ($isAtelier)
-        <x-site.section variant="surface" title="Essai et envoi" heading-variant="underline">
-            <div class="prose">
+        <x-site.section variant="surface" title="Essayer les archets chez Contempo Luthiers" heading-variant="underline">
+            <div class="split contempo-trial">
+                <x-site.figure
+                    class="contempo-trial__visual"
+                    src="/assets/images/ivo-giovanni-contempo.jpg"
+                    alt="Ivo Correia de Melo et Giovanni Corazzol chez Contempo Luthiers à Lyon"
+                    width="1200"
+                    height="1600"
+                />
+                <div class="prose">
+                    <p>
+                        À Lyon, je vous reçois sur rendez-vous chez Contempo Luthiers, l’atelier de Giovanni Corazzol,
+                        maître luthier depuis vingt-cinq ans.
+                    </p>
+                    <p>
+                        Giovanni est un ami et m’accueille dans son atelier pour permettre aux musiciens d’essayer mes archets
+                        avec leur propre instrument, tranquillement, dans un cadre adapté à l’écoute et à la comparaison.
+                    </p>
+                    <p>
+                        <strong>Contempo Luthiers</strong><br>
+                        9 quai Arloing<br>
+                        69009 Lyon<br>
+                        Essais Ivo Incidit sur rendez-vous.
+                    </p>
+                    <p>
+                        <a href="https://contempoluthiers.fr" target="_blank" rel="noopener noreferrer">Découvrir Contempo Luthiers</a>
+                    </p>
+                </div>
+            </div>
+            <div class="prose contempo-trial__shipping">
+                <h3>Essai à distance et envoi</h3>
                 <p>
-                    Les archets peuvent être essayés à l’atelier, à Collonges-au-Mont-d’Or,
-                    près de Lyon. Un essai par envoi peut aussi être envisagé selon les cas.
+                    Si vous êtes loin de Lyon, un essai par envoi peut aussi être envisagé après un premier échange.
                 </p>
                 <p>
                     Les envois sont réalisés via Colissimo suivi. Les frais et délais ci-dessous

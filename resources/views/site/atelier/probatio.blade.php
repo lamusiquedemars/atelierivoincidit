@@ -1,7 +1,36 @@
 @extends('layouts.site', [
-    'seoTitle' => 'Essayer un archet, en atelier ou à distance | Ivo Incidit',
-    'seoDescription' => 'Essayer un archet artisanal Ivo Incidit en atelier ou à distance, avec conseil avant choix.',
+    'seoTitle' => 'Essayer un archet à Lyon | Atelier Ivo Incidit',
+    'seoDescription' => 'Essayez les archets Ivo Incidit à Lyon, sur rendez-vous chez Contempo Luthiers. Venez avec votre instrument et comparez plusieurs archets dans de vraies conditions de jeu.',
 ])
+
+@push('styles')
+    <style>
+        .theme-ivo-incidit .trial-process {
+            grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+            align-items: center;
+        }
+
+        .theme-ivo-incidit .trial-process__visual {
+            width: min(100%, 380px);
+            justify-self: end;
+        }
+
+        .theme-ivo-incidit .trial-process__visual img {
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+        }
+
+        @media (max-width: 800px) {
+            .theme-ivo-incidit .trial-process {
+                grid-template-columns: 1fr;
+            }
+
+            .theme-ivo-incidit .trial-process__visual {
+                justify-self: start;
+            }
+        }
+    </style>
+@endpush
 
 @section('content')
     <x-site.hero
@@ -55,35 +84,61 @@
     </x-site.section>
 
     <x-site.section variant="surface" title="Comment se passe l’essai ?" heading-variant="accent">
-        <div class="prose">
-            <p>
-                Le plus simple est de commencer par un premier échange.
-                Vous me dites quel instrument vous jouez, votre niveau, votre pratique,
-                et ce que vous cherchez dans un archet.
-            </p>
-            <p>
-                Je peux ensuite vous orienter vers un ou plusieurs archets possibles.
-                L’essai peut se faire à Lyon ou, lorsque c’est possible, à distance par envoi.
-            </p>
-            <p>
-                La décision vient après l’essai. Il est normal de comparer, d’hésiter,
-                ou de revenir vers moi avec des impressions encore imprécises.
-            </p>
+        <div class="split trial-process">
+            <div class="prose">
+                <p>
+                    Le plus simple est de commencer par un premier échange. Vous me dites quel instrument
+                    vous jouez, votre pratique et ce que vous cherchez dans un archet.
+                </p>
+                <p>
+                    À Lyon, je vous reçois sur rendez-vous chez Contempo Luthiers. Si vous êtes loin,
+                    un essai par envoi peut également être envisagé après un premier échange.
+                </p>
+                <p>
+                    Je peux préparer une petite sélection ; vous prenez ensuite le temps de jouer,
+                    d’écouter et de comparer.
+                </p>
+            </div>
+            <x-site.figure
+                class="trial-process__visual"
+                src="/assets/images/essai-main-archet.jpg"
+                alt="Main tenant un archet au-dessus d’une partition"
+                width="1200"
+                height="1600"
+            />
         </div>
     </x-site.section>
 
-    <x-site.section title="Essai en atelier ou à distance" heading-variant="underline">
+    <x-site.section title="Essayer à Lyon chez Contempo Luthiers" heading-variant="underline">
         <div class="split">
             <div class="prose">
-                <h3>Essai à Lyon</h3>
                 <p>
-                    L’essai se fait sur rendez-vous, selon les possibilités
-                    et les modalités convenues ensemble.
+                    À Lyon, je vous reçois sur rendez-vous chez Contempo Luthiers, l’atelier de Giovanni Corazzol,
+                    maître luthier depuis vingt-cinq ans.
                 </p>
                 <p>
-                    L’objectif est simple : prendre le temps de jouer, d’écouter,
-                    de comparer les sensations et de voir si un archet correspond vraiment
-                    à votre instrument.
+                    Giovanni est un ami et m’accueille dans son atelier afin que les musiciens puissent essayer
+                    mes archets avec leur propre instrument, dans un cadre adapté à l’écoute et à la comparaison.
+                </p>
+                <p>
+                    Venez avec votre instrument — violon, alto ou violoncelle — et, si possible, avec votre archet habituel.
+                    Cela permet de comparer directement les sensations, la réponse, l’équilibre, l’articulation et le son.
+                </p>
+                <p>
+                    Il n’est pas nécessaire de savoir à l’avance quel archet choisir. Je peux préparer une petite sélection
+                    en fonction de votre instrument, de votre pratique et de ce que vous recherchez. L’essai se fait sans obligation d’achat.
+                </p>
+                <p>
+                    <strong>Contempo Luthiers</strong><br>
+                    9 quai Arloing<br>
+                    69009 Lyon<br>
+                    Essais Ivo Incidit sur rendez-vous.
+                </p>
+                <p>
+                    <a class="btn btn--primary" href="{{ route('contact') }}#contact-form">Organiser un essai</a>
+                </p>
+                <p>
+                    <a href="https://contempoluthiers.fr" target="_blank" rel="noopener noreferrer">Découvrir Contempo Luthiers</a>
                 </p>
             </div>
             <div class="prose">
@@ -116,7 +171,10 @@
                 de choisir seul à partir d’une fiche technique.
             </p>
             <p>
-                <a class="btn btn--primary" href="{{ route('contact') }}">Me demander conseil</a>
+                Si vous avez déjà repéré un ou deux archets sur le site, indiquez simplement leur numéro dans votre message.
+            </p>
+            <p>
+                <a class="btn btn--primary" href="{{ route('contact') }}#contact-form">Me demander conseil</a>
             </p>
             <h3>L’essai sert justement à décider</h3>
             <p>

@@ -89,18 +89,21 @@
             </x-site.grid>
         </x-site.section>
 
-        <x-site.section variant="surface" title="Essayer avant de choisir" heading-variant="underline">
+        <x-site.section variant="surface" title="Essayer les archets à Lyon" heading-variant="underline">
             <div class="prose">
                 <p>
-                    Un archet ne se juge pas seulement sur une fiche ou une photographie.
-                    Il se comprend en main, avec un instrument, un geste, une manière de jouer.
+                    Un archet se choisit avec l’instrument en main.
                 </p>
                 <p>
-                    Les archets disponibles peuvent être essayés à Lyon ou envoyés pour essai,
-                    après un premier échange.
+                    Je vous reçois sur rendez-vous à Lyon, chez Contempo Luthiers. Venez avec votre instrument :
+                    vous pourrez essayer plusieurs archets et les comparer directement dans vos conditions de jeu.
                 </p>
                 <p>
-                    <a class="btn btn--primary" href="{{ route('atelier.probatio') }}">Comprendre l’essai</a>
+                    Si vous êtes loin de Lyon, un essai par envoi peut également être envisagé après un premier échange.
+                </p>
+                <p>
+                    <a class="btn btn--primary" href="{{ route('contact') }}#contact-form">Prendre rendez-vous pour un essai</a>
+                    <a class="btn btn--secondary" href="{{ route('atelier.probatio') }}">Comment se passe l’essai ?</a>
                 </p>
             </div>
         </x-site.section>

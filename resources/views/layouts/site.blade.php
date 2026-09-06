@@ -65,6 +65,7 @@
     @endif
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
     @if ($gtmContainerId)
         <script>
             window.dataLayer = window.dataLayer || [];
