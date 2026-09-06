@@ -10,22 +10,26 @@
             align-items: center;
         }
 
-        .theme-ivo-incidit .trial-process__visual {
+        .theme-ivo-incidit .trial-process__visual,
+        .theme-ivo-incidit .contempo-lyon__visual {
             width: min(100%, 380px);
             justify-self: end;
         }
 
-        .theme-ivo-incidit .trial-process__visual img {
+        .theme-ivo-incidit .trial-process__visual img,
+        .theme-ivo-incidit .contempo-lyon__visual img {
             aspect-ratio: 3 / 4;
             object-fit: cover;
         }
 
         @media (max-width: 800px) {
-            .theme-ivo-incidit .trial-process {
+            .theme-ivo-incidit .trial-process,
+            .theme-ivo-incidit .contempo-lyon {
                 grid-template-columns: 1fr;
             }
 
-            .theme-ivo-incidit .trial-process__visual {
+            .theme-ivo-incidit .trial-process__visual,
+            .theme-ivo-incidit .contempo-lyon__visual {
                 justify-self: start;
             }
         }
@@ -91,10 +95,6 @@
                     vous jouez, votre pratique et ce que vous cherchez dans un archet.
                 </p>
                 <p>
-                    À Lyon, je vous reçois sur rendez-vous chez Contempo Luthiers. Si vous êtes loin,
-                    un essai par envoi peut également être envisagé après un premier échange.
-                </p>
-                <p>
                     Je peux préparer une petite sélection ; vous prenez ensuite le temps de jouer,
                     d’écouter et de comparer.
                 </p>
@@ -110,7 +110,7 @@
     </x-site.section>
 
     <x-site.section title="Essayer à Lyon chez Contempo Luthiers" heading-variant="underline">
-        <div class="split">
+        <div class="split trial-process contempo-lyon">
             <div class="prose">
                 <p>
                     À Lyon, je vous reçois sur rendez-vous chez Contempo Luthiers, l’atelier de Giovanni Corazzol,
@@ -142,21 +142,22 @@
                     <a href="https://contempoluthiers.fr" target="_blank" rel="noopener noreferrer">Découvrir Contempo Luthiers</a>
                 </p>
             </div>
-            <div class="prose">
-                <h3>Essai à distance</h3>
-                <p>
-                    Si vous êtes loin, un essai par envoi peut être envisagé
-                    après un premier échange.
-                </p>
-                <p>
-                    Les conditions pratiques sont définies avant l’envoi :
-                    choix de l’archet, durée d’essai, expédition, retour et précautions nécessaires.
-                </p>
-                <p>
-                    Rien n’est automatique : l’idée est de trouver une solution claire,
-                    simple et adaptée à la situation.
-                </p>
-            </div>
+            <x-site.figure
+                class="contempo-lyon__visual"
+                src="/assets/images/ivo-giovanni-contempo.jpg"
+                alt="Ivo Correia de Melo et Giovanni Corazzol chez Contempo Luthiers à Lyon"
+                width="1200"
+                height="1600"
+            />
+        </div>
+    </x-site.section>
+
+    <x-site.section variant="surface" title="Essai à distance" heading-variant="accent" container="readable">
+        <div class="prose">
+            <p>
+                Si vous ne pouvez pas venir à Lyon, un essai par envoi peut être envisagé après un premier échange.
+                Nous définissons alors simplement la sélection, la durée de l’essai, l’expédition et le retour.
+            </p>
         </div>
     </x-site.section>
 

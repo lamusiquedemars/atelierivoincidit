@@ -7,34 +7,6 @@
         : 'Contacter ' . $settings->site_name,
 ])
 
-@push('styles')
-    <style>
-        .theme-ivo-incidit .contempo-trial {
-            grid-template-columns: minmax(260px, 2fr) minmax(0, 3fr);
-            align-items: center;
-        }
-
-        .theme-ivo-incidit .contempo-trial__visual {
-            width: min(100%, 460px);
-        }
-
-        .theme-ivo-incidit .contempo-trial__visual img {
-            aspect-ratio: 3 / 4;
-            object-fit: cover;
-        }
-
-        .theme-ivo-incidit .contempo-trial__shipping {
-            margin-top: var(--space-xl);
-        }
-
-        @media (max-width: 800px) {
-            .theme-ivo-incidit .contempo-trial {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-@endpush
-
 @section('content')
     @php($isAtelier = config('maracuja.theme') === 'atelier')
 
@@ -189,75 +161,6 @@
     </x-site.section>
 
     @if ($isAtelier)
-        <x-site.section variant="surface" title="Essayer les archets chez Contempo Luthiers" heading-variant="underline">
-            <div class="split contempo-trial">
-                <x-site.figure
-                    class="contempo-trial__visual"
-                    src="/assets/images/ivo-giovanni-contempo.jpg"
-                    alt="Ivo Correia de Melo et Giovanni Corazzol chez Contempo Luthiers à Lyon"
-                    width="1200"
-                    height="1600"
-                />
-                <div class="prose">
-                    <p>
-                        J’ai l’honneur de travailler ponctuellement chez Contempo Luthiers, dans l’atelier de
-                        Giovanni Corazzol, et d’apprendre à ses côtés.
-                    </p>
-                    <p>
-                        C’est aussi là que je reçois les musiciens sur rendez-vous pour essayer mes archets
-                        avec leur propre instrument, tranquillement, dans un cadre adapté à l’écoute et à la comparaison.
-                    </p>
-                    <p>
-                        <strong>Contempo Luthiers</strong><br>
-                        9 quai Arloing<br>
-                        69009 Lyon<br>
-                        Essais Ivo Incidit sur rendez-vous.
-                    </p>
-                    <p>
-                        <a href="https://contempoluthiers.fr" target="_blank" rel="noopener noreferrer">Découvrir Contempo Luthiers</a>
-                    </p>
-                </div>
-            </div>
-            <div class="prose contempo-trial__shipping">
-                <h3>Essai à distance et envoi</h3>
-                <p>
-                    Si vous êtes loin de Lyon, un essai par envoi peut aussi être envisagé après un premier échange.
-                </p>
-                <p>
-                    Les envois sont réalisés via Colissimo suivi. Les frais et délais ci-dessous
-                    sont donnés à titre indicatif.
-                </p>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Destination</th>
-                        <th>Délais estimés</th>
-                        <th>Frais d’envoi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>France</td>
-                        <td>2 à 5 jours</td>
-                        <td>12 €</td>
-                    </tr>
-                    <tr>
-                        <td>Europe</td>
-                        <td>3 à 7 jours</td>
-                        <td>20 €</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="prose">
-                <p>
-                    Les conditions détaillées d’essai, d’expédition, de paiement et de garantie
-                    sont précisées dans les
-                    <a href="{{ route('atelier.terms') }}">Conditions Générales de Vente</a>.
-                </p>
-            </div>
-        </x-site.section>
-
         <x-site.section title="Informations atelier" heading-variant="accent">
             <div class="prose">
                 <p><strong>Atelier :</strong> Ivo Incidit</p>
