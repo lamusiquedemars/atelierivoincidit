@@ -28,3 +28,28 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 ```
+
+## Pont Cremona
+
+Le pont conserve chaque envoi dans `cremona_deliveries`, puis tente l’envoi
+immédiatement afin que le formulaire ne dépende pas d’un worker permanent. Une
+erreur temporaire reste `pending` et peut être rejouée sans doublon grâce à la
+clé d’idempotence.
+
+Après le premier déploiement du pont, exécuter une seule fois :
+
+```bash
+php artisan migrate --force
+php artisan optimize:clear
+php artisan config:cache
+```
+
+Programmer ensuite dans le planificateur LWS, toutes les cinq minutes :
+
+```bash
+cd ~/htdocs && php artisan cremona:retry-deliveries --limit=50 >/dev/null 2>&1
+```
+
+Les trois variables `CREMONA_INCOMING_REQUESTS_URL`,
+`CREMONA_INCOMING_REQUESTS_TOKEN` et `CREMONA_SITE_REFERENCE` restent dans le
+`.env` de l’instance : elles ne sont jamais envoyées par SFTP ni versionnées.

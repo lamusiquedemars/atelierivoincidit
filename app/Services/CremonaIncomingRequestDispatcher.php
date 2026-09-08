@@ -20,7 +20,9 @@ class CremonaIncomingRequestDispatcher
         }
 
         $delivery = CremonaDelivery::query()->firstOrCreate(['contact_submission_id' => $submission->getKey()], ['idempotency_key' => "atelierivoincidit:contact:{$submission->getKey()}", 'payload' => $this->payload($submission, $request), 'status' => 'pending']);
-        SendCremonaDelivery::dispatch($delivery->getKey())->afterCommit();
+        // LWS does not run a permanent queue worker. Deliver immediately, while
+        // keeping the durable outbox record for a scheduled retry if needed.
+        SendCremonaDelivery::dispatchSync($delivery->getKey());
     }
 
     /** @return array<string, mixed> */

@@ -5,6 +5,7 @@ use App\Console\Commands\MaracujaDoctorCommand;
 use App\Console\Commands\MaracujaMediaAuditCommand;
 use App\Console\Commands\MaracujaMediaMigrateCommand;
 use App\Console\Commands\MaracujaMediaThumbnailsCommand;
+use App\Console\Commands\RetryCremonaDeliveriesCommand;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -21,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         MaracujaMediaAuditCommand::class,
         MaracujaMediaMigrateCommand::class,
         MaracujaMediaThumbnailsCommand::class,
+        RetryCremonaDeliveriesCommand::class,
     ])
     ->withMiddleware(function (Middleware $middleware): void {
         //

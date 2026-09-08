@@ -46,4 +46,23 @@ class CremonaIncomingRequestDispatcherTest extends TestCase
 
         Http::assertNothingSent();
     }
+
+    public function test_it_records_a_retryable_delivery_when_cremona_is_unavailable(): void
+    {
+        config()->set('services.cremona.incoming_requests_url', 'https://cremona.test/api/v1/incoming-requests');
+        config()->set('services.cremona.incoming_requests_token', 'secret-token');
+        Http::fake(['cremona.test/*' => Http::response([], 503)]);
+        $submission = ContactSubmission::query()->create([
+            'name' => 'Ivo', 'email' => 'info@atelierivoincidit.fr', 'message' => 'Bonjour.',
+        ]);
+
+        app(CremonaIncomingRequestDispatcher::class)->dispatch($submission, Request::create('/contact', 'POST'));
+
+        $this->assertDatabaseHas('cremona_deliveries', [
+            'contact_submission_id' => $submission->getKey(),
+            'status' => 'pending',
+            'response_status' => 503,
+            'attempts' => 1,
+        ]);
+    }
 }
