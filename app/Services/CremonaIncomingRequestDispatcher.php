@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
+use App\Jobs\SendCremonaDelivery;
+use App\Models\CremonaDelivery;
 use App\Modules\Contact\Models\ContactSubmission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class CremonaIncomingRequestDispatcher
 {
@@ -19,20 +19,8 @@ class CremonaIncomingRequestDispatcher
             return;
         }
 
-        try {
-            Http::acceptJson()
-                ->withToken($token)
-                ->withHeaders(['Idempotency-Key' => "atelierivoincidit:contact:{$submission->getKey()}"])
-                ->timeout(5)
-                ->post($url, $this->payload($submission, $request))
-                ->throw();
-        } catch (\Throwable $exception) {
-            // The local record and email workflow remain authoritative if Cremona is unavailable.
-            Log::warning('Cremona contact dispatch failed.', [
-                'contact_submission_id' => $submission->getKey(),
-                'exception' => $exception::class,
-            ]);
-        }
+        $delivery = CremonaDelivery::query()->firstOrCreate(['contact_submission_id' => $submission->getKey()], ['idempotency_key' => "atelierivoincidit:contact:{$submission->getKey()}", 'payload' => $this->payload($submission, $request), 'status' => 'pending']);
+        SendCremonaDelivery::dispatch($delivery->getKey())->afterCommit();
     }
 
     /** @return array<string, mixed> */
