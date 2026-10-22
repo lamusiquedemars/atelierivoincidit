@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\Media;
 
-use App\Modules\Gallery\Models\Gallery;
-use App\Modules\Gallery\Models\GalleryImage;
 use App\Modules\Media\Services\MediaAuditService;
 use App\Modules\Media\Services\MediaMigrationPlanner;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Maracuja\SiteCore\Gallery\Models\Gallery;
+use Maracuja\SiteCore\Gallery\Models\GalleryImage;
 use Tests\TestCase;
 
 class AtelierGalleryMediaMigrationTest extends TestCase
