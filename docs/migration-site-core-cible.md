@@ -1,6 +1,7 @@
 # Atelier Ivo Incidit — cible Site Core et migration
 
-**État : audit technique du 22 octobre 2026 — aucune donnée modifiée.**
+**État : adoption locale vérifiée le 22 octobre 2026 — aucune donnée métier ni
+aucun fichier existant déplacé.**
 
 ## Décision de propriété
 
@@ -51,12 +52,25 @@
 réellement disponible dans Cremona. Le module Arcus local est une transition,
 pas un module Site Core à extraire.
 
-## Migration réversible proposée
+## Migration réversible réalisée localement
+
+Les packages `site-core-foundation`, `site-core-media` et
+`site-core-gallery` sont installés depuis le monorepo Core. Les migrations
+historique d'Atelier restent la source de schéma durant cette étape, afin de ne
+pas rejouer de DDL sur les tables existantes. Les ressources Filament Media et
+Gallery viennent désormais du Core ; les classes historiques sont des aliases
+de compatibilité temporaires pour le thème, Arcus et les commandes de reprise.
+
+Les tests vérifient les URL historiques, les liaisons `arcus_bow_media`, les
+usages de média et le rendu Gallery. La suppression du code historique ne sera
+faite qu'après la vérification sur l'hébergement cible.
+
+## Étapes suivantes vers la production
 
 1. Sauvegarder et restaurer à blanc la base Atelier et les médias avant toute
    modification.
-2. Ajouter les packages Core via Composer et conserver les migrations locales
-   historiques pendant la transition.
+2. Vérifier sur une copie restaurable que l'admin Core et les URL publiques ont
+   le même comportement que localement.
 3. Faire un inventaire média, puis importer uniquement les fichiers canoniques
    dans `media/images`; conserver une table de correspondance chemin historique
    vers `media_asset_id`.
