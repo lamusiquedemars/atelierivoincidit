@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32527dbe04a570594d11c8dea0c0422b",
+    "content-hash": "3fcd28e0e696c9dd68cca2dd75fa01dc",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -3242,6 +3242,121 @@
                 }
             ],
             "time": "2026-04-30T23:56:43+00:00"
+        },
+        {
+            "name": "maracuja-digital/site-core-foundation",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../maracuja-site-core/packages/foundation",
+                "reference": "19381839475561e51c543a7d845dd98bb9e1d382"
+            },
+            "require": {
+                "filament/filament": "^4.0",
+                "illuminate/database": "^13.0",
+                "illuminate/filesystem": "^13.0",
+                "illuminate/support": "^13.0",
+                "maracuja-digital/site-core-media": "^0.3 || dev-main",
+                "php": "^8.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Maracuja\\SiteCore\\Foundation\\Providers\\FoundationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Maracuja\\SiteCore\\Foundation\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Fondation éditoriale de Maracuja Site Core.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "maracuja-digital/site-core-gallery",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../maracuja-site-core/packages/gallery",
+                "reference": "422034883090b01eac3efa4f69ff8be23097453a"
+            },
+            "require": {
+                "filament/filament": "^4.0",
+                "illuminate/database": "^13.0",
+                "illuminate/filesystem": "^13.0",
+                "illuminate/support": "^13.0",
+                "maracuja-digital/site-core-foundation": "dev-main",
+                "maracuja-digital/site-core-media": "dev-main",
+                "php": "^8.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Maracuja\\SiteCore\\Gallery\\Providers\\GalleryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Maracuja\\SiteCore\\Gallery\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Galeries photo pour Maracuja Site Core.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "maracuja-digital/site-core-media",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../maracuja-site-core/packages/media",
+                "reference": "cca64646b16f8a8984479dc9974d0039a987f955"
+            },
+            "require": {
+                "filament/filament": "^4.0",
+                "illuminate/database": "^13.0",
+                "illuminate/http": "^13.0",
+                "illuminate/process": "^13.0",
+                "illuminate/support": "^13.0",
+                "php": "^8.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Maracuja\\SiteCore\\Media\\Providers\\MediaServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Maracuja\\SiteCore\\Media\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Médiathèque et contrats de stockage pour Maracuja Site Core.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "monolog/monolog",
@@ -10317,7 +10432,11 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "maracuja-digital/site-core-foundation": 20,
+        "maracuja-digital/site-core-gallery": 20,
+        "maracuja-digital/site-core-media": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

@@ -9,7 +9,10 @@
         "php": "^8.4.1",
         "filament/filament": "^4.0",
         "laravel/framework": "^13.8",
-        "laravel/tinker": "^3.0"
+        "laravel/tinker": "^3.0",
+        "maracuja-digital/site-core-foundation": "dev-main",
+        "maracuja-digital/site-core-gallery": "dev-main",
+        "maracuja-digital/site-core-media": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -86,5 +89,14 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../maracuja-site-core/packages/*",
+            "options": {
+                "symlink": true
+            }
+        }
+    ]
 }

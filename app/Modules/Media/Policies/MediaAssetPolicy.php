@@ -3,7 +3,7 @@
 namespace App\Modules\Media\Policies;
 
 use App\Models\User;
-use App\Modules\Media\Models\MediaAsset;
+use Maracuja\SiteCore\Media\Models\MediaAsset;
 
 class MediaAssetPolicy
 {
