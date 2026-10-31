@@ -10,9 +10,9 @@ use UnitEnum;
 
 class LucchiSpeeds extends Page
 {
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedCalculator;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalculator;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Catalogue';
+    protected static string|UnitEnum|null $navigationGroup = 'Catalogue';
 
     protected static ?string $navigationLabel = 'Vitesses Lucchi';
 
@@ -31,7 +31,7 @@ class LucchiSpeeds extends Page
 
     public static function canAccess(): bool
     {
-        return Modules::enabled('arcus') && parent::canAccess();
+        return Modules::enabled('arcus') && (auth()->user()?->canAccessContent('arcus') ?? false) && parent::canAccess();
     }
 
     public function rows(): array

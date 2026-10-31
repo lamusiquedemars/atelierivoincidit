@@ -55,7 +55,7 @@ class ArcusBowResource extends Resource
 
     public static function canCreate(): bool
     {
-        return true;
+        return parent::canCreate();
     }
 
     public static function canDelete($record): bool

@@ -9,17 +9,17 @@ class MediaAssetPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->is_admin;
+        return $user->canEditContent() && $user->canAccessContent('media');
     }
 
     public function view(User $user, MediaAsset $media): bool
     {
-        return $user->is_admin;
+        return $user->canEditContent() && $user->canAccessContent('media');
     }
 
     public function create(User $user): bool
     {
-        return $user->is_admin;
+        return $user->canEditContent() && $user->canAccessContent('media');
     }
 
     public function update(User $user, MediaAsset $media): bool

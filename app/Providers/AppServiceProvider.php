@@ -2,18 +2,34 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use App\Modules\Media\Policies\MediaAssetPolicy;
+use App\Modules\SiteSettings\Models\SiteSetting;
 use App\Support\AtelierFoundationAccessGate;
 use App\Support\AtelierMediaAccessGate;
 use App\Support\AtelierModuleAvailability;
 use App\Support\AtelierSitePresentation;
+use App\Support\ContentPermissions;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Maracuja\SiteCore\Foundation\Contracts\FoundationAccessGate;
 use Maracuja\SiteCore\Foundation\Contracts\ModuleAvailability;
 use Maracuja\SiteCore\Foundation\Contracts\SitePresentation;
+use Maracuja\SiteCore\Gallery\Models\Gallery;
+use Maracuja\SiteCore\Gallery\Models\GalleryImage;
 use Maracuja\SiteCore\Media\Contracts\MediaAccessGate;
+use Maracuja\SiteCore\Media\Enums\MediaType;
+use Maracuja\SiteCore\Media\Exceptions\MediaAssetInUseException;
+use Maracuja\SiteCore\Media\Filament\Actions\MediaUploadAction;
+use Maracuja\SiteCore\Media\Filament\Forms\Components\MaracujaRichEditor;
+use Maracuja\SiteCore\Media\Filament\Forms\Components\MediaIdSelect;
+use Maracuja\SiteCore\Media\Filament\Forms\Components\MediaPicker;
+use Maracuja\SiteCore\Media\Filament\Tables\MediaPickerTable;
 use Maracuja\SiteCore\Media\Models\MediaAsset;
+use Maracuja\SiteCore\Media\Models\MediaUsage;
+use Maracuja\SiteCore\Media\Services\ImageVariantService;
+use Maracuja\SiteCore\Media\Services\MediaStorageService;
+use Maracuja\SiteCore\Media\Services\VideoThumbnailService;
 use RuntimeException;
 
 class AppServiceProvider extends ServiceProvider
@@ -40,6 +56,29 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::policy(MediaAsset::class, MediaAssetPolicy::class);
 
+        Gate::before(function (User $user, string $ability, array $arguments): ?bool {
+            $subject = $arguments[0] ?? null;
+            $subjectClass = is_object($subject) ? $subject::class : $subject;
+
+            if (! $user->isAdministrator() && in_array($subjectClass, [User::class, SiteSetting::class], true)) {
+                return false;
+            }
+
+            if (! ContentPermissions::allows($user, $subjectClass)) {
+                return false;
+            }
+
+            if (! $user->isAdministrator() && ! $user->canEditContent() && ! in_array($ability, ['viewAny', 'view'], true)) {
+                return false;
+            }
+
+            if ($subjectClass && Gate::getPolicyFor($subjectClass)) {
+                return null;
+            }
+
+            return true;
+        });
+
         // Compatibility aliases are intentionally transitional. They make the
         // existing theme, Arcus bridge and historical commands execute the
         // shared Core implementation before the local source is removed.
@@ -50,19 +89,19 @@ class AppServiceProvider extends ServiceProvider
     {
         foreach ([
             'App\\Modules\\Media\\Models\\MediaAsset' => MediaAsset::class,
-            'App\\Modules\\Media\\Models\\MediaUsage' => \Maracuja\SiteCore\Media\Models\MediaUsage::class,
-            'App\\Modules\\Media\\Enums\\MediaType' => \Maracuja\SiteCore\Media\Enums\MediaType::class,
-            'App\\Modules\\Media\\Exceptions\\MediaAssetInUseException' => \Maracuja\SiteCore\Media\Exceptions\MediaAssetInUseException::class,
-            'App\\Modules\\Media\\Services\\ImageVariantService' => \Maracuja\SiteCore\Media\Services\ImageVariantService::class,
-            'App\\Modules\\Media\\Services\\MediaStorageService' => \Maracuja\SiteCore\Media\Services\MediaStorageService::class,
-            'App\\Modules\\Media\\Services\\VideoThumbnailService' => \Maracuja\SiteCore\Media\Services\VideoThumbnailService::class,
-            'App\\Modules\\Media\\Filament\\Actions\\MediaUploadAction' => \Maracuja\SiteCore\Media\Filament\Actions\MediaUploadAction::class,
-            'App\\Modules\\Media\\Filament\\Forms\\Components\\MaracujaRichEditor' => \Maracuja\SiteCore\Media\Filament\Forms\Components\MaracujaRichEditor::class,
-            'App\\Modules\\Media\\Filament\\Forms\\Components\\MediaIdSelect' => \Maracuja\SiteCore\Media\Filament\Forms\Components\MediaIdSelect::class,
-            'App\\Modules\\Media\\Filament\\Forms\\Components\\MediaPicker' => \Maracuja\SiteCore\Media\Filament\Forms\Components\MediaPicker::class,
-            'App\\Modules\\Media\\Filament\\Tables\\MediaPickerTable' => \Maracuja\SiteCore\Media\Filament\Tables\MediaPickerTable::class,
-            'App\\Modules\\Gallery\\Models\\Gallery' => \Maracuja\SiteCore\Gallery\Models\Gallery::class,
-            'App\\Modules\\Gallery\\Models\\GalleryImage' => \Maracuja\SiteCore\Gallery\Models\GalleryImage::class,
+            'App\\Modules\\Media\\Models\\MediaUsage' => MediaUsage::class,
+            'App\\Modules\\Media\\Enums\\MediaType' => MediaType::class,
+            'App\\Modules\\Media\\Exceptions\\MediaAssetInUseException' => MediaAssetInUseException::class,
+            'App\\Modules\\Media\\Services\\ImageVariantService' => ImageVariantService::class,
+            'App\\Modules\\Media\\Services\\MediaStorageService' => MediaStorageService::class,
+            'App\\Modules\\Media\\Services\\VideoThumbnailService' => VideoThumbnailService::class,
+            'App\\Modules\\Media\\Filament\\Actions\\MediaUploadAction' => MediaUploadAction::class,
+            'App\\Modules\\Media\\Filament\\Forms\\Components\\MaracujaRichEditor' => MaracujaRichEditor::class,
+            'App\\Modules\\Media\\Filament\\Forms\\Components\\MediaIdSelect' => MediaIdSelect::class,
+            'App\\Modules\\Media\\Filament\\Forms\\Components\\MediaPicker' => MediaPicker::class,
+            'App\\Modules\\Media\\Filament\\Tables\\MediaPickerTable' => MediaPickerTable::class,
+            'App\\Modules\\Gallery\\Models\\Gallery' => Gallery::class,
+            'App\\Modules\\Gallery\\Models\\GalleryImage' => GalleryImage::class,
         ] as $legacy => $core) {
             if (! class_exists($legacy, false)) {
                 class_alias($core, $legacy);

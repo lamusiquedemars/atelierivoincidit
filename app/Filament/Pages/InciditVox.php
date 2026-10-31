@@ -10,9 +10,9 @@ use UnitEnum;
 
 class InciditVox extends Page
 {
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedCpuChip;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCpuChip;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Outils';
+    protected static string|UnitEnum|null $navigationGroup = 'Outils';
 
     protected static ?string $navigationLabel = 'Incidit Vox';
 
@@ -31,6 +31,6 @@ class InciditVox extends Page
 
     public static function canAccess(): bool
     {
-        return Modules::enabled('arcus') && parent::canAccess();
+        return Modules::enabled('arcus') && (auth()->user()?->canAccessContent('arcus') ?? false) && parent::canAccess();
     }
 }

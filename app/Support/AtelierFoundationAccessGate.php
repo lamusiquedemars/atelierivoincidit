@@ -14,13 +14,13 @@ final class AtelierFoundationAccessGate implements FoundationAccessGate
     {
         $user = auth()->user();
 
-        if (! $user instanceof User || ! $user->is_admin) {
+        if (! $user instanceof User) {
             return false;
         }
 
         return match ($ability) {
-            'media.manage' => Modules::enabled('gallery'),
-            'gallery.manage' => Modules::enabled('gallery'),
+            'media.manage' => Modules::enabled('gallery') && $user->canEditContent() && $user->canAccessContent('media'),
+            'gallery.manage' => Modules::enabled('gallery') && $user->canEditContent() && $user->canAccessContent('gallery'),
             default => false,
         };
     }
