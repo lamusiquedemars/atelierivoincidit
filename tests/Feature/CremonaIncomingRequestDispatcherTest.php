@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Modules\Contact\Models\ContactSubmission;
 use App\Services\CremonaIncomingRequestDispatcher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Maracuja\SiteCore\Contact\Models\Inquiry;
 use Tests\TestCase;
 
 class CremonaIncomingRequestDispatcherTest extends TestCase
@@ -18,7 +18,7 @@ class CremonaIncomingRequestDispatcherTest extends TestCase
         config()->set('services.cremona.incoming_requests_url', 'https://cremona.test/api/v1/incoming-requests');
         config()->set('services.cremona.incoming_requests_token', 'secret-token');
         Http::fake(['cremona.test/*' => Http::response([], 201)]);
-        $submission = ContactSubmission::query()->create([
+        $submission = Inquiry::query()->create([
             'name' => 'Ivo', 'email' => 'info@atelierivoincidit.fr', 'message' => 'Je souhaite essayer un archet.',
         ]);
         $touch = json_encode(['utm_source' => 'google', 'utm_medium' => 'cpc', 'utm_campaign' => 'atelier-archets', 'gclid' => 'click-1', 'landing_page' => '/contact', 'captured_at' => '2026-08-27T10:00:00Z']);
@@ -26,10 +26,10 @@ class CremonaIncomingRequestDispatcherTest extends TestCase
 
         app(CremonaIncomingRequestDispatcher::class)->dispatch($submission, $request);
 
-        Http::assertSent(function ($request): bool {
+        Http::assertSent(function ($request) use ($submission): bool {
             return $request->url() === 'https://cremona.test/api/v1/incoming-requests'
                 && $request->hasHeader('Authorization', 'Bearer secret-token')
-                && $request->hasHeader('Idempotency-Key', 'atelierivoincidit:contact:1')
+                && $request->hasHeader('Idempotency-Key', 'atelierivoincidit:inquiry:'.$submission->getKey())
                 && $request['attribution']['campaign'] === 'atelier-archets'
                 && $request['attribution']['last_touch']['gclid'] === 'click-1';
         });
@@ -38,7 +38,7 @@ class CremonaIncomingRequestDispatcherTest extends TestCase
     public function test_it_is_inactive_without_its_server_configuration(): void
     {
         Http::fake();
-        $submission = ContactSubmission::query()->create([
+        $submission = Inquiry::query()->create([
             'name' => 'Ivo', 'email' => 'info@atelierivoincidit.fr', 'message' => 'Bonjour.',
         ]);
 
@@ -52,14 +52,14 @@ class CremonaIncomingRequestDispatcherTest extends TestCase
         config()->set('services.cremona.incoming_requests_url', 'https://cremona.test/api/v1/incoming-requests');
         config()->set('services.cremona.incoming_requests_token', 'secret-token');
         Http::fake(['cremona.test/*' => Http::response([], 503)]);
-        $submission = ContactSubmission::query()->create([
+        $submission = Inquiry::query()->create([
             'name' => 'Ivo', 'email' => 'info@atelierivoincidit.fr', 'message' => 'Bonjour.',
         ]);
 
         app(CremonaIncomingRequestDispatcher::class)->dispatch($submission, Request::create('/contact', 'POST'));
 
         $this->assertDatabaseHas('cremona_deliveries', [
-            'contact_submission_id' => $submission->getKey(),
+            'inquiry_id' => $submission->getKey(),
             'status' => 'pending',
             'response_status' => 503,
             'attempts' => 1,

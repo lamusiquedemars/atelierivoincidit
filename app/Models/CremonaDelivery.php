@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CremonaDelivery extends Model
 {
-    protected $fillable = ['contact_submission_id', 'idempotency_key', 'payload', 'status', 'attempts', 'response_status', 'last_error', 'last_attempt_at', 'sent_at'];
+    protected $fillable = ['contact_submission_id', 'inquiry_id', 'idempotency_key', 'payload', 'status', 'attempts', 'response_status', 'last_error', 'last_attempt_at', 'sent_at'];
 
     protected $hidden = ['payload'];
 

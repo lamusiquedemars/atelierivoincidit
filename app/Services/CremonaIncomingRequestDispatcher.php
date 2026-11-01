@@ -4,13 +4,13 @@ namespace App\Services;
 
 use App\Jobs\SendCremonaDelivery;
 use App\Models\CremonaDelivery;
-use App\Modules\Contact\Models\ContactSubmission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Maracuja\SiteCore\Contact\Models\Inquiry;
 
 class CremonaIncomingRequestDispatcher
 {
-    public function dispatch(ContactSubmission $submission, Request $request): void
+    public function dispatch(Inquiry $submission, Request $request): void
     {
         $url = config('services.cremona.incoming_requests_url');
         $token = config('services.cremona.incoming_requests_token');
@@ -19,14 +19,14 @@ class CremonaIncomingRequestDispatcher
             return;
         }
 
-        $delivery = CremonaDelivery::query()->firstOrCreate(['contact_submission_id' => $submission->getKey()], ['idempotency_key' => "atelierivoincidit:contact:{$submission->getKey()}", 'payload' => $this->payload($submission, $request), 'status' => 'pending']);
+        $delivery = CremonaDelivery::query()->firstOrCreate(['inquiry_id' => $submission->getKey()], ['idempotency_key' => "atelierivoincidit:inquiry:{$submission->getKey()}", 'payload' => $this->payload($submission, $request), 'status' => 'pending']);
         // LWS does not run a permanent queue worker. Deliver immediately, while
         // keeping the durable outbox record for a scheduled retry if needed.
         SendCremonaDelivery::dispatchSync($delivery->getKey());
     }
 
     /** @return array<string, mixed> */
-    private function payload(ContactSubmission $submission, Request $request): array
+    private function payload(Inquiry $submission, Request $request): array
     {
         $firstTouch = $this->touch($request->cookie('ivo_attribution_first'));
         $lastTouch = $this->touch($request->cookie('ivo_attribution_last'));

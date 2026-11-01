@@ -28,9 +28,7 @@ class Modules
             'news' => app_path('Modules/News'),
             'articles' => app_path('Modules/Articles'),
             'gallery' => app_path('Modules/Gallery'),
-            'contact_form' => is_dir(app_path('Modules/ContactForm'))
-                ? app_path('Modules/ContactForm')
-                : app_path('Modules/Contact'),
+            'contact_form' => base_path('vendor/maracuja-digital/site-core-contact'),
             'inquiries' => app_path('Modules/Inquiries'),
             'audience' => app_path('Modules/Audience'),
             'campaigns' => app_path('Modules/Campaigns'),

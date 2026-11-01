@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c121668be08f42cf0aa4e7d00fa2dd9",
+    "content-hash": "ea43705b7c162921efd9a966dc65c935",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -3242,6 +3242,44 @@
                 }
             ],
             "time": "2026-09-28T18:12:47+00:00"
+        },
+        {
+            "name": "maracuja-digital/site-core-contact",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../maracuja-site-core/packages/contact",
+                "reference": "7f3c1df93e623e87ea9e63ee70c04de500eb5ab0"
+            },
+            "require": {
+                "filament/filament": "^4.0",
+                "illuminate/database": "^13.0",
+                "illuminate/mail": "^13.0",
+                "illuminate/support": "^13.0",
+                "maracuja-digital/site-core-foundation": "dev-main",
+                "php": "^8.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Maracuja\\SiteCore\\Contact\\Providers\\ContactServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Maracuja\\SiteCore\\Contact\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Formulaire public et capture minimale de demandes de Maracuja Site Core.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "maracuja-digital/site-core-foundation",
@@ -10433,6 +10471,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "maracuja-digital/site-core-contact": 20,
         "maracuja-digital/site-core-foundation": 20,
         "maracuja-digital/site-core-gallery": 20,
         "maracuja-digital/site-core-media": 20

@@ -6,12 +6,12 @@ use App\Models\User;
 use App\Modules\Arcus\Models\Bow;
 use App\Modules\Arcus\Models\Wood;
 use App\Modules\Articles\Models\Article;
-use App\Modules\Contact\Models\ContactSubmission;
 use App\Modules\ContentSlots\Models\ContentSlot;
 use App\Modules\News\Models\NewsPost;
 use App\Modules\Notices\Models\SiteNotice;
 use App\Modules\Pages\Models\Page;
 use Illuminate\Database\Eloquent\Model;
+use Maracuja\SiteCore\Contact\Models\Inquiry;
 use Maracuja\SiteCore\Gallery\Models\Gallery;
 use Maracuja\SiteCore\Media\Models\MediaAsset;
 
@@ -51,7 +51,7 @@ final class ContentPermissions
         $permission = match ($model) {
             Page::class => 'pages', SiteNotice::class => 'notices', ContentSlot::class => 'content_slots',
             NewsPost::class => 'news', Article::class => 'articles', MediaAsset::class => 'media',
-            Gallery::class => 'gallery', ContactSubmission::class => 'inquiries', Bow::class, Wood::class => 'arcus',
+            Gallery::class => 'gallery', Inquiry::class => 'inquiries', Bow::class, Wood::class => 'arcus',
             default => null,
         };
 

@@ -2,18 +2,18 @@
 
 namespace App\Mail;
 
-use App\Modules\Contact\Models\ContactSubmission;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Maracuja\SiteCore\Contact\Models\Inquiry;
 
 class ContactSubmissionReceived extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public ContactSubmission $submission) {}
+    public function __construct(public Inquiry $submission) {}
 
     public function envelope(): Envelope
     {

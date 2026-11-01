@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Mail\ContactSubmissionConfirmation;
 use App\Mail\ContactSubmissionReceived;
-use App\Modules\Contact\Models\ContactSubmission;
 use App\Modules\SiteSettings\Models\SiteSetting;
 use App\Services\CremonaIncomingRequestDispatcher;
 use App\Support\Modules;
@@ -12,6 +11,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
+use Maracuja\SiteCore\Contact\Actions\StoreInquiry;
+use Maracuja\SiteCore\Contact\Data\ContactRequestData;
 
 class ContactController extends Controller
 {
@@ -50,9 +51,13 @@ class ContactController extends Controller
             $data['name'] = $data['email'];
         }
 
-        $submission = ContactSubmission::query()->create($data);
+        $submission = StoreInquiry::run(ContactRequestData::fromArray($data));
 
-        app(CremonaIncomingRequestDispatcher::class)->dispatch($submission, $request);
+        try {
+            app(CremonaIncomingRequestDispatcher::class)->dispatch($submission, $request);
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
 
         if ($settings->contact_form_send_admin_email && $settings->contact_email) {
             try {

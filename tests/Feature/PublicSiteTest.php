@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Mail\ContactSubmissionConfirmation;
 use App\Mail\ContactSubmissionReceived;
 use App\Modules\Articles\Models\Article;
-use App\Modules\Contact\Models\ContactSubmission;
 use App\Modules\ContentSlots\Models\ContentSlot;
 use App\Modules\Gallery\Models\Gallery;
 use App\Modules\Gallery\Models\GalleryImage;
@@ -15,6 +14,7 @@ use App\Modules\Pages\Models\Page;
 use App\Modules\SiteSettings\Models\SiteSetting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
+use Maracuja\SiteCore\Contact\Models\Inquiry;
 use Tests\TestCase;
 
 class PublicSiteTest extends TestCase
@@ -412,7 +412,7 @@ class PublicSiteTest extends TestCase
             'message' => 'Bonjour depuis le formulaire.',
         ])->assertRedirect('/contact');
 
-        $this->assertDatabaseHas(ContactSubmission::class, [
+        $this->assertDatabaseHas(Inquiry::class, [
             'email' => 'ivo@example.test',
         ]);
 
@@ -431,7 +431,7 @@ class PublicSiteTest extends TestCase
             'message' => 'Bonjour depuis le formulaire.',
         ])->assertSessionHasErrors('email');
 
-        $this->assertDatabaseCount(ContactSubmission::class, 0);
+        $this->assertDatabaseCount(Inquiry::class, 0);
     }
 
     public function test_contact_form_stores_submission_when_admin_email_is_not_configured(): void
@@ -448,7 +448,7 @@ class PublicSiteTest extends TestCase
             'message' => 'Bonjour depuis le formulaire.',
         ])->assertRedirect('/contact');
 
-        $this->assertDatabaseHas(ContactSubmission::class, [
+        $this->assertDatabaseHas(Inquiry::class, [
             'email' => 'ivo@example.test',
         ]);
 
@@ -470,7 +470,7 @@ class PublicSiteTest extends TestCase
             'message' => 'Bonjour depuis le formulaire.',
         ])->assertRedirect('/contact');
 
-        $this->assertDatabaseHas(ContactSubmission::class, [
+        $this->assertDatabaseHas(Inquiry::class, [
             'email' => 'ivo@example.test',
         ]);
 

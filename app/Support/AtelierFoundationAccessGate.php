@@ -20,6 +20,7 @@ final class AtelierFoundationAccessGate implements FoundationAccessGate
 
         return match ($ability) {
             'media.manage' => Modules::enabled('gallery') && $user->canEditContent() && $user->canAccessContent('media'),
+            'contact.requests.manage' => Modules::enabled('contact_form') && $user->canEditContent() && $user->canAccessContent('inquiries'),
             'gallery.manage' => Modules::enabled('gallery') && $user->canEditContent() && $user->canAccessContent('gallery'),
             default => false,
         };
