@@ -30,6 +30,7 @@ use Maracuja\SiteCore\Media\Models\MediaUsage;
 use Maracuja\SiteCore\Media\Services\ImageVariantService;
 use Maracuja\SiteCore\Media\Services\MediaStorageService;
 use Maracuja\SiteCore\Media\Services\VideoThumbnailService;
+use Maracuja\SiteCore\Publication\Models\Article;
 use RuntimeException;
 
 class AppServiceProvider extends ServiceProvider
@@ -102,6 +103,7 @@ class AppServiceProvider extends ServiceProvider
             'App\\Modules\\Media\\Filament\\Tables\\MediaPickerTable' => MediaPickerTable::class,
             'App\\Modules\\Gallery\\Models\\Gallery' => Gallery::class,
             'App\\Modules\\Gallery\\Models\\GalleryImage' => GalleryImage::class,
+            'App\\Modules\\Articles\\Models\\Article' => Article::class,
         ] as $legacy => $core) {
             if (! class_exists($legacy, false)) {
                 class_alias($core, $legacy);

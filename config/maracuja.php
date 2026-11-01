@@ -3,6 +3,11 @@
 return [
     'product_name' => env('MARACUJA_PRODUCT_NAME', 'Maracuja CMS'),
 
+    'control' => [
+        'policy_mode' => env('MARACUJA_CONTROL_POLICY_MODE', 'observe'),
+        'policy_manifest_path' => env('MARACUJA_CONTROL_POLICY_MANIFEST', base_path('maracuja-site.manifest.json')),
+    ],
+
     'theme' => env('MARACUJA_THEME', 'default'),
     'client_theme' => env('MARACUJA_CLIENT_THEME', env('MARACUJA_THEME') === 'atelier' ? 'ivo-incidit' : null),
 
@@ -62,11 +67,13 @@ return [
         'news' => env('MARACUJA_MODULE_NEWS', true),
         'articles' => env('MARACUJA_MODULE_ARTICLES', true),
         'gallery' => env('MARACUJA_MODULE_GALLERY', true),
+        'media' => env('MARACUJA_MODULE_MEDIA', true),
         'contact_form' => env('MARACUJA_MODULE_CONTACT_FORM', true),
         'inquiries' => env('MARACUJA_MODULE_INQUIRIES', true),
         'audience' => env('MARACUJA_MODULE_AUDIENCE', false),
         'campaigns' => env('MARACUJA_MODULE_CAMPAIGNS', false),
         'arcus' => env('MARACUJA_MODULE_ARCUS', true),
+        'cremona_connector' => env('MARACUJA_MODULE_CREMONA_CONNECTOR', true),
     ],
 
     'developer_tools' => [

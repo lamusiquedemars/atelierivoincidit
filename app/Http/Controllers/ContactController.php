@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Mail\ContactSubmissionConfirmation;
 use App\Mail\ContactSubmissionReceived;
 use App\Modules\SiteSettings\Models\SiteSetting;
-use App\Services\CremonaIncomingRequestDispatcher;
 use App\Support\Modules;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 use Maracuja\SiteCore\Contact\Actions\StoreInquiry;
 use Maracuja\SiteCore\Contact\Data\ContactRequestData;
+use Maracuja\SiteCore\CremonaConnector\Services\CremonaLeadReceiver;
 
 class ContactController extends Controller
 {
@@ -51,10 +51,16 @@ class ContactController extends Controller
             $data['name'] = $data['email'];
         }
 
-        $submission = StoreInquiry::run(ContactRequestData::fromArray($data));
+        $contactRequest = ContactRequestData::fromArray([
+            ...$data,
+            'metadata' => [
+                'attribution' => $this->attribution($request),
+            ],
+        ]);
+        $submission = StoreInquiry::run($contactRequest);
 
         try {
-            app(CremonaIncomingRequestDispatcher::class)->dispatch($submission, $request);
+            app(CremonaLeadReceiver::class)->dispatch($submission, $contactRequest);
         } catch (\Throwable $exception) {
             report($exception);
         }
@@ -79,5 +85,21 @@ class ContactController extends Controller
             ->route('contact')
             ->with('contact_submission_success', true)
             ->with('status', 'Votre message a bien été enregistré. Nous le traitons depuis l’administration.');
+    }
+
+    /** @return array<string, string>|array{} */
+    private function attribution(Request $request): array
+    {
+        $touch = json_decode((string) $request->cookie('ivo_attribution_last'), true);
+
+        if (! is_array($touch)) {
+            return [];
+        }
+
+        return collect($touch)
+            ->only(['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'landing_page', 'referrer', 'captured_at'])
+            ->filter(fn (mixed $value): bool => is_string($value) && $value !== '')
+            ->map(fn (string $value): string => mb_substr($value, 0, 2048))
+            ->all();
     }
 }

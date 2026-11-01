@@ -26,13 +26,15 @@ class Modules
             'content_slots' => app_path('Modules/ContentSlots'),
             'pages' => app_path('Modules/Pages'),
             'news' => app_path('Modules/News'),
-            'articles' => app_path('Modules/Articles'),
-            'gallery' => app_path('Modules/Gallery'),
+            'articles' => base_path('vendor/maracuja-digital/site-core-publication'),
+            'gallery' => base_path('vendor/maracuja-digital/site-core-gallery'),
+            'media' => base_path('vendor/maracuja-digital/site-core-media'),
             'contact_form' => base_path('vendor/maracuja-digital/site-core-contact'),
             'inquiries' => app_path('Modules/Inquiries'),
             'audience' => app_path('Modules/Audience'),
             'campaigns' => app_path('Modules/Campaigns'),
             'arcus' => app_path('Modules/Arcus'),
+            'cremona_connector' => base_path('vendor/maracuja-digital/site-core-cremona-connector'),
         ];
 
         return is_dir($paths[$module] ?? app_path('Modules/'.str($module)->studly()));

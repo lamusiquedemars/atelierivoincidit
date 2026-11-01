@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea43705b7c162921efd9a966dc65c935",
+    "content-hash": "03069a71288cf41ca9ba6e49b65fba2d",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -3282,6 +3282,44 @@
             }
         },
         {
+            "name": "maracuja-digital/site-core-cremona-connector",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../maracuja-site-core/packages/cremona-connector",
+                "reference": "fbebcbfcd43aedcf27d613f80ff0b1b1669a5a29"
+            },
+            "require": {
+                "illuminate/console": "^13.0",
+                "illuminate/database": "^13.0",
+                "illuminate/http": "^13.0",
+                "illuminate/support": "^13.0",
+                "maracuja-digital/site-core-contact": "@dev",
+                "php": "^8.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Maracuja\\SiteCore\\CremonaConnector\\Providers\\CremonaConnectorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Maracuja\\SiteCore\\CremonaConnector\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Connecteur fiable entre un site Maracuja et Cremona.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "maracuja-digital/site-core-foundation",
             "version": "dev-main",
             "dist": {
@@ -3391,6 +3429,44 @@
                 "proprietary"
             ],
             "description": "Médiathèque et contrats de stockage pour Maracuja Site Core.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "maracuja-digital/site-core-publication",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../maracuja-site-core/packages/publication",
+                "reference": "7cd86de8171aa5bf071a2eb9f9a2bcafc59263fa"
+            },
+            "require": {
+                "filament/filament": "^4.0",
+                "illuminate/database": "^13.0",
+                "illuminate/support": "^13.0",
+                "maracuja-digital/site-core-foundation": "dev-main",
+                "maracuja-digital/site-core-media": "dev-main",
+                "php": "^8.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Maracuja\\SiteCore\\Publication\\Providers\\PublicationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Maracuja\\SiteCore\\Publication\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Actualités et articles de Maracuja Site Core.",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -10472,9 +10548,11 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "maracuja-digital/site-core-contact": 20,
+        "maracuja-digital/site-core-cremona-connector": 20,
         "maracuja-digital/site-core-foundation": 20,
         "maracuja-digital/site-core-gallery": 20,
-        "maracuja-digital/site-core-media": 20
+        "maracuja-digital/site-core-media": 20,
+        "maracuja-digital/site-core-publication": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

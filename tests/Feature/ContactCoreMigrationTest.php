@@ -43,8 +43,10 @@ class ContactCoreMigrationTest extends TestCase
 
     public function test_cremona_failure_does_not_block_the_public_form(): void
     {
-        config()->set('services.cremona.incoming_requests_url', 'https://cremona.test/api/v1/incoming-requests');
-        config()->set('services.cremona.incoming_requests_token', 'test-token');
+        config()->set('maracuja-cremona-connector.enabled', true);
+        config()->set('maracuja-cremona-connector.endpoint', 'https://cremona.test/api/v1/incoming-requests');
+        config()->set('maracuja-cremona-connector.token', 'test-token');
+        config()->set('maracuja-cremona-connector.site_reference', 'atelierivoincidit.fr');
         Http::fake(['cremona.test/*' => Http::response([], 503)]);
         $this->post('/contact', ['email' => 'visitor@example.test', 'message' => 'Bonjour'])->assertRedirect('/contact');
         $this->assertDatabaseHas('inquiries', ['email' => 'visitor@example.test']);

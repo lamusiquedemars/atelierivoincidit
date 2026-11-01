@@ -22,6 +22,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Maracuja\SiteCore\Contact\Filament\Resources\Inquiries\InquiryResource;
 use Maracuja\SiteCore\Gallery\Filament\Resources\Galleries\GalleryResource;
 use Maracuja\SiteCore\Media\Filament\Resources\MediaAssets\MediaAssetResource;
+use Maracuja\SiteCore\Publication\Filament\Resources\Articles\ArticleResource;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -65,7 +66,7 @@ class AdminPanelProvider extends PanelProvider
         foreach (glob(app_path('Filament/Resources/*'), GLOB_ONLYDIR) ?: [] as $path) {
             $resource = basename($path);
 
-            if (in_array($resource, ['Galleries', 'ContactSubmissions'], true)) {
+            if (in_array($resource, ['Articles', 'Galleries', 'ContactSubmissions'], true)) {
                 continue;
             }
 
@@ -79,6 +80,7 @@ class AdminPanelProvider extends PanelProvider
             MediaAssetResource::class,
             Modules::enabled('contact_form') ? InquiryResource::class : null,
             Modules::enabled('gallery') ? GalleryResource::class : null,
+            Modules::enabled('articles') ? ArticleResource::class : null,
         ]));
 
         return $panel;
