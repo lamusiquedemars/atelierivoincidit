@@ -9,7 +9,7 @@
 | Organisation / client | Atelier Ivo Incidit — Ivo Correia de Melo |
 | Domaine public | `https://atelierivoincidit.fr` |
 | Dépôt local | `/Users/ivocorreiademelo/Sites/atelierivoincidit` |
-| Production / hébergement | LWS ; application Laravel dans `/htdocs` ; déploiement SFTP vers `/htdocs` ; terminal LWS disponible à l’utilisateur |
+| Production / hébergement | Compte cPanel partagé avec Cremona ; application Laravel dans `/home/cp2802197p33/apps/atelierivoincidit` ; déploiement SSH via l’alias local `maracuja-prod` |
 | Compte Google propriétaire | `ivo@maracujadigital.fr` |
 | Accès Maracuja | Même identité pour cette marque propre |
 | Compte Ads client | `200-507-3692 — Atelier Ivo Incidit` |

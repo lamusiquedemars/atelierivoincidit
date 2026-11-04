@@ -1,29 +1,42 @@
 # Déploiement cPanel — Atelier Ivo Incidit
 
 L'hébergement de production, le déploiement applicatif, les tâches planifiées
-et la base de données MySQL de ce site sont administrés dans **cPanel**. Les
-interventions de production doivent donc partir de cPanel (gestionnaire de
-fichiers ou accès terminal) et de ses outils associés, notamment **MySQL
-Databases** et **phpMyAdmin**. Ne pas traiter l'instance comme un hébergement
-LWS ni employer une procédure destinée à un autre site.
+et la base de données MySQL de ce site sont administrés dans **cPanel**, sur le
+même compte serveur que Cremona. L'application est située dans :
 
-## Accès SFTP
+```text
+/home/cp2802197p33/apps/atelierivoincidit
+```
 
-La configuration SFTP de référence est le fichier local
-`/Users/ivocorreiademelo/Sites/.vscode/sftp.json`. Elle cible le répertoire de
-publication `/htdocs/` de l'hébergement cPanel.
+L'accès opérationnel de référence est l'alias SSH local `maracuja-prod` déjà
+configuré sur le Mac mini. Il utilise la clé générale autorisée du Mac ; aucun
+mot de passe, profil SFTP historique ou nouvel accès Atelier ne doit être
+recherché avant d'avoir contrôlé ce compte partagé.
 
-Le fichier `.vscode/sftp.json` du dépôt est une copie locale ignorée par Git :
-il doit rester synchronisé depuis cette configuration de référence. Ne jamais
-afficher, versionner ou recopier le mot de passe dans une documentation ou une
-commande.
+## Accès et cible de déploiement
+
+Avant une publication, contrôler la cible sans la modifier :
+
+```bash
+ssh maracuja-prod 'cd ~/apps/atelierivoincidit && pwd && php artisan --version'
+```
+
+Les anciens profils SFTP de `/Users/ivocorreiademelo/Sites/.vscode/sftp.json`
+ne sont plus la procédure de référence pour Atelier : ils peuvent viser un
+ancien accès ou un ancien chemin. Ne jamais déduire le chemin de production à
+partir du nom de domaine FTP.
+
+Le compte est partagé au niveau de l'hébergement, non au niveau des dossiers.
+La protection repose donc sur la clé SSH autorisée et sur le contrôle explicite
+du chemin ciblé avant chaque copie.
 
 ## Procédure
 
-1. Contrôler le répertoire distant avant l’envoi.
-2. Envoyer uniquement les fichiers du commit concerné, sans toucher à `.env`,
-   `vendor`, `storage` ni à la base MySQL.
-3. Depuis le terminal cPanel, dans `~/htdocs`, exécuter les commandes Laravel
+1. Vérifier le commit poussé et le chemin distant ci-dessus.
+2. Copier uniquement les fichiers du commit concerné via `scp` sur
+   `maracuja-prod`, sans toucher à `.env`, `vendor`, `storage` ni à la base
+   MySQL.
+3. Depuis `~/apps/atelierivoincidit`, exécuter uniquement les commandes Laravel
    nécessaires. Ne jamais lancer `migrate:fresh` ni une commande destructive.
 4. Vérifier ensuite le résultat sur `https://atelierivoincidit.fr`.
 
@@ -66,9 +79,9 @@ Programmer ensuite cette commande dans le planificateur cPanel, toutes les cinq
 minutes :
 
 ```bash
-cd ~/htdocs && php artisan cremona:retry-deliveries --limit=50 >/dev/null 2>&1
+cd ~/apps/atelierivoincidit && php artisan cremona:retry-deliveries --limit=50 >/dev/null 2>&1
 ```
 
 Les trois variables `CREMONA_INCOMING_REQUESTS_URL`,
 `CREMONA_INCOMING_REQUESTS_TOKEN` et `CREMONA_SITE_REFERENCE` restent dans le
-`.env` de l’instance : elles ne sont jamais envoyées par SFTP ni versionnées.
+`.env` de l’instance : elles ne sont jamais copiées ni versionnées.
