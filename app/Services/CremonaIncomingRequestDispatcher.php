@@ -34,7 +34,7 @@ class CremonaIncomingRequestDispatcher
         return [
             'source' => [
                 'channel' => 'website',
-                'name' => 'maracuja-cms',
+                'name' => 'maracuja-site',
                 'site_reference' => config('services.cremona.site_reference'),
                 'form_reference' => 'contact',
             ],
