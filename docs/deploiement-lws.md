@@ -1,5 +1,12 @@
 # Déploiement LWS — Atelier Ivo Incidit
 
+> **QUARANTAINE — ne pas exécuter ce guide.** La référence d'accès décrite est
+> locale à un poste et le transfert manuel n'est pas une procédure partagée et
+> validée. N'ouvre pas de fichier SFTP local cité ici et ne reprends pas ses
+> destinations ou commandes. Voir le
+> [registre des documents retirés/en quarantaine](../../maracuja-control/docs/documents-a-retirer.md)
+> et la [politique commune](../../maracuja-control/docs/deploiement-multi-sites.md).
+
 ## Accès SFTP
 
 La configuration de référence est l’entrée **`LWS Atelier`** du fichier local
