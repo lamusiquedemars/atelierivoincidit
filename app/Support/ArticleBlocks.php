@@ -131,6 +131,6 @@ class ArticleBlocks
 
     private static function cleanRichText(string $html): string
     {
-        return strip_tags($html, '<p><br><strong><b><em><i><u><ul><ol><li><a><sup><sub>');
+        return strip_tags($html, '<p><br><h2><h3><strong><b><em><i><u><ul><ol><li><a><sup><sub>');
     }
 }

@@ -1,10 +1,59 @@
 .article-content {
     display: grid;
-    gap: var(--space-lg);
+    gap: var(--space-sm);
 }
 
-.article-block {
-    margin-block: var(--space-lg);
+.article-content > * {
+    margin-block: 0;
+}
+
+/*
+ * The generic .prose rhythm targets direct children. Article content has its
+ * own rhythm, otherwise the grid gap and block margins compound.
+ */
+.article-content > * + * {
+    margin-top: 0;
+}
+
+.article-content p {
+    max-width: none;
+}
+
+.article-block--text > * {
+    margin-block: 0;
+}
+
+.article-block--text > * + * {
+    margin-top: var(--space-sm);
+}
+
+.article-block--text > :is(h2, h3) {
+    margin-top: var(--space-xl);
+}
+
+.article-block--text > :is(h2, h3):first-child {
+    margin-top: 0;
+}
+
+.article-content > :is(h2, h3) {
+    margin-top: calc(var(--space-xl) - var(--space-sm));
+}
+
+.article-content > :is(.article-block--image, .article-block--quote, .article-block--table, .article-note) {
+    margin-block: var(--space-sm);
+}
+
+.article-content > .media-figure:first-child {
+    width: min(100%, 30rem);
+    margin-inline: auto;
+}
+
+.article-content > .media-figure:first-child + * {
+    margin-top: var(--space-sm);
+}
+
+.article-content > .back-link {
+    margin-top: var(--space-md);
 }
 
 .article-note {

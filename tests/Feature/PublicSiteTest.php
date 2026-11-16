@@ -624,7 +624,7 @@ class PublicSiteTest extends TestCase
                 ],
                 [
                     'type' => 'rich_text',
-                    'text' => '<p>Le bois répond au geste.</p>',
+                    'text' => '<p>Le bois répond au geste.</p><h2>Une question de densité</h2><p>Chaque pièce demande une écoute.</p>',
                 ],
                 [
                     'type' => 'quote',
@@ -649,6 +649,8 @@ class PublicSiteTest extends TestCase
             ->assertOk()
             ->assertSee('Une matière vivante')
             ->assertSee('Le bois répond au geste.')
+            ->assertSee('<h2>Une question de densité</h2>', false)
+            ->assertSee('Chaque pièce demande une écoute.')
             ->assertSee('Le geste confirme.')
             ->assertSee('Cumaru')
             ->assertSee('"@type":"Article"', false)
