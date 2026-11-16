@@ -193,6 +193,33 @@ table--simple
 table--featured
 ```
 
+## Rythme éditorial des articles
+
+Les articles structurés sont rendus dans `.article-content.prose`. Ils ont un
+rythme propre : il ne faut pas cumuler le `gap` du conteneur, les marges des
+blocs et la règle générique `.prose > * + *`.
+
+La règle retenue est la suivante :
+
+- une grille avec un `gap` de `--space-sm` (12 px) entre les blocs ;
+- aucune marge verticale sur les enfants directs de l’article ;
+- 12 px entre deux éléments d’un même bloc de texte ;
+- 32 px avant un intertitre ;
+- environ 24 px autour d’une image, citation, note ou tableau ;
+- une image principale centrée, plafonnée à `30rem` (480 px) ;
+- aucun `max-width` supplémentaire sur les paragraphes : la largeur de
+  lecture est celle du conteneur de l’article (760 px par défaut).
+
+Cette règle évite le défaut constaté lors d’un import : des paragraphes
+enregistrés comme blocs distincts recevaient à la fois le `gap` et les marges
+haut/bas, soit 72 px d’espace entre deux paragraphes.
+
+Le texte riche des articles autorise les balises `h2` et `h3`. Elles ne doivent
+pas être retirées par l’assainissement HTML (`ArticleBlocks::cleanRichText`) :
+un intertitre saisi dans l’éditeur doit rester un élément de structure, et non
+être ramené à du texte ordinaire. Les titres créés comme blocs et ceux saisis
+dans un bloc de texte riche doivent recevoir le même rythme visuel.
+
 ## Exemples
 
 Hero de page :
