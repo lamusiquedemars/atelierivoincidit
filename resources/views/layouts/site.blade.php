@@ -150,6 +150,9 @@
                         @endif
                         <li><a href="{{ route('atelier.probatio') }}">Essai</a></li>
                         <li><a href="{{ route('atelier.officina') }}">Archetier</a></li>
+                        @if (\App\Support\Modules::enabled('articles'))
+                            <li><a href="{{ route('articles.index') }}">{{ \App\Support\ContentSlots::value('articles.public_label', 'Articles') }}</a></li>
+                        @endif
                         @if (\App\Support\Modules::enabled('news'))
                             <li><a href="{{ route('news.index') }}">Actualités</a></li>
                         @endif
