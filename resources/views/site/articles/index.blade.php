@@ -6,7 +6,7 @@
 
 @section('content')
     <x-site.hero
-        eyebrow="Article"
+        eyebrow="Articles"
         title="Notes d’atelier"
         subtitle="J’écris sur les bois que je travaille, sur l’histoire de l’archet et sur ce que la fabrication et les essais m’apprennent."
         variant="page"
