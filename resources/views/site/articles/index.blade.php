@@ -32,7 +32,7 @@
                     </x-site.card>
                 @endforeach
             </x-site.grid>
-            {{ $posts->links() }}
+            {{ $posts->links('site.articles.pagination') }}
         @endif
     </x-site.section>
 @endsection

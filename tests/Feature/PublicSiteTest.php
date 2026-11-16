@@ -660,4 +660,36 @@ class PublicSiteTest extends TestCase
         $this->get('/article.php?slug=bois-et-geste')
             ->assertRedirect('/articles/bois-et-geste');
     }
+
+    public function test_articles_use_french_accessible_pagination(): void
+    {
+        SiteSetting::current();
+
+        foreach (range(1, 10) as $position) {
+            Article::query()->create([
+                'title' => "Article {$position}",
+                'slug' => "article-{$position}",
+                'excerpt' => "Extrait {$position}",
+                'is_published' => true,
+                'published_at' => now()->subMinutes($position),
+            ]);
+        }
+
+        $this->get('/articles')
+            ->assertOk()
+            ->assertSee('Articles 1 à 9 sur 10')
+            ->assertSee('aria-label="Pagination des articles"', false)
+            ->assertSee('aria-current="page"', false)
+            ->assertSee('aria-disabled="true"', false)
+            ->assertSee('href="http://localhost/articles?page=2"', false)
+            ->assertDontSee('pagination.previous')
+            ->assertDontSee('pagination.next');
+
+        $this->get('/articles?page=2')
+            ->assertOk()
+            ->assertSee('Articles 10 à 10 sur 10')
+            ->assertSee('href="http://localhost/articles?page=1"', false)
+            ->assertSee('aria-current="page"', false)
+            ->assertSee('aria-disabled="true"', false);
+    }
 }
