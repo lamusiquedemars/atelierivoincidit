@@ -72,6 +72,7 @@ MARACUJA_GALLERY_LAYOUT=carousel
 
 ## Documentation
 
+- `docs/deploiement-cpanel.md`: procédure de déploiement et exploitation de production sur cPanel.
 - `docs/installation.md`: fresh install and delivery checklist.
 - `docs/offer-profiles.md`: Essence, Signature and Univers profiles.
 - `docs/content-admin.md`: what clients can safely edit.
